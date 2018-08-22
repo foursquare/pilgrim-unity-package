@@ -17,7 +17,7 @@ public class PilgrimBehavior : MonoBehaviour
 
     public GeofenceEvent onGeofenceEvents;
 
-    public static PilgrimBehavior instance = null;
+    private static PilgrimBehavior instance = null;
 
     void Awake()
     {

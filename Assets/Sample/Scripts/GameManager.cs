@@ -1,9 +1,25 @@
 ﻿using Foursquare;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
+
+	private const string CONSUMER_KEY 		= "TMKHTRWRRYO4WIZPVJNHA1Q3JU0YBED5XIONMQTOC00YYCLY";
+	private const string CONSUMER_SECRET 	= "01IYW3XKATTKF40RHUOTFPU0TTFJTJ5QC1IIIXX0NLJDV1FH";
+
+	private static GameManager instance = null;
+
+	void Awake()
+    {
+        if (instance == null) {
+            instance = this;
+        } else if (instance != this) {
+            Destroy(gameObject);  
+        }  
+        DontDestroyOnLoad(gameObject);
+    }
 
 	void Start() 
 	{
@@ -12,7 +28,8 @@ public class GameManager : MonoBehaviour
 
 	public void OnPermissionsGranted(bool didGrant)
 	{
-		PilgrimUnitySDK.Start("TMKHTRWRRYO4WIZPVJNHA1Q3JU0YBED5XIONMQTOC00YYCLY", "01IYW3XKATTKF40RHUOTFPU0TTFJTJ5QC1IIIXX0NLJDV1FH");
+		Debug.Log("OnPermissionsGranted");
+		PilgrimUnitySDK.Start(CONSUMER_KEY, CONSUMER_SECRET);
 	}
 
 	public void OnGeofenceEvents(List<Foursquare.GeofenceEvent> geofenceEvents)

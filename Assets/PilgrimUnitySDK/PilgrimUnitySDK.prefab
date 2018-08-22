@@ -48,16 +48,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706642104296146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e64d65f2db1964f37943b08bff64d7a2, type: 3}
+  m_Script: {fileID: 11500000, guid: afee3aa0d9fce4f01919445188db48af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onAlwaysAuthorize:
+  onPermissionsGranted:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: PilgrimBehavior+AlwaysAuthorizedEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: PilgrimBehavior+PermissionsGrantedEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  onVisit:
+  onGeofenceEvents:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: PilgrimBehavior+VisitEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: PilgrimBehavior+GeofenceEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
