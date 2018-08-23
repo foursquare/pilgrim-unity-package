@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Foursquare
@@ -33,6 +35,25 @@ namespace Foursquare
 		}
 
 		public static void Start(string consumerKey, string consumerSecret) {}
+
+		public static List<Log> GetLogs()
+		{
+			return new List<Log>() {
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. "),
+				new Log("Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. Pilgrim resumed. ")
+			};
+		}
 
 		#endif
 
