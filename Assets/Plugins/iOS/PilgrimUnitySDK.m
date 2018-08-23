@@ -140,14 +140,15 @@ void SetOauthToken(const char * oauthToken)
 
 @end
 
-static NSString * JSONClean(NSString *input)
+static NSString * _Clean(NSString *input)
 {
     if (!input) {
         return @"";
     }
-    NSString *output =  [input stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    output = [output stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    return output;
+    NSMutableCharacterSet *keep = [NSMutableCharacterSet alphanumericCharacterSet];
+    [keep formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"<>.,:{}[]-+() "]];
+    NSCharacterSet *remove = [keep invertedSet];
+    return [[input componentsSeparatedByCharactersInSet:remove] componentsJoinedByString:@""];
 }
 
 const char * _GetLogs()
@@ -161,8 +162,8 @@ const char * _GetLogs()
     
     for (FSQPDebugLog *log in logs) {
         NSMutableString *logJSON = [NSMutableString stringWithString:@"{"];
-        [logJSON appendFormat:@"\"title\":\"%@\",", JSONClean(log.eventDescription)];
-        [logJSON appendFormat:@"\"description\":\"%@\"", JSONClean([log.data description])];
+        [logJSON appendFormat:@"\"title\":\"%@\",", _Clean(log.eventDescription)];
+        [logJSON appendFormat:@"\"description\":\"%@\"", _Clean([log.data description])];
         [logJSON appendString:@"},"];
         [logsJSON appendString:logJSON];
     }

@@ -20,8 +20,7 @@ public class LogsScript : MonoBehaviour
 		List<Log> logs = PilgrimUnitySDK.GetLogs();
 		foreach (Log log in logs) {
 			GameObject logItemGO = Instantiate(logItemPrefab, Vector3.zero, Quaternion.identity);
-			logItemGO.transform.SetParent(scrollRect.content);
-			logItemGO.transform.localScale = Vector3.one;
+			logItemGO.transform.SetParent(scrollRect.content, false);
 			LogItemScript logItem = logItemGO.GetComponent<LogItemScript>();
 			logItem.Log = log;
 		}

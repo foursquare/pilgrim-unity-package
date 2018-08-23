@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae97a1af7a1114e4392a5db34fab1aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logDialogPrefab: {fileID: 1479541159836836, guid: cf25c9a2408da49f4a0bfcebc5e22f1c,
+    type: 2}
 --- !u!114 &114533335425587146
 MonoBehaviour:
   m_ObjectHideFlags: 1

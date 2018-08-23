@@ -461,6 +461,16 @@ Prefab:
       propertyPath: activeButton
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224846350236212292, guid: 9c2c8bcb25bf944ef89c7ee0775da3bc,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 7.955
+      objectReference: {fileID: 0}
+    - target: {fileID: 224846350236212292, guid: 9c2c8bcb25bf944ef89c7ee0775da3bc,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 15.91
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2c8bcb25bf944ef89c7ee0775da3bc, type: 2}
   m_IsPrefabAsset: 0

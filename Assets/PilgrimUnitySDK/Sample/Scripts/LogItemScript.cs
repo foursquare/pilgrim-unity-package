@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class LogItemScript : MonoBehaviour 
 {
 
+	public GameObject logDialogPrefab;
+
 	private Log log;
 
 	public Log Log {
@@ -23,7 +25,10 @@ public class LogItemScript : MonoBehaviour
 
 	public void OnClickLogItem()
 	{
-		Debug.Log(log.Description);
+		GameObject logDialogGO = Instantiate(logDialogPrefab, Vector3.zero, Quaternion.identity);
+		logDialogGO.transform.SetParent(FindObjectOfType<Canvas>().transform, false);
+		LogDialogScript logDialog = logDialogGO.GetComponent<LogDialogScript>();
+		logDialog.Log = log;
 	}
 
 }
