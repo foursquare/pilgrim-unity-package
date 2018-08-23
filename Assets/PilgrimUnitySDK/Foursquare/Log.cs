@@ -8,13 +8,15 @@ namespace Foursquare
     public class Log
     {
 
-        public Log(string text) {
-            this.text = text;
-        }
+        [SerializeField]
+        private string title;
 
-        private string text;
+        public string Title { get { return title; } }
 
-        public string Text { get { return text; } }
+        [SerializeField]
+        private string description;
+
+        public string Description { get { return description; } }
 
     }
 

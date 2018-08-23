@@ -9,6 +9,7 @@ public class PilgrimCallbacks : MonoBehaviour
 
 	void Awake()
 	{
+		DontDestroyOnLoad(gameObject);
 		pilgrimBehavior = Object.FindObjectOfType<PilgrimBehavior>();
 	}
 

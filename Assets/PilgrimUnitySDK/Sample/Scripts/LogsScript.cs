@@ -1,11 +1,12 @@
 ﻿using Foursquare;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LogsScript : MonoBehaviour 
 {
 
-	public Transform logItemPrefab;
+	public GameObject logItemPrefab;
 
 	private ScrollRect scrollRect;
 
@@ -16,13 +17,13 @@ public class LogsScript : MonoBehaviour
 
 	void Start()
 	{
-		// PilgrimUnitySDK.GetLogs();
-		for (int i = 0; i < 100; i++) {
-			Transform logItem = Instantiate(logItemPrefab, Vector3.zero, Quaternion.identity);
-			logItem.transform.SetParent(scrollRect.content);
-			logItem.localScale = Vector3.one;
-			Text logItemText = logItem.Find("Text").GetComponent<Text>();
-			logItemText.text = "Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. Pilgrim Resumed. ";
+		List<Log> logs = PilgrimUnitySDK.GetLogs();
+		foreach (Log log in logs) {
+			GameObject logItemGO = Instantiate(logItemPrefab, Vector3.zero, Quaternion.identity);
+			logItemGO.transform.SetParent(scrollRect.content);
+			logItemGO.transform.localScale = Vector3.one;
+			LogItemScript logItem = logItemGO.GetComponent<LogItemScript>();
+			logItem.Log = log;
 		}
 		
 	}

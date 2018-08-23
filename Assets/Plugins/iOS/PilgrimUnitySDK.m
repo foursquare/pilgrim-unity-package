@@ -83,31 +83,20 @@ void RequestPermissions()
     }];
 }
 
-void ReadLogs()
-{
-    id logger = [NSClassFromString(@"FSQPLogger") performSelector:NSSelectorFromString(@"sharedLogger")];
-    NSArray<FSQPDebugLog *> *logs = [logger performSelector:NSSelectorFromString(@"allLogs")];
-    for (FSQPDebugLog *log in logs) {
-//        NSLog(@"LOG: %@", log);
-    }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        ReadLogs();
-    });
-}
-
 void Start(const char * consumerKey, const char * consumerSecret)
 {
     NSString *consumerKeyNSString = [NSString stringWithCString:consumerKey encoding:NSUTF8StringEncoding];
     NSString *consumerSecretNSString = [NSString stringWithCString:consumerSecret encoding:NSUTF8StringEncoding];
     delegate = [[PilgrimDelegate alloc] init];
+    
+    // DOESN'T WORK SO SWIZZLE TO GET LOGS TO BE PUBLIC
+//    id logger = [NSClassFromString(@"FSQPLogger") performSelector:NSSelectorFromString(@"sharedLogger")];
+//    [logger performSelector:NSSelectorFromString(@"setAllowsNonPublicLogs:") withObject:@YES];
+//    [logger performSelector:NSSelectorFromString(@"setEnabled:") withObject:@YES];
  
     Method original = class_getInstanceMethod(NSClassFromString(@"FSQPLogger"), NSSelectorFromString(@"logLevel:type:event:data:isPublic:"));
     Method swizzled = class_getInstanceMethod([NSObject class], @selector(xxx_logLevel:type:event:data:isPublic:));
     method_exchangeImplementations(original, swizzled);
-    
-//    id logger = [NSClassFromString(@"FSQPLogger") performSelector:NSSelectorFromString(@"sharedLogger")];
-//    [logger performSelector:NSSelectorFromString(@"setAllowsNonPublicLogs:") withObject:@YES];
-//    [logger performSelector:NSSelectorFromString(@"setEnabled:") withObject:@YES];
     
     [FSQPPilgrimManager sharedManager].debugLoggingEnabled = YES;
     
@@ -117,7 +106,6 @@ void Start(const char * consumerKey, const char * consumerSecret)
                                                       completion:^(BOOL didSucceed, NSError * _Nullable error) {
                                                           [[FSQPPilgrimManager sharedManager] startMonitoringVisits];
                                                       }];
-    ReadLogs();
 }
 
 void Stop()
@@ -128,4 +116,64 @@ void Stop()
 void SetOauthToken(const char * oauthToken)
 {
     [FSQPPilgrimManager sharedManager].oauthToken = [NSString stringWithCString:oauthToken encoding:NSUTF8StringEncoding];
+}
+
+@interface NSMutableArray (Reverse)
+
+@end
+
+@implementation NSMutableArray (Reverse)
+
+- (void)reverse {
+    if ([self count] <= 1)
+        return;
+    NSUInteger i = 0;
+    NSUInteger j = [self count] - 1;
+    while (i < j) {
+        [self exchangeObjectAtIndex:i
+                  withObjectAtIndex:j];
+        
+        i++;
+        j--;
+    }
+}
+
+@end
+
+static NSString * JSONClean(NSString *input)
+{
+    if (!input) {
+        return @"";
+    }
+    NSString *output =  [input stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    output = [output stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    return output;
+}
+
+const char * _GetLogs()
+{
+    id logger = [NSClassFromString(@"FSQPLogger") performSelector:NSSelectorFromString(@"sharedLogger")];
+    NSArray<FSQPDebugLog *> *logsa = [logger performSelector:NSSelectorFromString(@"allLogs")];
+    NSMutableArray *logs = [logsa mutableCopy];
+    [logs reverse];
+    
+    NSMutableString *logsJSON = [NSMutableString stringWithString:@"{\"Items\":["];
+    
+    for (FSQPDebugLog *log in logs) {
+        NSMutableString *logJSON = [NSMutableString stringWithString:@"{"];
+        [logJSON appendFormat:@"\"title\":\"%@\",", JSONClean(log.eventDescription)];
+        [logJSON appendFormat:@"\"description\":\"%@\"", JSONClean([log.data description])];
+        [logJSON appendString:@"},"];
+        [logsJSON appendString:logJSON];
+    }
+    
+    
+    [logsJSON deleteCharactersInRange:NSMakeRange(logsJSON.length - 1, 1)];
+    [logsJSON appendString:@"]}"];
+    
+    const char * logsJSONC = malloc(logsJSON.length + 1);
+    memset((void *)logsJSONC, 0, logsJSON.length + 1);
+    memcpy((void *)logsJSONC, [logsJSON cStringUsingEncoding:NSUTF8StringEncoding], logsJSON.length);
+    
+    return logsJSONC;
 }

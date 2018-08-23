@@ -28,20 +28,19 @@ public class GameManager : MonoBehaviour
 
 	public void OnPermissionsGranted(bool didGrant)
 	{
-		Debug.Log("OnPermissionsGranted");
 		PilgrimUnitySDK.Start(CONSUMER_KEY, CONSUMER_SECRET);
 	}
 
 	public void OnGeofenceEvents(List<Foursquare.GeofenceEvent> geofenceEvents)
 	{
-		Debug.Log("geofenceEvents");
-		foreach (GeofenceEvent geofenceEvent in geofenceEvents) {
-			Debug.Log(geofenceEvent.EventType);
-			Debug.Log(geofenceEvent.VenueID);
-			Debug.Log(geofenceEvent.CategoryIDs.Count);
-			Debug.Log(geofenceEvent.ChainIDs.Count);
-			Debug.Log(geofenceEvent.PartnerVenueID);
-		}
+		// Debug.Log("geofenceEvents");
+		// foreach (GeofenceEvent geofenceEvent in geofenceEvents) {
+		// 	Debug.Log(geofenceEvent.EventType);
+		// 	Debug.Log(geofenceEvent.VenueID);
+		// 	Debug.Log(geofenceEvent.CategoryIDs.Count);
+		// 	Debug.Log(geofenceEvent.ChainIDs.Count);
+		// 	Debug.Log(geofenceEvent.PartnerVenueID);
+		// }
 	}
 	
 }
