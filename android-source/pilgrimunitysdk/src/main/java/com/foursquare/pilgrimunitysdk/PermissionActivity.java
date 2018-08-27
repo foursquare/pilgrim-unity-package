@@ -18,15 +18,13 @@ public final class PermissionActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("PermissionActivity", "onCreate");
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.e("PermissionActivity", "onRequestPermissionsResult");
+        // super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         finish();
         if (requestCode == PERMISSION_REQUEST) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

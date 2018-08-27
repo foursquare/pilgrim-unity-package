@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Foursquare
 {
@@ -6,6 +7,11 @@ namespace Foursquare
 	[Serializable]
     public class Venue
 	{
+
+		[SerializeField]
+		private string name;
+
+		public string Name { get { return name; } }
 
 	}
 

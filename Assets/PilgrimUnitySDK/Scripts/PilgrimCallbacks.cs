@@ -1,4 +1,5 @@
 ﻿using Foursquare;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,18 +11,22 @@ public class PilgrimCallbacks : MonoBehaviour
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		pilgrimBehavior = Object.FindObjectOfType<PilgrimBehavior>();
+		pilgrimBehavior = UnityEngine.Object.FindObjectOfType<PilgrimBehavior>();
 	}
 
 	void OnPermissionsGranted(string didGrant)
 	{
-		pilgrimBehavior.onPermissionsGranted.Invoke(didGrant == "true" ? true : false);
+		pilgrimBehavior.onLocationPermissionGranted.Invoke(didGrant == "true" ? true : false);
 	}
 
 	public void OnGeofenceEvents(string geofenceEventsJSON)
 	{
-		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJSON);
-		pilgrimBehavior.onGeofenceEvents.Invoke(new List<GeofenceEvent>(geofenceEvents));
+		try {
+			GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJSON);
+			pilgrimBehavior.onGeofenceEvents.Invoke(new List<GeofenceEvent>(geofenceEvents));
+		} catch (Exception e) {
+			Debug.Log("Error parsing geofence events json: " + e);
+		}
 	}
 
 }

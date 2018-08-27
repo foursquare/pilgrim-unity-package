@@ -6,7 +6,7 @@ namespace Foursquare
 {
 
 	[Serializable]
-    public class GeofenceEvent 
+    public class GeofenceEvent
 	{
 
 		public enum Type {
@@ -66,8 +66,8 @@ namespace Foursquare
 
 		public DateTime Timestamp { 
 			get { 
-				DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
-				return epoch.AddSeconds(timestamp);
+				DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+				return epoch.AddSeconds(timestamp).ToLocalTime();
 			} 
 		}
 

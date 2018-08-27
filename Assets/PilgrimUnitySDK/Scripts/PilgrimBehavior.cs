@@ -8,9 +8,9 @@ public class PilgrimBehavior : MonoBehaviour
 {
 
     [Serializable]
-    public class PermissionsGrantedEvent : UnityEvent<bool> {}
+    public class LocationPermissionGrantedEvent : UnityEvent<bool> {}
     
-    public PermissionsGrantedEvent onPermissionsGranted;
+    public LocationPermissionGrantedEvent onLocationPermissionGranted;
 
     [Serializable]
     public class GeofenceEvent : UnityEvent<List<Foursquare.GeofenceEvent>> {}
@@ -36,11 +36,6 @@ public class PilgrimBehavior : MonoBehaviour
         callbackGO.transform.rotation = Quaternion.identity;
         callbackGO.transform.localScale = Vector3.one;
         callbackGO.AddComponent<PilgrimCallbacks>();
-    }
-
-    void OnApplicationPause(bool pauseStatus)
-    {
-        Debug.Log("pauseStatus " + pauseStatus);
     }
 
 }
