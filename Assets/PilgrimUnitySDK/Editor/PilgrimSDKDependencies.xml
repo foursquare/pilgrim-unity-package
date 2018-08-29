@@ -1,6 +1,6 @@
 <dependencies>
   <iosPods>
-    <iosPod name="pilgrim-sdk" version="~> 2.0.0" minTargetSdk="10.0" />
+    <iosPod name="pilgrim-sdk" version="2.0.0-beta2" minTargetSdk="10.0" />
   </iosPods>
   <androidPackages>
     <androidPackage spec="com.evernote:android-job:1.2.6" />

@@ -101,10 +101,10 @@
     Method swizzled = class_getInstanceMethod([NSObject class], @selector(xxx_logLevel:type:event:data:isPublic:));
     method_exchangeImplementations(original, swizzled);
     
-    [FSQPPilgrimManager sharedManager].debugLoggingEnabled = YES;
+    [FSQPPilgrimManager sharedManager].debugLogsEnabled = YES;
     
     void (^configureCompletion)(BOOL, NSError *) = ^(BOOL didSucceed, NSError * _Nullable error) {
-        [[FSQPPilgrimManager sharedManager] startMonitoringVisits];
+        [[FSQPPilgrimManager sharedManager] start];
         self.running = YES;
     };
     
@@ -116,7 +116,7 @@
 
 - (void)stop
 {
-    [[FSQPPilgrimManager sharedManager] stopMonitoringVisits];
+    [[FSQPPilgrimManager sharedManager] stop];
     self.running = NO;
 }
 
@@ -227,27 +227,16 @@
 
 @implementation PilgrimUnityDelegate
 
-- (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didVisit:(FSQPVisit *)visit
-{
+- (void)pilgrimManager:(nonnull FSQPPilgrimManager *)pilgrimManager handleVisit:(nonnull FSQPVisit *)visit {
     
 }
 
-- (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didBackfillVisit:(FSQPVisit *)visit
-{
-    
-}
-
-- (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didDetectNearbyVenues:(NSArray<FSQPNearbyVenue *> *)nearbyVenues
-{
-    
-}
-
-- (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didReceiveGeofenceNotification:(FSQPGeofenceNotification *)geofenceNotification
+- (void)pilgrimManager:(FSQPPilgrimManager *)pilgrimManager handleGeofenceEvents:(NSArray<FSQPGeofenceEvent *> *)geofenceEvents
 {
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [[PilgrimUnitySDK shared] deliverGeofenceEvents:geofenceNotification.events];
+        [[PilgrimUnitySDK shared] deliverGeofenceEvents:geofenceEvents];
     } else {
-        [[PilgrimUnitySDK shared] saveGeofenceEvents:geofenceNotification.events];
+        [[PilgrimUnitySDK shared] saveGeofenceEvents:geofenceEvents];
     }
 }
 
