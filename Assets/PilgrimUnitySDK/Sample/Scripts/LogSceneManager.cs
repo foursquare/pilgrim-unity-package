@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LogsManager : MonoBehaviour 
+public class LogSceneManager : MonoBehaviour 
 {
 
 	public GameObject logItemPrefab;

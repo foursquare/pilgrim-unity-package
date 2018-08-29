@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 1899617088}
   - component: {fileID: 1899617087}
   m_Layer: 0
-  m_Name: LogsManager
+  m_Name: LogSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -19,6 +19,14 @@ public static class EventStore
 		}
 	}
 
+	#if UNITY_EDITOR
+	public static List<GeofenceEvent> GetGeofenceEvents()
+	{
+		string geofenceEventsJSON  = "{\"Items\":[{\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000}},\"timestamp\":1535219480.414939}]}";
+		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJSON);
+		return new List<GeofenceEvent>(geofenceEvents);
+	}
+	#else
 	public static List<GeofenceEvent> GetGeofenceEvents()
 	{
 		string geofenceEventsJSON = PlayerPrefs.GetString("geofenceEvents", "{\"Items\":[]}");
@@ -30,6 +38,7 @@ public static class EventStore
 			return new List<GeofenceEvent>();
 		}
 	}
+	#endif
 	
 	public static void Clear()
 	{
