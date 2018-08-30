@@ -13,6 +13,11 @@ namespace Foursquare
 
 		public string Name { get { return name; } }
 
+		[SerializeField]
+		private string category;
+
+		public string Category { get { return category; } }
+
 	}
 
 }

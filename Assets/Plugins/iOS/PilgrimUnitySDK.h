@@ -14,6 +14,8 @@
 
 - (void)stop;
 
+- (void)didBecomeActive;
+
 @property (nonatomic, copy, nullable) NSString *oauthToken;
 
 @end

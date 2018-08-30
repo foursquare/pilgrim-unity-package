@@ -54,6 +54,7 @@
 
 @implementation PilgrimUnitySDK
 
+
 + (instancetype)shared
 {
     static id instance = nil;
@@ -62,13 +63,6 @@
         instance = [[self alloc] init];
     });
     return instance;
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    return self;
 }
 
 - (void)setRunning:(BOOL)running
@@ -190,6 +184,13 @@
         [self deliverGeofenceEvents:cachedGeofenceEvents];
         [[NSFileManager defaultManager] removeItemAtPath:[[self class] geofenceEventsArchivePath] error:nil];
     }
+    NSMutableArray<FSQPVisit *> *cachedVisits = [NSKeyedUnarchiver unarchiveObjectWithFile:[[self class] visitsArchivePath]] ?: @[];
+    if ([cachedVisits count] > 0) {
+        for (FSQPVisit *visit in cachedVisits) {
+            [self deliverVisit:visit];
+        }
+        [[NSFileManager defaultManager] removeItemAtPath:[[self class] visitsArchivePath] error:nil];
+    }
 }
 
 - (void)deliverGeofenceEvents:(NSArray< FSQPGeofenceEvent *> *)geofenceEvents
@@ -216,7 +217,15 @@
         [geofenceEventJSON appendString:@"\"categoryIDs\":[],"];
         [geofenceEventJSON appendString:@"\"chainIDs\":[],"];
         [geofenceEventJSON appendString:@"\"partnerVenueID\":\"\","];
-        [geofenceEventJSON appendFormat:@"\"venue\":{\"name\":\"%@\"},", geofenceEvent.venue.name];
+        
+        NSString *primaryCategory = @"";
+        for (FSQPCategory *category in geofenceEvent.venue.categories) {
+            if (primaryCategory.length == 0 || category.isPrimary) {
+                primaryCategory = category.name;
+            }
+        }
+        
+        [geofenceEventJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":\"%@\"},", geofenceEvent.venue.name, primaryCategory];
         [geofenceEventJSON appendFormat:@"\"location\":{\"lat\":%f,\"lng\":%f,\"hacc\":%f},", geofenceEvent.location.coordinate.latitude, geofenceEvent.location.coordinate.longitude, geofenceEvent.location.horizontalAccuracy];
         [geofenceEventJSON appendFormat:@"\"timestamp\":%f", geofenceEvent.timestamp.timeIntervalSince1970];
         [geofenceEventJSON appendString:@"},"];
@@ -241,7 +250,14 @@
     NSMutableString *visitJSON = [NSMutableString stringWithString:@"{"];
     
     [visitJSON appendFormat:@"\"isArrival\":%@,", visit.isArrival ? @"true" : @"false"];
-    [visitJSON appendFormat:@"\"venue\":{\"name\":\"%@\"},", visit.venue.name];
+    
+    NSString *primaryCategory = @"";
+    for (FSQPCategory *category in visit.venue.categories) {
+        if (primaryCategory.length == 0 || category.isPrimary) {
+            primaryCategory = category.name;
+        }
+    }
+    [visitJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":\"%@\"},", visit.venue.name, primaryCategory];
     
     if (visit.isArrival) {
         [visitJSON appendFormat:@"\"timestamp\":%f", visit.arrivalDate.timeIntervalSince1970];
