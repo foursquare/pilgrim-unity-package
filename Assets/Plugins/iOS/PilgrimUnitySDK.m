@@ -133,7 +133,16 @@
     NSMutableCharacterSet *keep = [NSMutableCharacterSet alphanumericCharacterSet];
     [keep formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"<>.,:{}[]-+() /"]];
     NSCharacterSet *remove = [keep invertedSet];
-    return [[input componentsSeparatedByCharactersInSet:remove] componentsJoinedByString:@""];
+    input = [[input componentsSeparatedByCharactersInSet:remove] componentsJoinedByString:@""];
+    NSMutableString *s = [NSMutableString stringWithString:input];
+    [s replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"/" withString:@"\\/" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"\n" withString:@"\\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"\b" withString:@"\\b" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"\f" withString:@"\\f" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"\r" withString:@"\\r" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    [s replaceOccurrencesOfString:@"\t" withString:@"\\t" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    return [NSString stringWithString:s];
 }
 
 - (NSString *)getLogsJSON
@@ -141,9 +150,9 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     id logger = [NSClassFromString(@"FSQPLogger") performSelector:NSSelectorFromString(@"sharedLogger")];
-    NSArray<FSQPDebugLog *> *logsa = [logger performSelector:NSSelectorFromString(@"allLogs")];
+    NSArray<FSQPDebugLog *> *logsInOrder = [logger performSelector:NSSelectorFromString(@"allLogs")];
 #pragma clang diagnostic pop
-    NSMutableArray *logs = [logsa mutableCopy];
+    NSMutableArray *logs = [logsInOrder mutableCopy];
     [logs reverse];
     
     NSMutableString *logsJSON = [NSMutableString stringWithString:@"{\"Items\":["];
@@ -151,8 +160,19 @@
     for (FSQPDebugLog *log in logs) {
         NSMutableString *logJSON = [NSMutableString stringWithString:@"{"];
         [logJSON appendFormat:@"\"title\":\"%@\",", [self cleanLog:log.eventDescription]];
-        [logJSON appendFormat:@"\"description\":\"%@\",", [self cleanLog:[log.data description]]];
-        [logJSON appendFormat:@"\"timestamp\":\"%f\"", log.timestamp.timeIntervalSince1970];
+        NSString *description = [self cleanLog:[log.data description]];
+        [logJSON appendFormat:@"\"description\":\"%@\",", description];
+
+//        if (description.length > 0) {
+//            NSUInteger len = MIN(5, description.length);
+//            if (description.length >= 5) {
+//                NSLog(@"Check this %@", [description substringWithRange:NSMakeRange(5 - 1, 1)]);
+//            }
+//            [logJSON appendFormat:@"\"description\":\"%@\",", [description substringWithRange:NSMakeRange(0, description.length)]];
+//        } else {
+//            [logJSON appendString:@"\"description\":\"\","];
+//        }
+        [logJSON appendFormat:@"\"timestamp\":%f", log.timestamp.timeIntervalSince1970];
         [logJSON appendString:@"},"];
         [logsJSON appendString:logJSON];
     }
@@ -216,6 +236,31 @@
     [NSKeyedArchiver archiveRootObject:cachedGeofenceEvents toFile:[[self class] geofenceEventsArchivePath]];
 }
 
+- (void)deliverVisit:(FSQPVisit *)visit
+{
+    NSMutableString *visitJSON = [NSMutableString stringWithString:@"{"];
+    
+    [visitJSON appendFormat:@"\"isArrival\":%@,", visit.isArrival ? @"true" : @"false"];
+    [visitJSON appendFormat:@"\"venue\":{\"name\":\"%@\"},", visit.venue.name];
+    
+    if (visit.isArrival) {
+        [visitJSON appendFormat:@"\"timestamp\":%f", visit.arrivalDate.timeIntervalSince1970];
+    } else {
+        [visitJSON appendFormat:@"\"timestamp\":%f", visit.departureDate.timeIntervalSince1970];
+    }
+    
+    [visitJSON appendString:@"}"];
+    
+    UnitySendMessage("_PilgrimCallbacks", "OnVisit", [visitJSON cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void)saveVisit:(FSQPVisit *)visit
+{
+    NSMutableArray<FSQPVisit *> *cachedVisits = [[NSKeyedUnarchiver unarchiveObjectWithFile:[[self class] visitsArchivePath]] mutableCopy] ?: [@[] mutableCopy];
+    [cachedVisits addObject:visit];
+    [NSKeyedArchiver archiveRootObject:cachedVisits toFile:[[self class] visitsArchivePath]];
+}
+
 + (NSString *)geofenceEventsArchivePath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -223,12 +268,24 @@
     return [documentsDirectory stringByAppendingPathComponent:@"PilgrimGeofenceEvents.archive"];
 }
 
++ (NSString *)visitsArchivePath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [documentsDirectory stringByAppendingPathComponent:@"PilgrimVisits.archive"];
+}
+
 @end
 
 @implementation PilgrimUnityDelegate
 
-- (void)pilgrimManager:(nonnull FSQPPilgrimManager *)pilgrimManager handleVisit:(nonnull FSQPVisit *)visit {
-    
+- (void)pilgrimManager:(nonnull FSQPPilgrimManager *)pilgrimManager handleVisit:(nonnull FSQPVisit *)visit
+{
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        [[PilgrimUnitySDK shared] deliverVisit:visit];
+    } else {
+        [[PilgrimUnitySDK shared] saveVisit:visit];
+    }
 }
 
 - (void)pilgrimManager:(FSQPPilgrimManager *)pilgrimManager handleGeofenceEvents:(NSArray<FSQPGeofenceEvent *> *)geofenceEvents

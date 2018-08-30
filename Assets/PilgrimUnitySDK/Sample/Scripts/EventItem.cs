@@ -11,10 +11,10 @@ public class EventItem : MonoBehaviour
 
 	public Text timestampText;
 
-	public GeofenceEvent GeofenceEvent {
+	public EventStore.Item Item {
 		set {
-			titleText.text = "Geofence event";
-			descriptionText.text = value.EventType.ToString() + " @ " + value.Venue.Name;
+			titleText.text = value.Title;
+			descriptionText.text = value.Description;
 			timestampText.text = value.Timestamp.ToString();
 		}
 	}

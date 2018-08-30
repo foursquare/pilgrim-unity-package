@@ -19,13 +19,23 @@ public class PilgrimCallbacks : MonoBehaviour
 		pilgrimBehavior.onLocationPermissionGranted.Invoke(didGrant == "true" ? true : false);
 	}
 
-	public void OnGeofenceEvents(string geofenceEventsJSON)
+	public void OnGeofenceEvents(string geofenceEventsJson)
 	{
 		try {
-			GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJSON);
+			GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson);
 			pilgrimBehavior.onGeofenceEvents.Invoke(new List<GeofenceEvent>(geofenceEvents));
 		} catch (Exception e) {
 			Debug.Log("Error parsing geofence events json: " + e);
+		}
+	}
+
+	public void OnVisit(string visitJson)
+	{
+		try {
+			Visit visit = JsonUtility.FromJson<Visit>(visitJson);
+			pilgrimBehavior.onVisit.Invoke(visit);
+		} catch (Exception e) {
+			Debug.Log("Error parsing visit json: " + e);
 		}
 	}
 

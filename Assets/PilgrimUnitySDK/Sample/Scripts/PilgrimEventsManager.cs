@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Foursquare;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,14 +18,26 @@ public class PilgrimEventsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 	
-	public void OnGeofenceEvents(List<Foursquare.GeofenceEvent> geofenceEvents)
+	public void OnGeofenceEvents(List<GeofenceEvent> geofenceEvents)
 	{
 		EventStore.AddGeofenceEvents(geofenceEvents);
 		
 		MainSceneManager mainSceneManager = (MainSceneManager)GameObject.FindObjectOfType(typeof(MainSceneManager));
 		if (mainSceneManager) {
-			mainSceneManager.AddEvents(geofenceEvents);
+            foreach (GeofenceEvent geofenceEvent in geofenceEvents) {
+			    mainSceneManager.AddItem(geofenceEvent);
+            }
 		}
 	}
+
+    public void OnVisit(Visit visit)
+    {
+        EventStore.AddVisit(visit);
+
+        MainSceneManager mainSceneManager = (MainSceneManager)GameObject.FindObjectOfType(typeof(MainSceneManager));
+		if (mainSceneManager) {
+            mainSceneManager.AddItem(visit);
+		}
+    }
 
 }

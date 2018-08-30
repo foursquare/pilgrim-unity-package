@@ -17,6 +17,11 @@ public class PilgrimBehavior : MonoBehaviour
 
     public GeofenceEvent onGeofenceEvents;
 
+    [Serializable]
+    public class VisitEvent : UnityEvent<Visit> {}
+
+    public VisitEvent onVisit;
+
     private static PilgrimBehavior instance = null;
 
     void Awake()
