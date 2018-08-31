@@ -35,8 +35,6 @@ public class MainSceneManager : MonoBehaviour
 
 		GUILayout.BeginVertical();
 
-		GUILayout.Space(20);
-
 		GUILayout.BeginHorizontal();
 
 		if (GUILayout.Button("Visits", GUILayout.Height(50.0f))) {
@@ -56,10 +54,14 @@ public class MainSceneManager : MonoBehaviour
 		GUILayout.BeginVertical();
 
 		switch (mode) {
+			case Mode.Visits:
+				OnVisitsGUI();
+				break;
+			case Mode.GeofenceEvents:
+				OnGeofenceEventsGUI();
+				break;
 			case Mode.Logs:
 				OnLogsGUI();
-				break;
-			default:
 				break;
 		}
 
@@ -68,6 +70,38 @@ public class MainSceneManager : MonoBehaviour
 		GUILayout.EndScrollView();
 
 		GUILayout.EndVertical();
+	}
+
+	private void OnVisitsGUI()
+	{
+		List<Visit> visits = EventStore.GetVisits();
+		for (int i = 0; i < visits.Count; i++) {
+			Visit visit = visits[i];
+			GUIStyle gs = new GUIStyle();
+			if (i % 2 == 0) {
+				gs.normal.background = bgTex;
+			}
+			GUILayout.BeginVertical(gs);
+			GUILayout.Label("<size=20>" + (visit.IsArrival ? "Arrival" : "Departure") + " @ " + visit.Venue.Name + "</size>");
+			GUILayout.Label("<size=15>" + visit.Timestamp + "</size>");
+			GUILayout.EndVertical();
+		}
+	}
+
+	private void OnGeofenceEventsGUI()
+	{
+		List<GeofenceEvent> geofenceEvents = EventStore.GetGeofenceEvents();
+		for (int i = 0; i < geofenceEvents.Count; i++) {
+			GeofenceEvent geofenceEvent = geofenceEvents[i];
+			GUIStyle gs = new GUIStyle();
+			if (i % 2 == 0) {
+				gs.normal.background = bgTex;
+			}
+			GUILayout.BeginVertical(gs);
+			GUILayout.Label("<size=20>" + geofenceEvent.EventType + " @ " + geofenceEvent.Venue.Name + "</size>");
+			GUILayout.Label("<size=15>" + geofenceEvent.Timestamp + "</size>");
+			GUILayout.EndVertical();
+		}
 	}
 
 	private void OnLogsGUI()
@@ -80,7 +114,8 @@ public class MainSceneManager : MonoBehaviour
 				gs.normal.background = bgTex;
 			}
 			GUILayout.BeginVertical(gs);
-			GUILayout.Label("<size=20>" + log.Title + " @ " + log.Timestamp + "</size>");
+			GUILayout.Label("<size=20>" + log.Title + "</size>");
+			GUILayout.Label("<size=15>" + log.Timestamp + "</size>");
 			GUILayout.Label("<size=15>" + log.Description + "</size>");
 			GUILayout.EndVertical();
 		}
