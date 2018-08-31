@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# TODO cleanup -exportPackage line somehow
+# TODO remove pilgrimsdk-2.0.0-beta2.aar from -exportPackage, temp until Pilgrim Android is in public repo
+
 PROJECT_ROOT=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 UNITY_COMMAND="/Applications/Unity/Unity.app/Contents/MacOS/Unity"
@@ -10,8 +13,7 @@ PILGRIM_UNITY_SDK_PACKAGE="$PROJECT_ROOT/pilgrim-unity-sdk-$PILGRIM_UNITY_SDK_VE
 PLAY_SERVICES_RESOLVER_VERSION="1.2.88.0"
 PLAY_SERVICES_RESOLVER_PACKAGE="$PROJECT_ROOT/play-services-resolver-$PLAY_SERVICES_RESOLVER_VERSION.unitypackage"
 
-# TODO cleanup -exportPackage line somehow
-# TODO remove pilgrimsdk-2.0.0-beta2.aar temp until Pilgrim Android is in public repo
+# -gvh_disable is needed for Play Services Resolver (https://github.com/googlesamples/unity-jar-resolver#getting-started)
 
 $UNITY_COMMAND  -gvh_disable \
                 -batchmode \

@@ -151,8 +151,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.foursquare.unitysample
-    iOS: com.foursquare.unitysample
+    Android: com.foursquare.unityavatar
+    iOS: com.foursquare.unityavatar
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
