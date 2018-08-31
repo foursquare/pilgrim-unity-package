@@ -25,7 +25,9 @@ public class AvatarController : MonoBehaviour
 
 	void Start() 
 	{
-		animator.SetTrigger("Idle");
+		if (!MainSceneManager.isFirstRun) {
+			animator.SetTrigger("Idle");
+		}
 	}
 	
 	void Update() 
