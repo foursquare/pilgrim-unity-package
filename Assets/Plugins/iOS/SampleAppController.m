@@ -19,4 +19,10 @@ IMPL_APP_CONTROLLER_SUBCLASS(SampleAppController)
     return [super application:application didFinishLaunchingWithOptions:options];
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[PilgrimUnitySDK shared] didBecomeActive];
+    return [super applicationDidBecomeActive:application];
+}
+
 @end
