@@ -7,15 +7,14 @@ public class AvatarController : MonoBehaviour
 	private Collider coll;
 	private Rigidbody rbody;
 
-	private float waveOffset;
-	private float waveTime;
-	private float waveDuration = 2.5f;
-	private bool didWave;
-	private bool isWaving;
+	private bool shouldWave = true;
 
-	private bool isJumping;
-	private float jumpTime;
-	private float jumpDuration = 1.5f;
+	private const float waveDuration = 2.5f;
+	private const float jumpDuration = 1.5f;
+	private float moveDuration;
+
+	private bool isMoving;
+	private float moveStartTime;
 
 	void Awake()
 	{
@@ -26,58 +25,38 @@ public class AvatarController : MonoBehaviour
 
 	void Start() 
 	{
-		if (MainSceneManager.isFirstRun) {
-			waveOffset = Random.Range(2.0f, 4.0f);
-		} else {
-			animator.SetTrigger("Idle");
-		}
+		animator.SetTrigger("Idle");
 	}
 	
 	void Update() 
 	{
-		if (MainSceneManager.isFirstRun) {
-			if (!isWaving && !didWave && Time.timeSinceLevelLoad > waveOffset) {
-				isWaving = true;
-				waveTime = Time.time;
+		if (shouldWave && !isMoving && Input.GetMouseButtonDown(0)) {
+			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			point.z = 0.0f;
+			if (coll.bounds.Contains(point)) {
+				shouldWave = false;
+				isMoving = true;
+				moveStartTime = Time.time;
+				moveDuration = waveDuration;
 				animator.SetTrigger("Wave");
 			}
+		}
 
-			if (isWaving && Time.time - waveTime > waveDuration) {
-				didWave = true;
-				isWaving = false;
+		if (!shouldWave && !isMoving && Input.GetMouseButtonDown(0)) {
+			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			point.z = 0.0f;
+			if (coll.bounds.Contains(point)) {
+				shouldWave = true;
+				isMoving = true;
+				moveStartTime = Time.time;
+				moveDuration = jumpDuration;
+				animator.SetTrigger("Jump");
+				rbody.AddForce(new Vector3(0.0f, 500.0f, 0.0f));
 			}
+		}
 
-			if (didWave && !isJumping && Input.GetMouseButtonDown(0)) {
-				Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				point.z = 0.0f;
-				if (coll.bounds.Contains(point)) {
-					isJumping = true;
-					jumpTime = Time.time;
-					animator.SetTrigger("Jump");
-					rbody.AddForce(new Vector3(0.0f, 500.0f, 0.0f));
-				}
-			}
-
-			if (isJumping && Time.time - jumpTime > jumpDuration) {
-				isJumping = false;
-			}
-		} else {
-			didWave = true;
-
-			if (didWave && !isJumping && Input.GetMouseButtonDown(0)) {
-				Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				point.z = 0.0f;
-				if (coll.bounds.Contains(point)) {
-					isJumping = true;
-					jumpTime = Time.time;
-					animator.SetTrigger("Jump");
-					rbody.AddForce(new Vector3(0.0f, 500.0f, 0.0f));
-				}
-			}
-
-			if (isJumping && Time.time - jumpTime > jumpDuration) {
-				isJumping = false;
-			}
+		if (isMoving && Time.time - moveStartTime > moveDuration) {
+			isMoving = false;
 		}
 	}
 
