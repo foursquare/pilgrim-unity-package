@@ -25,7 +25,7 @@ public class PilgrimEventsManager : MonoBehaviour
 		MainSceneManager mainSceneManager = (MainSceneManager)GameObject.FindObjectOfType(typeof(MainSceneManager));
 		if (mainSceneManager) {
             foreach (GeofenceEvent geofenceEvent in geofenceEvents) {
-			    mainSceneManager.AddItem(geofenceEvent);
+			    mainSceneManager.AddEvent(geofenceEvent);
             }
 		}
 	}
@@ -36,7 +36,7 @@ public class PilgrimEventsManager : MonoBehaviour
 
         MainSceneManager mainSceneManager = (MainSceneManager)GameObject.FindObjectOfType(typeof(MainSceneManager));
 		if (mainSceneManager) {
-            mainSceneManager.AddItem(visit);
+            mainSceneManager.AddEvent(visit);
 		}
     }
 

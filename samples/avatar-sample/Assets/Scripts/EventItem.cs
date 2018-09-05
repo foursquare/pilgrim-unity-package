@@ -11,7 +11,7 @@ public class EventItem : MonoBehaviour
 
 	public Text timestampText;
 
-	public EventStore.Item Item {
+	public EventStore.Event Event {
 		set {
 			titleText.text = value.Title;
 			descriptionText.text = value.Description;

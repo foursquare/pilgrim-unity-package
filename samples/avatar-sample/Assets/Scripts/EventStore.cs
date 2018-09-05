@@ -7,13 +7,13 @@ using UnityEngine;
 public static class EventStore 
 {
 
-	public class Item {
+	public class Event {
 
 		public string Title { 
 			get { 
 				if (geofenceEvent != null) {
 					return "Geofence Event";
-				}  else {
+				} else {
 					return "Visit";
 				}
 			}
@@ -33,8 +33,18 @@ public static class EventStore
 			get {
 				if (geofenceEvent != null) {
 					return geofenceEvent.Timestamp;
-				}  else {
+				} else {
 					return visit.Timestamp;
+				}
+			}
+		}
+
+		public Category Category {
+			get {
+				if (geofenceEvent != null) {
+					return geofenceEvent.Venue.Category;
+				} else {
+					return visit.Venue.Category;
 				}
 			}
 		}
@@ -43,42 +53,42 @@ public static class EventStore
 
 		private Visit visit;
 
-		private Item(GeofenceEvent geofenceEvent)
+		private Event(GeofenceEvent geofenceEvent)
 		{
 			this.geofenceEvent = geofenceEvent;
 		}
 
-		private Item(Visit visit)
+		private Event(Visit visit)
 		{
 			this.visit = visit;
 		}
 
-		public static implicit operator Item(GeofenceEvent geofenceEvent) 
+		public static implicit operator Event(GeofenceEvent geofenceEvent) 
 		{
-			return new Item(geofenceEvent);
+			return new Event(geofenceEvent);
 		}
 
-		public static implicit operator Item(Visit visit)
+		public static implicit operator Event(Visit visit)
 		{
-			return new Item(visit);
+			return new Event(visit);
 		}
 
 	}
 
-	public static List<Item> GetItems() {
-		List<Item> items = new List<Item>();
+	public static List<Event> GetEvents() {
+		List<Event> events = new List<Event>();
 		
 		List<GeofenceEvent> geofenceEvents = GetGeofenceEvents();
 		foreach (GeofenceEvent geofenceEvent in geofenceEvents) {
-			items.Add(geofenceEvent);
+			events.Add(geofenceEvent);
 		}
 		
 		List<Visit> visits = GetVisits();
 		foreach (Visit visit in visits) {
-			items.Add(visit);
+			events.Add(visit);
 		}
 
-		return items.OrderBy(o => o.Timestamp).ToList();
+		return events.OrderByDescending(o => o.Timestamp).ToList();
 	}
 
 	public static void AddGeofenceEvents(List<GeofenceEvent> geofenceEvents)
@@ -97,7 +107,7 @@ public static class EventStore
 	{
 		#if UNITY_EDITOR
 
-		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":\"Tech Startup\"},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":\"Tech Startup\"},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
+		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
 		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson);
 		return new List<GeofenceEvent>(geofenceEvents);
 
@@ -131,7 +141,7 @@ public static class EventStore
 	{
 		#if UNITY_EDITOR
 
-		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":\"Tech Startup\"},\"timestamp\":1535647171.074142}]}";
+		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"timestamp\":1535647171.074142}]}";
 		Visit[] visits = JsonHelper.FromJson<Visit>(visitsJson);
 		return new List<Visit>(visits);
 

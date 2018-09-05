@@ -156,16 +156,6 @@
         [logJSON appendFormat:@"\"title\":\"%@\",", [self cleanLog:log.eventDescription]];
         NSString *description = [self cleanLog:[log.data description]];
         [logJSON appendFormat:@"\"description\":\"%@\",", description];
-
-//        if (description.length > 0) {
-//            NSUInteger len = MIN(5, description.length);
-//            if (description.length >= 5) {
-//                NSLog(@"Check this %@", [description substringWithRange:NSMakeRange(5 - 1, 1)]);
-//            }
-//            [logJSON appendFormat:@"\"description\":\"%@\",", [description substringWithRange:NSMakeRange(0, description.length)]];
-//        } else {
-//            [logJSON appendString:@"\"description\":\"\","];
-//        }
         [logJSON appendFormat:@"\"timestamp\":%f", log.timestamp.timeIntervalSince1970];
         [logJSON appendString:@"},"];
         [logsJSON appendString:logJSON];
@@ -218,14 +208,14 @@
         [geofenceEventJSON appendString:@"\"chainIDs\":[],"];
         [geofenceEventJSON appendString:@"\"partnerVenueID\":\"\","];
         
-        NSString *primaryCategory = @"";
+        FSQPCategory *primaryCategory = nil;
         for (FSQPCategory *category in geofenceEvent.venue.categories) {
-            if (primaryCategory.length == 0 || category.isPrimary) {
-                primaryCategory = category.name;
+            if (primaryCategory == nil || category.isPrimary) {
+                primaryCategory = category;
             }
         }
         
-        [geofenceEventJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":\"%@\"},", geofenceEvent.venue.name, primaryCategory];
+        [geofenceEventJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":{\"name\":\"%@\",\"icon\":\"%@88%@\"}},", geofenceEvent.venue.name, primaryCategory.name, primaryCategory.icon.prefix, primaryCategory.icon.suffix];
         [geofenceEventJSON appendFormat:@"\"location\":{\"lat\":%f,\"lng\":%f,\"hacc\":%f},", geofenceEvent.location.coordinate.latitude, geofenceEvent.location.coordinate.longitude, geofenceEvent.location.horizontalAccuracy];
         [geofenceEventJSON appendFormat:@"\"timestamp\":%f", geofenceEvent.timestamp.timeIntervalSince1970];
         [geofenceEventJSON appendString:@"},"];
@@ -251,13 +241,14 @@
     
     [visitJSON appendFormat:@"\"isArrival\":%@,", visit.isArrival ? @"true" : @"false"];
     
-    NSString *primaryCategory = @"";
+    FSQPCategory *primaryCategory = nil;
     for (FSQPCategory *category in visit.venue.categories) {
-        if (primaryCategory.length == 0 || category.isPrimary) {
-            primaryCategory = category.name;
+        if (primaryCategory == nil || category.isPrimary) {
+            primaryCategory = category;
         }
     }
-    [visitJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":\"%@\"},", visit.venue.name, primaryCategory];
+    
+    [visitJSON appendFormat:@"\"venue\":{\"name\":\"%@\",\"category\":{\"name\":\"%@\",\"icon\":\"%@88%@\"}},", visit.venue.name, primaryCategory.name, primaryCategory.icon.prefix, primaryCategory.icon.suffix];
     
     if (visit.isArrival) {
         [visitJSON appendFormat:@"\"timestamp\":%f", visit.arrivalDate.timeIntervalSince1970];

@@ -23,16 +23,16 @@ public static class EventStore
 	{
 		#if UNITY_EDITOR
 
-		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":\"Tech Startup\"},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":\"Tech Startup\"},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
+		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
 		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson);
-		return new List<GeofenceEvent>(geofenceEvents);
+		return new List<GeofenceEvent>(geofenceEvents).OrderByDescending(o => o.Timestamp).ToList();
 
 		#else
 
 		string geofenceEventsJson = PlayerPrefs.GetString("geofenceEvents", "{\"Items\":[]}");
 		try {
 			List<GeofenceEvent> geofenceEvents = new List<GeofenceEvent>(JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson));
-			return geofenceEvents;
+			return geofenceEvents.OrderByDescending(o => o.Timestamp).ToList();
 		} catch (Exception e) {
 			Debug.Log("Error parsing geofence events json: " + e);
 			return new List<GeofenceEvent>();
@@ -57,16 +57,16 @@ public static class EventStore
 	{
 		#if UNITY_EDITOR
 
-		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":\"Tech Startup\"},\"timestamp\":1535647171.074142}]}";
+		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"timestamp\":1535647171.074142}]}";
 		Visit[] visits = JsonHelper.FromJson<Visit>(visitsJson);
-		return new List<Visit>(visits);
+		return new List<Visit>(visits).OrderByDescending(o => o.Timestamp).ToList();
 
 		#else
 
 		string visitsJson = PlayerPrefs.GetString("visits", "{\"Items\":[]}");
 		try {
 			List<Visit> visits = new List<Visit>(JsonHelper.FromJson<Visit>(visitsJson));
-			return visits;
+			return visits.OrderByDescending(o => o.Timestamp).ToList();
 		} catch (Exception e) {
 			Debug.Log("Error parsing visits json: " + e);
 			return new List<Visit>();
