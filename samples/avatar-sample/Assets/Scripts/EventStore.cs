@@ -51,7 +51,19 @@ public static class EventStore
 
 		private GeofenceEvent geofenceEvent;
 
+		public GeofenceEvent GeofenceEvent {
+			get {
+				return geofenceEvent;
+			}
+		}
+
 		private Visit visit;
+
+		public Visit Visit {
+			get {
+				return visit;
+			}
+		}
 
 		private Event(GeofenceEvent geofenceEvent)
 		{
@@ -75,6 +87,10 @@ public static class EventStore
 
 	}
 
+	private static List<GeofenceEvent> cachedGeofenceEvents;
+
+	private static List<Visit> cachedVisits;
+
 	public static List<Event> GetEvents() {
 		List<Event> events = new List<Event>();
 		
@@ -88,12 +104,14 @@ public static class EventStore
 			events.Add(visit);
 		}
 
-		return events.OrderByDescending(o => o.Timestamp).ToList();
+		return events.OrderBy(o => o.Timestamp).ToList();
 	}
 
 	public static void AddGeofenceEvents(List<GeofenceEvent> geofenceEvents)
 	{
-		List<GeofenceEvent> cachedGeofenceEvents = GetGeofenceEvents();
+		if (cachedGeofenceEvents == null) {
+			cachedGeofenceEvents = GetGeofenceEvents();
+		}
 		try {
 			cachedGeofenceEvents.AddRange(geofenceEvents);
 			string geofenceEventsJson = JsonHelper.ToJson<GeofenceEvent>(cachedGeofenceEvents.ToArray());
@@ -103,65 +121,92 @@ public static class EventStore
 		}
 	}
 
-	public static List<GeofenceEvent> GetGeofenceEvents()
+	private static List<GeofenceEvent> GetGeofenceEvents()
 	{
-		#if UNITY_EDITOR
-
-		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
-		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson);
-		return new List<GeofenceEvent>(geofenceEvents);
-
-		#else
-
-		string geofenceEventsJson = PlayerPrefs.GetString("geofenceEvents", "{\"Items\":[]}");
-		try {
-			List<GeofenceEvent> geofenceEvents = new List<GeofenceEvent>(JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson));
-			return geofenceEvents;
-		} catch (Exception e) {
-			Debug.Log("Error parsing geofence events json: " + e);
-			return new List<GeofenceEvent>();
+		if (cachedGeofenceEvents == null) {
+			string geofenceEventsJson = PlayerPrefs.GetString("geofenceEvents", "{\"Items\":[]}");
+			try {
+				cachedGeofenceEvents = new List<GeofenceEvent>(JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson));
+			} catch (Exception e) {
+				Debug.Log("Error parsing geofence events json: " + e);
+			}
 		}
-
-		#endif
+		return cachedGeofenceEvents;
 	}
 
 	public static void AddVisit(Visit visit)
 	{
-		List<Visit> cachedVisits = GetVisits();
+		if (cachedVisits == null) {
+			cachedVisits = GetVisits();
+		}
 		try {
 			cachedVisits.Add(visit);
 			string visitsJson = JsonHelper.ToJson<Visit>(cachedVisits.ToArray());
 			PlayerPrefs.SetString("visits", visitsJson);
 		} catch (Exception e) {
-			Debug.Log("Error parsing visits] json: " + e);
+			Debug.Log("Error parsing visits json: " + e);
 		}
 	}
 
-	public static List<Visit> GetVisits()
+	private static List<Visit> GetVisits()
 	{
-		#if UNITY_EDITOR
-
-		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"timestamp\":1535647171.074142}]}";
-		Visit[] visits = JsonHelper.FromJson<Visit>(visitsJson);
-		return new List<Visit>(visits);
-
-		#else
-
-		string visitsJson = PlayerPrefs.GetString("visits", "{\"Items\":[]}");
-		try {
-			List<Visit> visits = new List<Visit>(JsonHelper.FromJson<Visit>(visitsJson));
-			return visits;
-		} catch (Exception e) {
-			Debug.Log("Error parsing visits json: " + e);
-			return new List<Visit>();
+		if (cachedVisits == null) {
+			string visitsJson = PlayerPrefs.GetString("visits", "{\"Items\":[]}");
+			try {
+				cachedVisits = new List<Visit>(JsonHelper.FromJson<Visit>(visitsJson));
+			} catch (Exception e) {
+				Debug.Log("Error parsing visits json: " + e);
+			}
 		}
-
-		#endif
+		return cachedVisits;
 	}
 	
 	public static void Clear()
 	{
 		PlayerPrefs.DeleteKey("geofenceEvents");
+		cachedGeofenceEvents = null;
 		PlayerPrefs.DeleteKey("visits");
+		cachedVisits = null;
 	}
+
+	#if UNITY_EDITOR
+
+	public static void AddSampleEvents()
+	{
+		string visitsJson = "{\"Items\":[{\"isArrival\":true,\"venue\":{\"name\":\"20 W. Kinzie Building\",\"category\":{\"name\":\"Tech Startup\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/technology_88.png\"}},\"timestamp\":1535647171.074142}]}";	
+		Visit[] visits = JsonHelper.FromJson<Visit>(visitsJson);
+		foreach (Visit visit in visits) {
+			AddVisit(visit);
+		}
+
+		string geofenceEventsJson  = "{\"Items\":[{\"eventType\":\"entrance\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535219480.414939}, {\"eventType\":\"dwell\",\"venueID\":\"547b8903498ef62123c41ecb\",\"categoryIDs\":[],\"chainIDs\":[],\"partnerVenueID\":\"\",\"venue\":{\"name\":\"Casey's General Store\",\"category\":{\"name\":\"Convenience Store\",\"icon\":\"https://ss3.4sqi.net/img/categories_v2/shops/conveniencestore_bg_88.png\"}},\"location\":{\"lat\":41.891381,\"lng\":-87.648111,\"hacc\":65.000000},\"timestamp\":1535659715.414939}]}";
+		GeofenceEvent[] geofenceEvents = JsonHelper.FromJson<GeofenceEvent>(geofenceEventsJson);
+		AddGeofenceEvents(new List<GeofenceEvent>(geofenceEvents));
+	}
+
+	#endif
+
+	public static void DeleteEvent(EventStore.Event evt)
+	{
+		if (evt.Visit != null) {
+			List<Visit> cachedVisits = GetVisits();
+			try {
+				cachedVisits.Remove(evt.Visit);
+				string visitsJson = JsonHelper.ToJson<Visit>(cachedVisits.ToArray());
+				PlayerPrefs.SetString("visits", visitsJson);
+			} catch (Exception e) {
+				Debug.Log("Error parsing visits json: " + e);
+			}
+		} else {
+			List<GeofenceEvent> cachedGeofenceEvents = GetGeofenceEvents();
+			try {
+				cachedGeofenceEvents.Remove(evt.GeofenceEvent);
+				string geofenceEventsJson = JsonHelper.ToJson<GeofenceEvent>(cachedGeofenceEvents.ToArray());
+				PlayerPrefs.SetString("geofenceEvents", geofenceEventsJson);
+			} catch (Exception e) {
+				Debug.Log("Error parsing geofence events json: " + e);
+			}
+		}
+	}
+
 }

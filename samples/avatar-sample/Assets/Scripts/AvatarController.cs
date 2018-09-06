@@ -8,6 +8,8 @@ public class AvatarController : MonoBehaviour
 
 	public Transform flag;
 
+	public static bool ignoreTouches;
+
 	private Animator animator;
 	private Collider coll;
 	private Rigidbody rbody;
@@ -34,12 +36,12 @@ public class AvatarController : MonoBehaviour
 			animator.SetTrigger("Idle");
 		}
 
-		StartCoroutine(LoadTopCategoryIcon());
+		LoadTopCategoryIcon();
 	}
 	
 	void Update() 
 	{
-		if (shouldWave && !isMoving && Input.GetMouseButtonDown(0)) {
+		if (shouldWave && !isMoving && !ignoreTouches && Input.GetMouseButtonDown(0)) {
 			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			point.z = 0.0f;
 			if (coll.bounds.Contains(point)) {
@@ -51,7 +53,7 @@ public class AvatarController : MonoBehaviour
 			}
 		}
 
-		if (!shouldWave && !isMoving && Input.GetMouseButtonDown(0)) {
+		if (!shouldWave && !isMoving && !ignoreTouches && Input.GetMouseButtonDown(0)) {
 			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			point.z = 0.0f;
 			if (coll.bounds.Contains(point)) {
@@ -69,11 +71,16 @@ public class AvatarController : MonoBehaviour
 		}
 	}
 
-	private IEnumerator LoadTopCategoryIcon()
+	public void LoadTopCategoryIcon()
+	{
+		StartCoroutine(DoLoadTopCategoryIcon());
+	}
+
+	private IEnumerator DoLoadTopCategoryIcon()
     {
 		List<EventStore.Event> events = EventStore.GetEvents();
-		EventStore.Event lastEvent = events.First();
-		if (lastEvent != null) {
+		if (events.Count > 0) {
+			EventStore.Event lastEvent = events.Last();
 			Texture2D tex;
         	tex = new Texture2D(88, 88, TextureFormat.RGBA32, false);
 			using (WWW www = new WWW(lastEvent.Category.Icon))
@@ -82,6 +89,8 @@ public class AvatarController : MonoBehaviour
 				www.LoadImageIntoTexture(tex);
 				flag.GetComponent<Renderer>().material.SetTexture("_MainTex", tex);
 			}
+		} else {
+			flag.GetComponent<Renderer>().material.SetTexture("_MainTex", null);
 		}
     }
 

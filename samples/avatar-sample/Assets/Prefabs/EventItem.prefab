@@ -190,8 +190,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnClickLogItem
+      - m_Target: {fileID: 114893857502847722}
+        m_MethodName: OnClickEventItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -274,6 +274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d80454997577419797eac8fea4b495f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventDialogPrefab: {fileID: 1677546426424370, guid: ca3b6e91ece834c339a2e68c9b2407bd,
+    type: 2}
   titleText: {fileID: 114135585326901618}
   descriptionText: {fileID: 114902318328448438}
   timestampText: {fileID: 114830723316975598}
