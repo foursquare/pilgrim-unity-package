@@ -1,0 +1,18 @@
+<dependencies>
+  <iosPods>
+    <iosPod name="pilgrim-sdk" version="2.0.0" minTargetSdk="10.0" />
+  </iosPods>
+  <androidPackages>
+    <androidPackage spec="com.evernote:android-job:1.2.6" />
+    <androidPackage spec="com.firebase:firebase-jobdispatcher:0.8.5" />
+    <androidPackage spec="com.squareup.okhttp3:okhttp:3.11.0" />
+    <androidPackage spec="com.google.code.gson:gson:2.8.5" />
+    <androidPackage spec="com.google.android.gms:play-services-location:15.0.1" />
+    <androidPackage spec="com.google.android.gms:play-services-ads:15.0.1" />
+    <!-- TODO TEMP UNTIL ANDROID IS IN PUBLIC REPO <androidPackage spec="com.foursquare:pilgrimsdk:2.0.0">
+      <repositories>
+        <repository>https://brojas:Foursquare!@foursquare.jfrog.io/foursquare/libs-release-local/</repository>
+      </repositories>
+    </androidPackage> -->
+  </androidPackages>
+</dependencies>
