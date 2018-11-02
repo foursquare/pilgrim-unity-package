@@ -14,7 +14,7 @@ namespace Foursquare
             #elif UNITY_IOS
                 return new Foursquare.iOS.PilgrimClient();
             #else
-                return new GoogleMobileAds.Common.DummyClient();
+                return new DummyClient();
             #endif
         }
 
