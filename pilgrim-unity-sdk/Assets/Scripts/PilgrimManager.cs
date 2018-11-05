@@ -1,4 +1,5 @@
 ﻿using Foursquare;
+using System.Collections;
 using UnityEngine;
 
 public class PilgrimManager : MonoBehaviour 
