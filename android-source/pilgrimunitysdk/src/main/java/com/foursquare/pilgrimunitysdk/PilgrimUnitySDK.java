@@ -55,11 +55,6 @@ public final class PilgrimUnitySDK {
         }
 
         PilgrimSdk.get().setUserInfo(userInfo);
-
-        for (Map.Entry<String, String> entry : userInfo.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-        }
     }
 
     private static void restartIfPreviouslyStarted(@NonNull Context context) {
