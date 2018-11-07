@@ -1,6 +1,6 @@
-using UnityEngine;
-
 #if UNITY_ANDROID
+
+using UnityEngine;
 
 namespace Foursquare.Android
 {

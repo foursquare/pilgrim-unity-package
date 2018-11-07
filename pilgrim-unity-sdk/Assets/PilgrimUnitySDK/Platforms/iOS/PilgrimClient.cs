@@ -1,6 +1,6 @@
-using System.Runtime.InteropServices;
-
 #if UNITY_IOS
+
+using System.Runtime.InteropServices;
 
 namespace Foursquare.iOS
 {
