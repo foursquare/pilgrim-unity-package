@@ -9,8 +9,6 @@
 
 @interface PilgrimUnitySDK : NSObject
 
-+ (void)init;
-
 + (void)initWithConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret;
 
 @end

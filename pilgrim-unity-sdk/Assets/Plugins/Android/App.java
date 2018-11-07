@@ -10,7 +10,7 @@ public final class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PilgrimUnitySDK.init(this, "TMKHTRWRRYO4WIZPVJNHA1Q3JU0YBED5XIONMQTOC00YYCLY", "01IYW3XKATTKF40RHUOTFPU0TTFJTJ5QC1IIIXX0NLJDV1FH");
+        PilgrimUnitySDK.init(this, "SF45TRX2FDJBCZ3W2HT5J3UBU2WBLQKBCCVRBIX01AOB2GFW", "0BGOFDZK42TDSZN305VI5P241WIOMJNGWR0RXGLOZH4SPTK4");
     }
 
 }
