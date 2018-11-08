@@ -14,7 +14,13 @@ public class GameManager : MonoBehaviour
 		userInfo.SetUserId("marchinram");
 		PilgrimUnitySDK.SetUserInfo(userInfo);
 
-		PilgrimUnitySDK.Start();
+		PilgrimUnitySDK.OnLocationPermissionsGranted += (granted) => {
+			Debug.Log("GameManager granted:" + granted);
+			if (granted) {
+				PilgrimUnitySDK.Start();
+			}
+		};
+		PilgrimUnitySDK.RequestLocationPermissions();
 	}
 	
 }

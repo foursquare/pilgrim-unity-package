@@ -1,6 +1,9 @@
 package com.foursquare.pilgrimunitysdk;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
@@ -15,8 +18,16 @@ public final class PilgrimClient {
 
     private Context context;
 
-    public PilgrimClient(@NonNull Context context) {
+    public PilgrimClient(@NonNull Context context, @NonNull final PilgrimClientListener listener) {
         this.context = context;
+
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                boolean granted = intent.getBooleanExtra("granted", false);
+                listener.onLocationPermissionResult(granted);
+            }
+        }, new IntentFilter("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED"));
     }
 
     public void setUserInfo(@NonNull Map<String, String> userInfoMap) {
@@ -59,6 +70,11 @@ public final class PilgrimClient {
             String value = entry.getValue();
             sharedPref.edit().putString(key, value).apply();
         }
+    }
+
+    public void requestLocationPermissions() {
+        Intent intent = new Intent(context, PermissionActivity.class);
+        context.startActivity(intent);
     }
 
     public void start() {

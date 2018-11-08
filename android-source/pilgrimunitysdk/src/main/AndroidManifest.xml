@@ -1,5 +1,8 @@
-<manifest package="com.foursquare.pilgrimunitysdk">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.foursquare.pilgrimunitysdk">
 
-    <application />
+    <application>
+        <activity android:name=".PermissionActivity" />
+    </application>
 
 </manifest>

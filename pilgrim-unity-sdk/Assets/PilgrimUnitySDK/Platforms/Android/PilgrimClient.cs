@@ -5,16 +5,18 @@ using UnityEngine;
 namespace Foursquare.Android
 {
 
-    public class PilgrimClient : IPilgrimClient
+    public class PilgrimClient : AndroidJavaProxy, IPilgrimClient
     {
+
+        public event OnLocationPermissionsGranted OnLocationPermissionsGranted;
 
         private AndroidJavaObject pilgrimClient;
 
-        public PilgrimClient()
+        public PilgrimClient() : base("com.foursquare.pilgrimunitysdk.PilgrimClientListener")
         {
             var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            pilgrimClient = new AndroidJavaObject("com.foursquare.pilgrimunitysdk.PilgrimClient", activity);
+            pilgrimClient = new AndroidJavaObject("com.foursquare.pilgrimunitysdk.PilgrimClient", activity, this);
         }
 
         public void SetUserInfo(PilgrimUserInfo userInfo)
@@ -36,6 +38,11 @@ namespace Foursquare.Android
             pilgrimClient.Call("setUserInfo", userInfoMap);
         }
 
+        public void RequestLocationPermissions()
+        {
+            pilgrimClient.Call("requestLocationPermissions");
+        }
+
         public void Start()
         {
             pilgrimClient.Call("start");
@@ -49,6 +56,12 @@ namespace Foursquare.Android
         public void ClearAllData()
         {
             pilgrimClient.Call("clearAllData");
+        }
+
+        public void onLocationPermissionResult(bool granted) {
+            if (OnLocationPermissionsGranted != null) {
+                OnLocationPermissionsGranted(granted);
+            }
         }
 
     }

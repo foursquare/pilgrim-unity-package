@@ -8,6 +8,8 @@ namespace Foursquare.iOS
     public class PilgrimClient : IPilgrimClient
     {
 
+        public event OnLocationPermissionsGranted OnLocationPermissionsGranted;
+
         [DllImport("__Internal")]
         private static extern void PilgrimStart();
 
@@ -20,6 +22,11 @@ namespace Foursquare.iOS
         public void SetUserInfo(PilgrimUserInfo userInfo)
         {
 
+        }
+
+        public void RequestLocationPermissions()
+        {
+            
         }
 
         public void Start()
