@@ -26,6 +26,9 @@ namespace Foursquare.Android
             
             object[] args = new object[2];
             foreach (var pair in userInfo.BackingStore) {
+                if (pair.Value == null) {
+                    continue;
+                }
                 using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", pair.Key)) {
                     using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", pair.Value)) {
                         args[0] = k;

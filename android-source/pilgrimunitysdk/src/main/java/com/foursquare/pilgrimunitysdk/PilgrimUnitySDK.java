@@ -26,6 +26,10 @@ public final class PilgrimUnitySDK {
     private static void setUserInfo(@NonNull Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
+        if (sharedPref.getAll().isEmpty()) {
+            return;
+        }
+
         PilgrimUserInfo userInfo = new PilgrimUserInfo();
         for (Map.Entry<String, ?> entry : sharedPref.getAll().entrySet()) {
             String key = entry.getKey();

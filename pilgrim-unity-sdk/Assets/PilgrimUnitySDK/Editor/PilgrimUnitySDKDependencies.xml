@@ -11,10 +11,12 @@
     <androidPackage spec="com.google.android.gms:play-services-location:11.6.0" />
     <androidPackage spec="com.google.android.gms:play-services-gcm:11.6.0" />
     <androidPackage spec="com.evernote:android-job:1.2.2" />
-    <!-- TODO TEMP UNTIL ANDROID IS IN PUBLIC REPO <androidPackage spec="com.foursquare:pilgrimsdk:2.0.0">
+    <!-- TODO TEMP UNTIL ANDROID IS IN PUBLIC REPO 
+    <androidPackage spec="com.foursquare:pilgrimsdk:2.0.0">
       <repositories>
-        <repository>https://brojas:Foursquare!@foursquare.jfrog.io/foursquare/libs-release-local/</repository>
+        <repository>https://foursquare.jfrog.io/foursquare/libs-release/</repository>
       </repositories>
-    </androidPackage> -->
+    </androidPackage> 
+    -->
   </androidPackages>
 </dependencies>
