@@ -8,6 +8,7 @@
 #import "PilgrimClient.h"
 #import <CoreLocation/CoreLocation.h>
 #import <Pilgrim/Pilgrim.h>
+#import "FSQPCurrentLocation+Json.h"
 
 @interface PilgrimClient () <CLLocationManagerDelegate>
 
@@ -90,6 +91,17 @@
 
 - (void)clearAllData {
     [[FSQPPilgrimManager sharedManager] clearAllData:nil];
+}
+
+- (void)getCurrentLocation {
+    [[FSQPPilgrimManager sharedManager] getCurrentLocationWithCompletion:^(FSQPCurrentLocation * _Nullable currentLocation, NSError * _Nullable error) {
+        if (error) {
+            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil);
+            return;
+        }
+        
+        self.getCurrentLocationCallback(self.clientHandlePtr, YES, [[currentLocation json] cStringUsingEncoding:NSUTF8StringEncoding]);
+    }];
 }
 
 #pragma mark - CLLocationManagerDelegate methods

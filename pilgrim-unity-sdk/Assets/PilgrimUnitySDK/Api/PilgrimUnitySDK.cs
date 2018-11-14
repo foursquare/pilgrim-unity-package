@@ -6,12 +6,21 @@ namespace Foursquare
 	public static class PilgrimUnitySDK
 	{
 
-		public static event LocationPermissionsGranted OnLocationPermissionsGranted {
+		public static event LocationPermissionsResult OnLocationPermissionsResult {
 			add {
-				client.OnLocationPermissionsGranted += value;
+				client.OnLocationPermissionsResult += value;
 			}
 			remove {
-				client.OnLocationPermissionsGranted -= value;
+				client.OnLocationPermissionsResult -= value;
+			}
+		}
+
+		public static event GetCurrentLocationResult OnGetCurrentLocationResult {
+			add {
+				client.OnGetCurrentLocationResult += value;
+			}
+			remove {
+				client.OnGetCurrentLocationResult -= value;
 			}
 		}
 
@@ -40,6 +49,11 @@ namespace Foursquare
 		public static void ClearAllData()
 		{
 			client.ClearAllData();
+		}
+
+		public static void GetCurrentLocation()
+		{
+			client.GetCurrentLocation();
 		}
 
 	}

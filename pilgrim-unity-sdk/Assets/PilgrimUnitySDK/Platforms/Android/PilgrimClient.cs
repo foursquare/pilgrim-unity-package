@@ -65,6 +65,11 @@ namespace Foursquare.Android
             pilgrimClient.Call("clearAllData");
         }
 
+        public void GetCurrentLocation()
+        {
+            
+        }
+
         public void Dispose()
         {
             pilgrimClient.Dispose();

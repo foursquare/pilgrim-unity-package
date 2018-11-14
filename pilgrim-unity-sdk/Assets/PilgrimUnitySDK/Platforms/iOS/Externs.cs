@@ -14,7 +14,8 @@ using System.Runtime.InteropServices;
 
         [DllImport("__Internal")]
         internal static extern void SetCallbacks(IntPtr clientPtr,
-                                                 PilgrimClient.PilgrimLocationPermissionsCallback locationPermissionsCallback);
+                                                 PilgrimClient.PilgrimLocationPermissionsCallback locationPermissionsCallback,
+                                                 PilgrimClient.PilgrimGetCurrentLocationCallback getCurrentLocationCallback);
 
         [DllImport("__Internal")]
         internal static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson);
@@ -33,6 +34,9 @@ using System.Runtime.InteropServices;
 
         [DllImport("__Internal")]
         internal static extern void Destroy(IntPtr clientPtr);
+
+        [DllImport("__Internal")]
+        internal static extern void GetCurrentLocation(IntPtr clientPtr);
 
      }
 

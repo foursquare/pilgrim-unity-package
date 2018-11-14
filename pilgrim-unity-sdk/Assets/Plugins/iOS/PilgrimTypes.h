@@ -10,3 +10,5 @@ typedef const void *PilgrimClientRef;
 typedef const void *PilgrimClientHandleRef;
 
 typedef void (*PilgrimLocationPermissionsCallback)(PilgrimClientHandleRef clientHandle, BOOL granted);
+
+typedef void (*PilgrimGetCurrentLocationCallback)(PilgrimClientHandleRef clientHandle, BOOL success, const char *currentLocationJson);

@@ -13,9 +13,12 @@ PilgrimClientRef CreateClient(PilgrimClientHandleRef clientHandlePtr) {
     return CFBridgingRetain(client);
 }
 
-void SetCallbacks(PilgrimClientRef clientPtr, PilgrimLocationPermissionsCallback locationPermissionsCallback) {
+void SetCallbacks(PilgrimClientRef clientPtr,
+                  PilgrimLocationPermissionsCallback locationPermissionsCallback,
+                  PilgrimGetCurrentLocationCallback getCurrentLocationCallback) {
     PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
     client.locationPermissionsCallback = locationPermissionsCallback;
+    client.getCurrentLocationCallback = getCurrentLocationCallback;
 }
 
 void SetUserInfo(PilgrimClientRef clientPtr, const char *userInfoJson) {
@@ -40,7 +43,12 @@ void Stop(PilgrimClientRef clientPtr) {
 
 void ClearAllData(PilgrimClientRef clientPtr) {
     PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
-    [client stop];
+    [client clearAllData];
+}
+
+void GetCurrentLocation(PilgrimClientRef clientPtr) {
+    PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
+    [client getCurrentLocation];
 }
 
 void Destroy(PilgrimClientRef clientPtr) {

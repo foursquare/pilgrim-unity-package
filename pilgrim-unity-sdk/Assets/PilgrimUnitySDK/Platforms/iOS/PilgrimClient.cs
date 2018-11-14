@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace Foursquare.iOS
 {
@@ -9,9 +10,13 @@ namespace Foursquare.iOS
     public class PilgrimClient : IPilgrimClient, IDisposable
     {
 
-        public event LocationPermissionsGranted OnLocationPermissionsGranted;
+        public event LocationPermissionsResult OnLocationPermissionsResult;
 
-        public delegate void PilgrimLocationPermissionsCallback(IntPtr clientPtr, bool granted);
+        public event GetCurrentLocationResult OnGetCurrentLocationResult;
+
+        internal delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
+
+        internal delegate void PilgrimGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson);
 
         private GCHandle clientHandle;
 
@@ -20,9 +25,8 @@ namespace Foursquare.iOS
         public PilgrimClient()
         {
             clientHandle = GCHandle.Alloc(this);
-
             clientPtr = Externs.CreateClient(GCHandle.ToIntPtr(clientHandle));
-            Externs.SetCallbacks(clientPtr, OnLocationPermissionsCallback);
+            Externs.SetCallbacks(clientPtr, OnLocationPermissionsCallback, OnGetCurrentLocationCallback);
         }
 
         public void SetUserInfo(PilgrimUserInfo userInfo)
@@ -57,6 +61,11 @@ namespace Foursquare.iOS
             Externs.ClearAllData(clientPtr);
         }
 
+        public void GetCurrentLocation()
+        {
+            Externs.GetCurrentLocation(clientPtr);
+        }
+
         public void Dispose()
         {
             clientHandle.Free();
@@ -67,8 +76,18 @@ namespace Foursquare.iOS
         private static void OnLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted)
         {
             var client = GCHandle.FromIntPtr(clientHandlePtr).Target as PilgrimClient;
-            if (client.OnLocationPermissionsGranted != null) {
-                client.OnLocationPermissionsGranted(granted);
+            if (client.OnLocationPermissionsResult != null) {
+                client.OnLocationPermissionsResult(granted);
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(PilgrimGetCurrentLocationCallback))]
+        private static void OnGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson)
+        {
+            var client = GCHandle.FromIntPtr(clientHandlePtr).Target as PilgrimClient;
+            if (client.OnGetCurrentLocationResult != null) {
+                var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
+                client.OnGetCurrentLocationResult(success, currentLocation);
             }
         }
 
