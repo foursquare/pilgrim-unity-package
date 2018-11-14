@@ -8,7 +8,7 @@ namespace Foursquare.Android
     public class PilgrimClient : AndroidJavaProxy, IPilgrimClient
     {
 
-        public event OnLocationPermissionsGranted OnLocationPermissionsGranted;
+        public event LocationPermissionsGranted OnLocationPermissionsGranted;
 
         private AndroidJavaObject pilgrimClient;
 

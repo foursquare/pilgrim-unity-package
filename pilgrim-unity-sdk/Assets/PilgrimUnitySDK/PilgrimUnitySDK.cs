@@ -3,12 +3,10 @@
 namespace Foursquare
 {
 
-	public delegate void OnLocationPermissionsGranted(bool granted);
-
 	public static class PilgrimUnitySDK
 	{
 
-		public static event OnLocationPermissionsGranted OnLocationPermissionsGranted {
+		public static event LocationPermissionsGranted OnLocationPermissionsGranted {
 			add {
 				client.OnLocationPermissionsGranted += value;
 			}

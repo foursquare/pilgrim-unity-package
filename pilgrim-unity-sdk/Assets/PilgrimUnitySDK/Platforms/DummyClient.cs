@@ -1,11 +1,10 @@
-
 namespace Foursquare
 {
 
     public class DummyClient : IPilgrimClient
     {
 
-        public event OnLocationPermissionsGranted OnLocationPermissionsGranted;
+        public event LocationPermissionsGranted OnLocationPermissionsGranted;
 
         public void SetUserInfo(PilgrimUserInfo userInfo)
         {

@@ -9,7 +9,7 @@ namespace Foursquare.iOS
     public class PilgrimClient : IPilgrimClient, IDisposable
     {
 
-        public event OnLocationPermissionsGranted OnLocationPermissionsGranted;
+        public event LocationPermissionsGranted OnLocationPermissionsGranted;
 
         public delegate void PilgrimLocationPermissionsCallback(IntPtr clientPtr, bool granted);
 

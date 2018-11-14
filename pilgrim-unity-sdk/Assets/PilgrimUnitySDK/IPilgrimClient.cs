@@ -1,10 +1,9 @@
-
 namespace Foursquare
 {
     public interface IPilgrimClient
     {
 
-        event OnLocationPermissionsGranted OnLocationPermissionsGranted;
+        event LocationPermissionsGranted OnLocationPermissionsGranted;
 
         void SetUserInfo(PilgrimUserInfo userInfo);
 
