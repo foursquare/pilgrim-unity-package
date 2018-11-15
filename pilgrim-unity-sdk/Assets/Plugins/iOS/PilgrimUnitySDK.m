@@ -6,25 +6,17 @@
 //
 
 #import "PilgrimUnitySDK.h"
-
 #import <Pilgrim/Pilgrim.h>
-
-@interface Delegate : NSObject <FSQPPilgrimManagerDelegate>
-@end
-
-@implementation Delegate
-- (void)pilgrimManager:(FSQPPilgrimManager *)pilgrimManager handleVisit:(FSQPVisit *)visit {
-
-}
-@end
 
 @implementation PilgrimUnitySDK
 
 + (void)initWithConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret {
     [[FSQPPilgrimManager sharedManager] configureWithConsumerKey:consumerKey
                                                           secret:consumerSecret
-                                                        delegate:[[Delegate alloc] init]
-                                                      completion:nil];
+                                                        delegate:nil
+                                                      completion:^(BOOL didSucceed, NSError * _Nullable error) {
+                                                          NSLog(@"");
+                                                      }];
     [self setUserInfo];
     [self restartIfPreviouslyStarted];
 }

@@ -19,12 +19,6 @@ namespace Foursquare
 
         public IList<GeofenceEvent> MatchedGeofences { get { return new List<GeofenceEvent>(matchedGeofences); } }
 
-        // internal CurrentLocation(Visit currentPlace, IList<GeofenceEvent> matchedGeofences)
-        // {
-        //     this.currentPlace = currentPlace;
-        //     this.matchedGeofences = matchedGeofences;
-        // }
-
     }
 
 }

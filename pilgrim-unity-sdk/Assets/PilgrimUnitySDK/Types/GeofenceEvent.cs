@@ -13,10 +13,15 @@ namespace Foursquare
 
         public Venue Venue { get { return venue; } }
 
-        // internal GeofenceEvent(Venue venue)
-        // {
-        //     this.venue = venue;
-        // }
+        [SerializeField]
+        private Location location;
+
+        public Location Location { get { return location; } }
+
+        [SerializeField]
+        private double timestamp;
+
+        public DateTime Timestamp { get { return Utils.FromUnixSeconds(timestamp); } }
 
     }
 

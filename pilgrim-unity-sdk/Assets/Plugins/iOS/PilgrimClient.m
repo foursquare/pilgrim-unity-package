@@ -8,7 +8,89 @@
 #import "PilgrimClient.h"
 #import <CoreLocation/CoreLocation.h>
 #import <Pilgrim/Pilgrim.h>
-#import "FSQPCurrentLocation+Json.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation FSQPCurrentLocation (Json)
+
+- (NSString *)json {
+    NSMutableDictionary *currentLocationDict = [NSMutableDictionary dictionary];
+    currentLocationDict[@"currentPlace"] = [[self class] currentPlaceDict:self.currentPlace];
+    currentLocationDict[@"matchedGeofences"] = [[self class] matchedGeofencesArray:self.matchedGeofences];
+
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:currentLocationDict options:0 error:nil];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
++ (NSDictionary *)currentPlaceDict:(FSQPVisit *)currentPlace {
+    NSMutableDictionary *currentPlaceDict = [NSMutableDictionary dictionary];
+
+    currentPlaceDict[@"location"] = @{@"latitude": @(currentPlace.arrivalLocation.coordinate.latitude),
+                                      @"longitude": @(currentPlace.arrivalLocation.coordinate.longitude)};
+
+    currentPlaceDict[@"arrivalTime"] = @(currentPlace.arrivalDate.timeIntervalSince1970);
+
+    if (currentPlace.venue) {
+        currentPlaceDict[@"venue"] = [self venueDict:currentPlace.venue];
+    }
+
+    return currentPlaceDict;
+}
+
++ (NSArray *)matchedGeofencesArray:(NSArray<FSQPGeofenceEvent *> *)matchedGeofences {
+    NSMutableArray *matchedGeofencesArray = [NSMutableArray array];
+
+    for (FSQPGeofenceEvent *event in matchedGeofences) {
+        NSMutableDictionary *geofenceEventDict = [NSMutableDictionary dictionary];
+
+        geofenceEventDict[@"venue"] = [self venueDict:event.venue];
+        geofenceEventDict[@"location"] = @{@"latitude": @(event.location.coordinate.latitude),
+                                           @"longitude": @(event.location.coordinate.longitude)};
+        geofenceEventDict[@"timestamp"] = @(event.timestamp.timeIntervalSince1970);
+
+        [matchedGeofencesArray addObject:geofenceEventDict];
+    }
+
+    return matchedGeofencesArray;
+}
+
++ (NSDictionary *)venueDict:(FSQPVenue *)venue {
+    NSMutableDictionary *venueDict = [NSMutableDictionary dictionary];
+
+    venueDict[@"id"] = venue.foursquareID;
+    venueDict[@"name"] = venue.name;
+
+    if (venue.locationInformation) {
+        NSMutableDictionary *venueLocationDict = [NSMutableDictionary dictionary];
+
+        if (venue.locationInformation.address) {
+            venueLocationDict[@"address"] = venue.locationInformation.address;
+        }
+        if (venue.locationInformation.crossStreet) {
+            venueLocationDict[@"crossStreet"] = venue.locationInformation.crossStreet;
+        }
+        if (venue.locationInformation.city) {
+            venueLocationDict[@"city"] = venue.locationInformation.city;
+        }
+        if (venue.locationInformation.state) {
+            venueLocationDict[@"state"] = venue.locationInformation.state;
+        }
+        if (venue.locationInformation.postalCode) {
+            venueLocationDict[@"postalCode"] = venue.locationInformation.postalCode;
+        }
+        if (venue.locationInformation.country) {
+            venueLocationDict[@"country"] = venue.locationInformation.country;
+        }
+        venueLocationDict[@"coordinate"] = @{@"latitude": @(venue.locationInformation.coordinate.latitude),
+                                             @"longitude": @(venue.locationInformation.coordinate.longitude)};
+
+        venueDict[@"location"] = venueLocationDict;
+    }
+
+    return venueDict;
+}
+
+@end
 
 @interface PilgrimClient () <CLLocationManagerDelegate>
 
@@ -115,3 +197,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

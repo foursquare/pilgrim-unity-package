@@ -40,7 +40,7 @@ namespace Foursquare
         public void GetCurrentLocation()
         {
             if (OnGetCurrentLocationResult != null) {
-                string dummyJson = "{\"currentPlace\":{\"arrivalTime\":1542238989,\"location\":{\"longitude\":-87.628565102669072,\"latitude\":41.889316274046827},\"venue\":{\"name\":\"Foursquare Chicago\"}},\"matchedGeofences\":[{\"venue\":{\"name\":\"Foursquare Chicago\"}}]}";
+                string dummyJson = "{\"currentPlace\":{\"arrivalTime\":1542313159.414705,\"location\":{\"longitude\":-87.628613477017993,\"latitude\":41.889306419483418},\"venue\":{\"id\":\"52af211911d2aa9d4a1f0e0a\",\"name\":\"Foursquare Chicago\",\"location\":{\"address\":\"20 W Kinzie St\",\"city\":\"Chicago\",\"country\":\"US\",\"postalCode\":\"60606\",\"crossStreet\":\"at N State St\",\"state\":\"IL\",\"coordinate\":{\"longitude\":-87.628911000000002,\"latitude\":41.889263999999997}}}},\"matchedGeofences\":[{\"location\":{\"longitude\":-87.628613477017993,\"latitude\":41.889306419483418},\"timestamp\":1542313159.414705,\"venue\":{\"id\":\"52af211911d2aa9d4a1f0e0a\",\"name\":\"Foursquare Chicago\",\"location\":{\"address\":\"20 W Kinzie St\",\"city\":\"Chicago\",\"country\":\"US\",\"postalCode\":\"60606\",\"crossStreet\":\"at N State St\",\"state\":\"IL\",\"coordinate\":{\"longitude\":-87.628911000000002,\"latitude\":41.889263999999997}}}}]}";
                 var dummyLocation = JsonUtility.FromJson<CurrentLocation>(dummyJson);
                 OnGetCurrentLocationResult(true, dummyLocation);
             }

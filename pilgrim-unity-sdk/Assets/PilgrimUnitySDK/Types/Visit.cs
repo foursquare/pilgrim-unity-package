@@ -14,21 +14,14 @@ namespace Foursquare
         public Location Location { get { return location; } }
 
         [SerializeField]
-        private long arrivalTime;
+        private double arrivalTime;
 
-        public long ArrivalTime { get { return arrivalTime; } }
+        public DateTime ArrivalTime { get { return Utils.FromUnixSeconds(arrivalTime); } }
 
         [SerializeField]
         private Venue venue;
 
         public Venue Venue { get { return venue; } }
-
-        // internal Visit(Location location, long arrivalTime, Venue venue)
-        // {
-        //     this.location = location;
-        //     this.arrivalTime = arrivalTime;
-        //     this.venue = venue;
-        // }
 
     }
 
