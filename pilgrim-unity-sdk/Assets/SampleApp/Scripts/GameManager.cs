@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour 
 {
 
+	public GameObject currentLocationUIPrefab;
+
 	private enum NextAction
 	{
 		START,
@@ -59,7 +61,16 @@ public class GameManager : MonoBehaviour
 
 	private void OnGetCurrentLocationResult(bool success, CurrentLocation currentLocation)
 	{
-		
+		if (success) {
+			var canvas = GameObject.FindObjectOfType<Canvas>();
+			var gameObject = Instantiate<GameObject>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
+			gameObject.transform.SetParent(canvas.transform, false);
+			
+			var currentLocationUI = gameObject.GetComponent<CurrentLocationUI>();
+			currentLocationUI.CurrentLocation = currentLocation;
+		} else {
+			
+		}
 	}
 	
 }
