@@ -97,6 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) PilgrimClientHandleRef clientHandlePtr;
 
 @property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, getter=isInitialPermissionCallback) BOOL initialPermissionCallback;
 
 @end
 
@@ -106,6 +107,8 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (self) {
         _clientHandlePtr = clientHandlePtr;
+
+        _initialPermissionCallback = YES;
 
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
@@ -155,9 +158,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)requestLocationPermissions {
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedAlways ||
-        [CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse) {
+    if (!([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways ||
+        [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse)) {
         [self.locationManager requestAlwaysAuthorization];
+    } else {
+        self.locationPermissionsCallback(self.clientHandlePtr, YES);
     }
 }
 
@@ -189,6 +194,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - CLLocationManagerDelegate methods
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (self.isInitialPermissionCallback) {
+        self.initialPermissionCallback = NO;
+        return;
+    }
+
     if (status != kCLAuthorizationStatusNotDetermined) {
         BOOL granted = status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse;
         self.locationPermissionsCallback(self.clientHandlePtr, granted);
