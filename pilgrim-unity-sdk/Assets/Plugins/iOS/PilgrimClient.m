@@ -11,83 +11,107 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface FSQPCurrentLocation (Json)
+- (NSDictionary *)json;
+@end
+
+@interface FSQPVisit (Json)
+- (NSDictionary *)json;
+@end
+
+@interface FSQPGeofenceEvent (Json)
+- (NSDictionary *)json;
+@end
+
+@interface FSQPVenue (Json)
+- (NSDictionary *)json;
+@end
+
 @implementation FSQPCurrentLocation (Json)
 
-- (NSString *)json {
-    NSMutableDictionary *currentLocationDict = [NSMutableDictionary dictionary];
-    currentLocationDict[@"currentPlace"] = [[self class] currentPlaceDict:self.currentPlace];
-    currentLocationDict[@"matchedGeofences"] = [[self class] matchedGeofencesArray:self.matchedGeofences];
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+    jsonDict[@"currentPlace"] = [self.currentPlace json];
 
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:currentLocationDict options:0 error:nil];
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSMutableArray *geofences = [NSMutableArray array];
+    for (FSQPGeofenceEvent *event in self.matchedGeofences) {
+        [geofences addObject:[event json]];
+    }
+    jsonDict[@"matchedGeofences"] = geofences;
+
+    return jsonDict;
 }
 
-+ (NSDictionary *)currentPlaceDict:(FSQPVisit *)currentPlace {
-    NSMutableDictionary *currentPlaceDict = [NSMutableDictionary dictionary];
+@end
 
-    currentPlaceDict[@"location"] = @{@"latitude": @(currentPlace.arrivalLocation.coordinate.latitude),
-                                      @"longitude": @(currentPlace.arrivalLocation.coordinate.longitude)};
+@implementation FSQPVisit (Json)
 
-    currentPlaceDict[@"arrivalTime"] = @(currentPlace.arrivalDate.timeIntervalSince1970);
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
 
-    if (currentPlace.venue) {
-        currentPlaceDict[@"venue"] = [self venueDict:currentPlace.venue];
+    jsonDict[@"location"] = @{@"latitude": @(self.arrivalLocation.coordinate.latitude),
+                              @"longitude": @(self.arrivalLocation.coordinate.longitude)};
+    jsonDict[@"arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
+    if (self.venue) {
+        jsonDict[@"venue"] = [self.venue json];
     }
 
-    return currentPlaceDict;
+    return jsonDict;
 }
 
-+ (NSArray *)matchedGeofencesArray:(NSArray<FSQPGeofenceEvent *> *)matchedGeofences {
-    NSMutableArray *matchedGeofencesArray = [NSMutableArray array];
+@end
 
-    for (FSQPGeofenceEvent *event in matchedGeofences) {
-        NSMutableDictionary *geofenceEventDict = [NSMutableDictionary dictionary];
+@implementation FSQPGeofenceEvent (Json)
 
-        geofenceEventDict[@"venue"] = [self venueDict:event.venue];
-        geofenceEventDict[@"location"] = @{@"latitude": @(event.location.coordinate.latitude),
-                                           @"longitude": @(event.location.coordinate.longitude)};
-        geofenceEventDict[@"timestamp"] = @(event.timestamp.timeIntervalSince1970);
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
 
-        [matchedGeofencesArray addObject:geofenceEventDict];
-    }
+    jsonDict[@"venue"] = [self.venue json];
+    jsonDict[@"location"] = @{@"latitude": @(self.location.coordinate.latitude),
+                              @"longitude": @(self.location.coordinate.longitude)};
+    jsonDict[@"timestamp"] = @(self.timestamp.timeIntervalSince1970);
 
-    return matchedGeofencesArray;
+    return jsonDict;
 }
 
-+ (NSDictionary *)venueDict:(FSQPVenue *)venue {
-    NSMutableDictionary *venueDict = [NSMutableDictionary dictionary];
+@end
 
-    venueDict[@"id"] = venue.foursquareID;
-    venueDict[@"name"] = venue.name;
+@implementation FSQPVenue (Json)
 
-    if (venue.locationInformation) {
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+
+    jsonDict[@"id"] = self.foursquareID;
+    jsonDict[@"name"] = self.name;
+
+    if (self.locationInformation) {
         NSMutableDictionary *venueLocationDict = [NSMutableDictionary dictionary];
 
-        if (venue.locationInformation.address) {
-            venueLocationDict[@"address"] = venue.locationInformation.address;
+        if (self.locationInformation.address) {
+            venueLocationDict[@"address"] = self.locationInformation.address;
         }
-        if (venue.locationInformation.crossStreet) {
-            venueLocationDict[@"crossStreet"] = venue.locationInformation.crossStreet;
+        if (self.locationInformation.crossStreet) {
+            venueLocationDict[@"crossStreet"] = self.locationInformation.crossStreet;
         }
-        if (venue.locationInformation.city) {
-            venueLocationDict[@"city"] = venue.locationInformation.city;
+        if (self.locationInformation.city) {
+            venueLocationDict[@"city"] = self.locationInformation.city;
         }
-        if (venue.locationInformation.state) {
-            venueLocationDict[@"state"] = venue.locationInformation.state;
+        if (self.locationInformation.state) {
+            venueLocationDict[@"state"] = self.locationInformation.state;
         }
-        if (venue.locationInformation.postalCode) {
-            venueLocationDict[@"postalCode"] = venue.locationInformation.postalCode;
+        if (self.locationInformation.postalCode) {
+            venueLocationDict[@"postalCode"] = self.locationInformation.postalCode;
         }
-        if (venue.locationInformation.country) {
-            venueLocationDict[@"country"] = venue.locationInformation.country;
+        if (self.locationInformation.country) {
+            venueLocationDict[@"country"] = self.locationInformation.country;
         }
-        venueLocationDict[@"coordinate"] = @{@"latitude": @(venue.locationInformation.coordinate.latitude),
-                                             @"longitude": @(venue.locationInformation.coordinate.longitude)};
+        venueLocationDict[@"coordinate"] = @{@"latitude": @(self.locationInformation.coordinate.latitude),
+                                             @"longitude": @(self.locationInformation.coordinate.longitude)};
 
-        venueDict[@"location"] = venueLocationDict;
+        jsonDict[@"location"] = venueLocationDict;
     }
 
-    return venueDict;
+    return jsonDict;
 }
 
 @end
@@ -186,8 +210,10 @@ NS_ASSUME_NONNULL_BEGIN
             self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil);
             return;
         }
-        
-        self.getCurrentLocationCallback(self.clientHandlePtr, YES, [[currentLocation json] cStringUsingEncoding:NSUTF8StringEncoding]);
+
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[currentLocation json] options:0 error:nil];
+        NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        self.getCurrentLocationCallback(self.clientHandlePtr, YES, [json cStringUsingEncoding:NSUTF8StringEncoding]);
     }];
 }
 

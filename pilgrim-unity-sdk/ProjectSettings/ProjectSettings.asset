@@ -247,7 +247,7 @@ PlayerSettings:
   AndroidKeystoreName: pilgrim-unity-sdk.keystore
   AndroidKeyaliasName: release
   AndroidBuildApkPerCpuArchitecture: 0
-  AndroidTVCompatibility: 1
+  AndroidTVCompatibility: 0
   AndroidIsGame: 1
   AndroidEnableTango: 0
   androidEnableBanner: 1

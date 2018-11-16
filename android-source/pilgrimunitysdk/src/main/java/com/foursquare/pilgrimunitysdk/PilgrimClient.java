@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.foursquare.pilgrim.PilgrimSdk;
@@ -16,8 +17,11 @@ public final class PilgrimClient {
 
     private Context context;
 
+    private PilgrimClientListener listener;
+
     public PilgrimClient(@NonNull Context context, @NonNull final PilgrimClientListener listener) {
         this.context = context;
+        this.listener = listener;
 
         context.registerReceiver(new BroadcastReceiver() {
             @Override
@@ -37,8 +41,12 @@ public final class PilgrimClient {
     }
 
     public void requestLocationPermissions() {
-        Intent intent = new Intent(context, PermissionActivity.class);
-        context.startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent(context, PermissionActivity.class);
+            context.startActivity(intent);
+        } else {
+            listener.onLocationPermissionResult(true);
+        }
     }
 
     public void start() {

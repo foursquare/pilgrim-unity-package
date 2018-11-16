@@ -9,7 +9,9 @@ namespace Foursquare.Android
     public class PilgrimClient : AndroidJavaProxy, IPilgrimClient, IDisposable
     {
 
-        public event LocationPermissionsGranted OnLocationPermissionsGranted;
+        public event LocationPermissionsResult OnLocationPermissionsResult;
+
+        public event GetCurrentLocationResult OnGetCurrentLocationResult;
 
         private AndroidJavaObject pilgrimClient;
 
@@ -76,8 +78,8 @@ namespace Foursquare.Android
         }
 
         public void onLocationPermissionResult(bool granted) {
-            if (OnLocationPermissionsGranted != null) {
-                OnLocationPermissionsGranted(granted);
+            if (OnLocationPermissionsResult != null) {
+                OnLocationPermissionsResult(granted);
             }
         }
 
