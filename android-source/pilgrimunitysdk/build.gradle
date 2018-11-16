@@ -13,5 +13,5 @@ android {
 }
 dependencies {
     compileOnly files('/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
-    compileOnly 'com.foursquare:pilgrimsdk:2.0.0'
+    compileOnly 'com.foursquare:pilgrimsdk:2.1.0'
 }

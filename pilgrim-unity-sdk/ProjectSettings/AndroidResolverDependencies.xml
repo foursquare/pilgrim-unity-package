@@ -8,6 +8,7 @@
     <package>com.google.android.gms:play-services-location:11.6.0</package>
     <package>com.google.code.gson:gson:2.8.2</package>
     <package>com.squareup.okhttp3:okhttp:3.9.0</package>
+    <package>org.ejml:simple:0.29</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/android.arch.core.common-1.0.0.jar</file>
@@ -36,5 +37,8 @@
     <file>Assets/Plugins/Android/com.google.code.gson.gson-2.8.2.jar</file>
     <file>Assets/Plugins/Android/com.squareup.okhttp3.okhttp-3.9.0.jar</file>
     <file>Assets/Plugins/Android/com.squareup.okio.okio-1.13.0.jar</file>
+    <file>Assets/Plugins/Android/org.ejml.core-0.29.jar</file>
+    <file>Assets/Plugins/Android/org.ejml.dense64-0.29.jar</file>
+    <file>Assets/Plugins/Android/org.ejml.simple-0.29.jar</file>
   </files>
 </dependencies>

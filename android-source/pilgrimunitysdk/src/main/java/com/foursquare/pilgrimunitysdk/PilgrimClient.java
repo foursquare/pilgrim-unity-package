@@ -5,10 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
+import com.foursquare.pilgrim.Result;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 
@@ -18,6 +23,8 @@ public final class PilgrimClient {
     private Context context;
 
     private PilgrimClientListener listener;
+
+    private Handler handler = new Handler();
 
     public PilgrimClient(@NonNull Context context, @NonNull final PilgrimClientListener listener) {
         this.context = context;
@@ -61,6 +68,43 @@ public final class PilgrimClient {
 
     public void clearAllData() {
         PilgrimSdk.clearAllData(context);
+    }
+
+    public void getCurrentLocation() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Result<CurrentLocation, Exception> result = PilgrimSdk.get().getCurrentLocation();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            handleResult(result);
+                        }
+                    });
+                } catch (SecurityException e) {
+                    listener.onGetCurrentLocationResult(false, null);
+                }
+            }
+        }).start();
+    }
+
+    private void handleResult(Result<CurrentLocation, Exception> result) {
+        if (result.isOk()) {
+            try {
+                CurrentLocation currentLocation = result.getOrNull();
+                if (currentLocation != null) {
+                    String json = Utils.currentLocationJson(currentLocation).toString();
+                    listener.onGetCurrentLocationResult(true, json);
+                } else {
+                    listener.onGetCurrentLocationResult(false, null);
+                }
+            } catch (JSONException e) {
+                listener.onGetCurrentLocationResult(false, null);
+            }
+        } else {
+            listener.onGetCurrentLocationResult(false, null);
+        }
     }
 
 }

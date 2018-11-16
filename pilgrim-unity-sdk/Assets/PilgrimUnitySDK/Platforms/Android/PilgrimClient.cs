@@ -69,7 +69,7 @@ namespace Foursquare.Android
 
         public void GetCurrentLocation()
         {
-            
+            pilgrimClient.Call("getCurrentLocation");
         }
 
         public void Dispose()
@@ -80,6 +80,17 @@ namespace Foursquare.Android
         public void onLocationPermissionResult(bool granted) {
             if (OnLocationPermissionsResult != null) {
                 OnLocationPermissionsResult(granted);
+            }
+        }
+
+        public void onGetCurrentLocationResult(bool success, String currentLocationJson) {
+            if (OnGetCurrentLocationResult != null) {
+                if (success) {
+                    var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
+                    OnGetCurrentLocationResult(true, currentLocation);
+                } else {
+                    OnGetCurrentLocationResult(false, null);
+                }
             }
         }
 

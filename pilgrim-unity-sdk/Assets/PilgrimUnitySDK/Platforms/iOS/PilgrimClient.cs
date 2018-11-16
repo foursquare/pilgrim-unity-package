@@ -86,8 +86,12 @@ namespace Foursquare.iOS
         {
             var client = GCHandle.FromIntPtr(clientHandlePtr).Target as PilgrimClient;
             if (client.OnGetCurrentLocationResult != null) {
-                var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
-                client.OnGetCurrentLocationResult(success, currentLocation);
+                if (success) {
+                    var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
+                    client.OnGetCurrentLocationResult(true, currentLocation);
+                } else {
+                    client.OnGetCurrentLocationResult(false, null);
+                }
             }
         }
 
