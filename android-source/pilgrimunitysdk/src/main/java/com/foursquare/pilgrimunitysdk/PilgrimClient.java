@@ -83,7 +83,12 @@ public final class PilgrimClient {
                         }
                     });
                 } catch (SecurityException e) {
-                    listener.onGetCurrentLocationResult(false, null);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onGetCurrentLocationResult(false, null);
+                        }
+                    });
                 }
             }
         }).start();
