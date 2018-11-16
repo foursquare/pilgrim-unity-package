@@ -1,7 +1,6 @@
 package com.foursquare.unitysample;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.foursquare.pilgrimunitysdk.PilgrimUnitySDK;
 
