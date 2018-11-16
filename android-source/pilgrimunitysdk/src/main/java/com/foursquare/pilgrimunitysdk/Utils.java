@@ -126,7 +126,7 @@ final class Utils {
 
     private static JSONObject geofenceEventJson(@NonNull GeofenceEvent geofenceEvent) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("venue", geofenceEvent.getVenue());
+        json.put("venue", venueJson(geofenceEvent.getVenue()));
         json.put("location", locationJson(geofenceEvent.getLat(), geofenceEvent.getLng()));
         json.put("timestamp", geofenceEvent.getTimestamp() / 1000);
         return json;
