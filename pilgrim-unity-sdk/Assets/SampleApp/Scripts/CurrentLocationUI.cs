@@ -7,6 +7,10 @@ public class CurrentLocationUI : MonoBehaviour
 
 	public Text currentPlaceInfoText;
 
+	public ScrollRect scrollRect;
+
+	public GameObject geofenceEventCellPrefab;
+
 	public CurrentLocation CurrentLocation
 	{
 		set
@@ -23,6 +27,14 @@ public class CurrentLocationUI : MonoBehaviour
 				text += value.CurrentPlace.ArrivalTime;
 			}
 			currentPlaceInfoText.text = text;
+			
+			foreach (var geofenceEvent in value.MatchedGeofences) {
+				var gameObject = Instantiate<GameObject>(geofenceEventCellPrefab, Vector3.zero, Quaternion.identity);
+				gameObject.transform.SetParent(scrollRect.content, false);
+			
+				var geofenceEventCell = gameObject.GetComponent<GeofenceEventCell>();
+				geofenceEventCell.GeofenceEvent = geofenceEvent;
+			}
 		}
 	}
 
