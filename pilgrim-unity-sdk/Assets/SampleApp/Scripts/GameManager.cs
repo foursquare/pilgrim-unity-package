@@ -1,11 +1,19 @@
 ﻿using Foursquare;
+using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour 
 {
 
 	public GameObject currentLocationUIPrefab;
+	
+	public InputField userIDInputField;
+	public InputField birthdayInputField;
+	public Dropdown genderDropdown;
+
 
 	private enum NextAction
 	{
@@ -48,6 +56,27 @@ public class GameManager : MonoBehaviour
 		nextAction = NextAction.GET_CURRENT_LOCATION;
 		PilgrimUnitySDK.RequestLocationPermissions();
 	}
+
+	public void OnPressSetUserInfo()
+	{
+		PilgrimUserInfo userInfo = new PilgrimUserInfo();
+		if (userIDInputField.text != null && userIDInputField.text.Length > 0) {
+			userInfo.SetUserId(userIDInputField.text);
+		}
+		if (birthdayInputField.text != null && birthdayInputField.text.Length > 0) {
+			DateTime birthday;
+			if (DateTime.TryParseExact(birthdayInputField.text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday)) {
+				userInfo.SetBirthday(birthday);
+			}
+		}
+		if (genderDropdown.value == 1) {
+			userInfo.SetGender(PilgrimUserInfo.Gender.Male);	
+		} else if (genderDropdown.value == 2) {
+			userInfo.SetGender(PilgrimUserInfo.Gender.Female);
+		}
+		PilgrimUnitySDK.SetUserInfo(userInfo);
+	}
+
 	private void OnLocationPermissionsResult(bool granted)
 	{
 		if (granted) {

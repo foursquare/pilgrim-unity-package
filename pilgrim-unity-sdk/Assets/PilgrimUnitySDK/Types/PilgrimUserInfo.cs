@@ -41,6 +41,9 @@ namespace Foursquare
                 case Gender.Female:
                     backingStore[Constants.Gender] = Constants.Female;
                     break;
+                case Gender.NotSpecified:
+                    backingStore.Remove(Constants.Gender);
+                    break;
             }
         }
 
