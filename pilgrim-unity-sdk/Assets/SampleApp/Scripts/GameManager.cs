@@ -9,11 +9,8 @@ public class GameManager : MonoBehaviour
 {
 
 	public GameObject currentLocationUIPrefab;
-	
-	public InputField userIDInputField;
-	public InputField birthdayInputField;
-	public Dropdown genderDropdown;
 
+	public GameObject userInfoUIPrefab;
 
 	private enum NextAction
 	{
@@ -59,22 +56,9 @@ public class GameManager : MonoBehaviour
 
 	public void OnPressSetUserInfo()
 	{
-		PilgrimUserInfo userInfo = new PilgrimUserInfo();
-		if (userIDInputField.text != null && userIDInputField.text.Length > 0) {
-			userInfo.SetUserId(userIDInputField.text);
-		}
-		if (birthdayInputField.text != null && birthdayInputField.text.Length > 0) {
-			DateTime birthday;
-			if (DateTime.TryParseExact(birthdayInputField.text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday)) {
-				userInfo.SetBirthday(birthday);
-			}
-		}
-		if (genderDropdown.value == 1) {
-			userInfo.SetGender(PilgrimUserInfo.Gender.Male);	
-		} else if (genderDropdown.value == 2) {
-			userInfo.SetGender(PilgrimUserInfo.Gender.Female);
-		}
-		PilgrimUnitySDK.SetUserInfo(userInfo);
+		var canvas = GameObject.FindObjectOfType<Canvas>();
+		var gameObject = Instantiate<GameObject>(userInfoUIPrefab, Vector3.zero, Quaternion.identity);
+		gameObject.transform.SetParent(canvas.transform, false);
 	}
 
 	private void OnLocationPermissionsResult(bool granted)
