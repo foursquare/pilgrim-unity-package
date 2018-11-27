@@ -33,8 +33,11 @@ namespace Foursquare.iOS
         {
             var json = "{";
             foreach (var pair in userInfo.BackingStore) {
+                if (json.Length > 1) {
+                    json += ",";
+                }
                 if (pair.Value != null) {
-                    json += "\"" + pair.Key + "\":\"" + pair.Value + "\",";
+                    json += "\"" + pair.Key + "\":\"" + pair.Value + "\"";
                 }
             }
             json += "}";
