@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 222211450957580122}
   - component: {fileID: 114293122621488694}
   m_Layer: 5
-  m_Name: GeofenceCell
+  m_Name: GeofenceEventCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
 			var currentLocationUI = gameObject.GetComponent<CurrentLocationUI>();
 			currentLocationUI.CurrentLocation = currentLocation;
 		} else {
-			
+			// TODO Handle error
 		}
 	}
 	

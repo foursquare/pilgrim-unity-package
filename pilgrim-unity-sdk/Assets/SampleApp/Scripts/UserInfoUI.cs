@@ -16,6 +16,10 @@ public class UserInfoUI : MonoBehaviour
 	public Dropdown monthDropDown;
 	public Dropdown dayDropDown;
 
+	public GameObject userInfoCellPrefab;
+
+	public ScrollRect scrollRect;
+
 	private int year = 0;
 	private int month = 0;
 	private int day = 0;
@@ -34,6 +38,16 @@ public class UserInfoUI : MonoBehaviour
 		} else if (genderDropdown.value == 2) {
 			userInfo.SetGender(PilgrimUserInfo.Gender.Female);
 		}
+
+		var userInfoCells = FindObjectsOfType<UserInfoCell>();
+		foreach (var userInfoCell in userInfoCells) {
+			var key = userInfoCell.keyInputField.text;
+			var value = userInfoCell.valueInputField.text;
+			if (key != null && value != null & key.Length > 0 && value.Length > 0) {
+				userInfo.Set(key, value);
+			}
+		}
+
 		PilgrimUnitySDK.SetUserInfo(userInfo);
 		Destroy(gameObject);
 	}
@@ -100,6 +114,16 @@ public class UserInfoUI : MonoBehaviour
 	public void OnDaySelected()
 	{
 		day = dayDropDown.value + 1;
+	}
+
+	public void OnPressAddUserInfo()
+	{
+		var gameObject = Instantiate<GameObject>(userInfoCellPrefab, Vector3.zero, Quaternion.identity);
+		gameObject.transform.SetParent(scrollRect.content, false);
+		gameObject.transform.SetAsFirstSibling();
+			
+		// 		var geofenceEventCell = gameObject.GetComponent<GeofenceEventCell>();
+		// 		geofenceEventCell.GeofenceEvent = geofenceEvent;
 	}
 
 	private void UpdateMonthsDropdown()
