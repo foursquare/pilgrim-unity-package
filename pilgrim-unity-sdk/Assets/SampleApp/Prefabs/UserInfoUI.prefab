@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224542850705043578}
   - component: {fileID: 114291921125874750}
   m_Layer: 5
-  m_Name: GenderEnabled
+  m_Name: GenderToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 224554558281270514}
   - component: {fileID: 114022585831576120}
   m_Layer: 5
-  m_Name: UserIdEnabled
+  m_Name: UserIdToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 224368367508093276}
   - component: {fileID: 114907609913786784}
   m_Layer: 5
-  m_Name: BirthdayEnabled
+  m_Name: BirthdayToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,10 +1234,21 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnCheckUserIdEnabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &114031545596338586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1834,10 +1845,21 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnCheckGenderEnabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &114297190551740990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2018,7 +2040,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114837728109666610}
   m_Template: {fileID: 224371025961688112}
   m_CaptionText: {fileID: 114531301089735250}
@@ -2028,11 +2050,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Not Specified
+      m_Image: {fileID: 0}
     - m_Text: Male
       m_Image: {fileID: 0}
     - m_Text: Female
-      m_Image: {fileID: 0}
-    - m_Text: Not Specified
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2359,7 +2381,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114725045506498000}
   m_Template: {fileID: 224018106904805676}
   m_CaptionText: {fileID: 114516445990600128}
@@ -2373,7 +2395,18 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnDaySelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114510190781274094
@@ -2513,7 +2546,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Male
+  m_Text: Not Specified
 --- !u!114 &114543698164272514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2708,7 +2741,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114954874562914538}
   m_TextComponent: {fileID: 114178058591772560}
   m_Placeholder: {fileID: 114693389016937830}
@@ -3137,7 +3170,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114568895563217642}
   m_Template: {fileID: 224389546420900688}
   m_CaptionText: {fileID: 114872230740691276}
@@ -3147,33 +3180,22 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: January
-      m_Image: {fileID: 0}
-    - m_Text: February
-      m_Image: {fileID: 0}
-    - m_Text: March
-      m_Image: {fileID: 0}
-    - m_Text: April
-      m_Image: {fileID: 0}
-    - m_Text: May
-      m_Image: {fileID: 0}
-    - m_Text: June
-      m_Image: {fileID: 0}
-    - m_Text: July
-      m_Image: {fileID: 0}
-    - m_Text: August
-      m_Image: {fileID: 0}
-    - m_Text: September
-      m_Image: {fileID: 0}
-    - m_Text: October
-      m_Image: {fileID: 0}
-    - m_Text: November
-      m_Image: {fileID: 0}
-    - m_Text: December
+    - m_Text: Month
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnMonthSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114837728109666610
@@ -3282,17 +3304,17 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114000172213105470}
   m_TextComponent: {fileID: 114416073795640416}
   m_Placeholder: {fileID: 114097829355447994}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -3301,7 +3323,18 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnYearEntered
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
@@ -3343,7 +3376,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: January
+  m_Text: Month
 --- !u!114 &114873688025393888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3485,10 +3518,21 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114964520718324702}
+        m_MethodName: OnCheckBirthdayEnabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &114939660711562984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3685,6 +3729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db61247e91707475db278061d6da5552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userIDInputField: {fileID: 114638395691460940}
+  genderDropdown: {fileID: 114350710974726368}
+  yearInputField: {fileID: 114870559518325266}
+  monthDropDown: {fileID: 114835755190770906}
+  dayDropDown: {fileID: 114478233660605452}
 --- !u!114 &114966218392285184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4139,7 +4188,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 450}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224025395641599376
 RectTransform:
@@ -4155,12 +4204,12 @@ RectTransform:
   - {fileID: 224068862290331010}
   - {fileID: 224389546420900688}
   m_Father: {fileID: 224798268912105404}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -94.65, y: -269.99997}
-  m_SizeDelta: {x: -669.3, y: 50}
+  m_AnchoredPosition: {x: 155, y: -269.99997}
+  m_SizeDelta: {x: -670, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224033517716439418
 RectTransform:
@@ -4434,11 +4483,11 @@ RectTransform:
   - {fileID: 224075832179501588}
   - {fileID: 224018106904805676}
   m_Father: {fileID: 224798268912105404}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 84.45, y: -270.00003}
+  m_AnchoredPosition: {x: 335.5, y: -270.00003}
   m_SizeDelta: {x: -751.1, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224202250193380510
@@ -4456,7 +4505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000016435708, y: 0.00004650179}
+  m_AnchoredPosition: {x: -0.000016435708, y: 0.000008493772}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224230373711763358
@@ -4568,7 +4617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.4999695, y: -0.5}
+  m_AnchoredPosition: {x: -7.5, y: -0.5}
   m_SizeDelta: {x: -35, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224292620924645164
@@ -4778,7 +4827,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224459233827308262
 RectTransform:
@@ -5021,12 +5070,12 @@ RectTransform:
   - {fileID: 224265835624871542}
   - {fileID: 224153275199153490}
   m_Father: {fileID: 224798268912105404}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 279.9725, y: -270.00006}
-  m_SizeDelta: {x: -640.055, y: 50}
+  m_AnchoredPosition: {x: -80.05, y: -270}
+  m_SizeDelta: {x: -640.1, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224585450993085956
 RectTransform:
@@ -5233,9 +5282,9 @@ RectTransform:
   - {fileID: 224533194150867302}
   - {fileID: 224368367508093276}
   - {fileID: 224125975007559692}
+  - {fileID: 224573416724229532}
   - {fileID: 224025395641599376}
   - {fileID: 224184490371459866}
-  - {fileID: 224573416724229532}
   - {fileID: 224659261353733486}
   - {fileID: 224767721578526016}
   - {fileID: 224599195042217790}
