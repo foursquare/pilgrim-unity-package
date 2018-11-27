@@ -1323,7 +1323,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224666620755631772}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2832,13 +2832,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114954874562914538}
   m_TextComponent: {fileID: 114178058591772560}
   m_Placeholder: {fileID: 114693389016937830}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -3876,8 +3876,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db61247e91707475db278061d6da5552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userIDInputField: {fileID: 114638395691460940}
+  userIdToggle: {fileID: 114022585831576120}
+  userIdInputField: {fileID: 114638395691460940}
+  genderToggle: {fileID: 114291921125874750}
   genderDropdown: {fileID: 114350710974726368}
+  birthdayToggle: {fileID: 114907609913786784}
   yearInputField: {fileID: 114870559518325266}
   monthDropDown: {fileID: 114835755190770906}
   dayDropDown: {fileID: 114478233660605452}
@@ -4670,7 +4673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000040834646}
+  m_AnchoredPosition: {x: 0, y: 0.000027061147}
   m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224230373711763358

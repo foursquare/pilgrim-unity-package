@@ -8,10 +8,13 @@ using UnityEngine.UI;
 public class UserInfoUI : MonoBehaviour 
 {
 
-	public InputField userIDInputField;
+	public Toggle userIdToggle;
+	public InputField userIdInputField;
 
+	public Toggle genderToggle;
 	public Dropdown genderDropdown;
 
+	public Toggle birthdayToggle;
 	public InputField yearInputField;
 	public Dropdown monthDropDown;
 	public Dropdown dayDropDown;
@@ -24,11 +27,55 @@ public class UserInfoUI : MonoBehaviour
 	private int month = 0;
 	private int day = 0;
 
+	void Start()
+	{
+		var keysString = PlayerPrefs.GetString("keys");
+		if (keysString != null && keysString.Length > 0) {
+			var keys = keysString.Split(',');
+			foreach (var key in keys) {
+				var value = PlayerPrefs.GetString(key);
+				if (key == "userId") {
+					userIdToggle.isOn = true;
+					userIdInputField.interactable = true;
+					userIdInputField.text = value;
+				} else if (key == "gender") {
+					genderToggle.isOn = true;
+					genderDropdown.interactable = true;
+					genderDropdown.value = value == "male" ? 1 : 2;
+				} else if (key == "birthday") {
+					birthdayToggle.isOn = true;
+
+					var seconds = long.Parse(value);
+					#if UNITY_ANDROID
+					seconds /= 1000; // Android uses milliseconds
+					#endif
+					var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+					var birthday = epochStart.AddSeconds(seconds);
+					
+					yearInputField.interactable = true;
+					yearInputField.text = string.Format("{0}", birthday.Year);
+					monthDropDown.interactable = true;
+					monthDropDown.value = birthday.Month - 1;
+					dayDropDown.interactable = true;
+					dayDropDown.value = birthday.Day - 1;
+				} else {
+					var gameObject = Instantiate<GameObject>(userInfoCellPrefab, Vector3.zero, Quaternion.identity);
+					gameObject.transform.SetParent(scrollRect.content, false);
+					gameObject.transform.SetAsFirstSibling();
+
+					var userInfoCell = gameObject.GetComponent<UserInfoCell>();
+					userInfoCell.keyInputField.text = key;
+					userInfoCell.valueInputField.text = value;
+				}
+			}
+		}
+	}
+
 	public void OnPressClose()
 	{
 		PilgrimUserInfo userInfo = new PilgrimUserInfo();
-		if (userIDInputField.text != null && userIDInputField.text.Length > 0) {
-			userInfo.SetUserId(userIDInputField.text);
+		if (userIdInputField.text != null && userIdInputField.text.Length > 0) {
+			userInfo.SetUserId(userIdInputField.text);
 		}
 		if (year > 0 && month > 0 && day > 0) {
 			userInfo.SetBirthday(new DateTime(year, month, day));
@@ -49,14 +96,15 @@ public class UserInfoUI : MonoBehaviour
 		}
 
 		PilgrimUnitySDK.SetUserInfo(userInfo);
+		SaveUserInfoToPlayerPrefs(userInfo);
 		Destroy(gameObject);
 	}
 
 	public void OnCheckUserIdEnabled(bool isOn) 
 	{
-		userIDInputField.interactable = isOn;
+		userIdInputField.interactable = isOn;
 		if (!isOn) {
-			userIDInputField.text = null;
+			userIdInputField.text = null;
 		}
 	}
 
@@ -93,6 +141,7 @@ public class UserInfoUI : MonoBehaviour
 		if (input.Length == 4 && int.TryParse(input, out year)) {
 			UpdateMonthsDropdown();
 			month = 1;
+			day = 1;
 			UpdateDaysDropdown();
 		} else {
 			monthDropDown.interactable = false;
@@ -121,9 +170,6 @@ public class UserInfoUI : MonoBehaviour
 		var gameObject = Instantiate<GameObject>(userInfoCellPrefab, Vector3.zero, Quaternion.identity);
 		gameObject.transform.SetParent(scrollRect.content, false);
 		gameObject.transform.SetAsFirstSibling();
-			
-		// 		var geofenceEventCell = gameObject.GetComponent<GeofenceEventCell>();
-		// 		geofenceEventCell.GeofenceEvent = geofenceEvent;
 	}
 
 	private void UpdateMonthsDropdown()
@@ -149,6 +195,22 @@ public class UserInfoUI : MonoBehaviour
 		dayDropDown.ClearOptions();
 		dayDropDown.AddOptions(days);
 		dayDropDown.interactable = true;
+	}
+
+	private void SaveUserInfoToPlayerPrefs(PilgrimUserInfo userInfo)
+	{
+		PlayerPrefs.DeleteAll();
+		
+		string keysString = "";
+		foreach (var pair in userInfo.BackingStore) {
+			if (keysString.Length > 0) {
+				keysString += ",";
+			}
+			keysString += pair.Key;
+			PlayerPrefs.SetString(pair.Key, pair.Value);
+		}
+		PlayerPrefs.SetString("keys", keysString);
+		PlayerPrefs.Save();
 	}
 
 }
