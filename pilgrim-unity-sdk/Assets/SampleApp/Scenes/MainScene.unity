@@ -958,6 +958,8 @@ MonoBehaviour:
     type: 2}
   userInfoUIPrefab: {fileID: 1843074939997776, guid: dbc45801c47c244e5823ab9012a4fa06,
     type: 2}
+  loadingUIPrefab: {fileID: 1944262319765426, guid: 9b6fc76fa32834281b336c78fa76a8b0,
+    type: 2}
 --- !u!4 &1218558442
 Transform:
   m_ObjectHideFlags: 0

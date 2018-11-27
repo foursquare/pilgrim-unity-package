@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
 
 	public GameObject userInfoUIPrefab;
 
+	public GameObject loadingUIPrefab;
+
+	private GameObject loadingUI;
+
 	private enum NextAction
 	{
 		START,
@@ -67,6 +71,10 @@ public class GameManager : MonoBehaviour
 			if (nextAction == NextAction.START) {
 				PilgrimUnitySDK.Start();
 			} else if (nextAction == NextAction.GET_CURRENT_LOCATION) {
+				var canvas = GameObject.FindObjectOfType<Canvas>();
+				loadingUI = Instantiate<GameObject>(loadingUIPrefab, Vector3.zero, Quaternion.identity);
+				loadingUI.transform.SetParent(canvas.transform, false);
+				
 				PilgrimUnitySDK.GetCurrentLocation();
 			}
 		}
@@ -74,6 +82,8 @@ public class GameManager : MonoBehaviour
 
 	private void OnGetCurrentLocationResult(bool success, CurrentLocation currentLocation)
 	{
+		Destroy(loadingUI);
+
 		if (success) {
 			var canvas = GameObject.FindObjectOfType<Canvas>();
 			var gameObject = Instantiate<GameObject>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
