@@ -34,9 +34,14 @@ public final class PilgrimClient {
 
         context.registerReceiver(new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-                boolean granted = intent.getBooleanExtra("granted", false);
-                listener.onLocationPermissionResult(granted);
+            public void onReceive(Context context, final Intent intent) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean granted = intent.getBooleanExtra("granted", false);
+                        listener.onLocationPermissionResult(granted);
+                    }
+                });
             }
         }, new IntentFilter("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED"));
     }
