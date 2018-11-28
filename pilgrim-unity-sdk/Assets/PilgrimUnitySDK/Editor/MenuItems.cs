@@ -11,27 +11,25 @@ namespace Foursquare
         [MenuItem("Assets/Pilgrim Unity SDK/Configuration")]
 		private static void ShowWindow()
 		{
-			var window = EditorWindow.GetWindow(typeof(PilgrimConfigWindow));
-			window.titleContent = new GUIContent("Pilgrim");
-			window.Show();
+			EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
 		}
 
         [MenuItem("Assets/Pilgrim Unity SDK/iOS/Generate AppController.m")]
-        private static void GenerateAppController()
+        private static void GenerateiOSAppController()
         {
-            iOSGenerator.GenerateAppController();
+            FileGenerator.GenerateiOSAppController();
         }
 
         [MenuItem("Assets/Pilgrim Unity SDK/Android/Generate App.java")]
-        private static void GenerateApp()
+        private static void GenerateAndroidAppSubclass()
         {
-            AndroidGenerator.GenerateAppSubclass();
+            FileGenerator.GenerateAndroidAppSubclass();
         }
 
         [MenuItem("Assets/Pilgrim Unity SDK/Android/Generate AndroidManifest.xml")]
-        private static void GenerateManifest()
+        private static void GenerateAndroidManifest()
         {
-            AndroidGenerator.GenerateManifest();    
+            FileGenerator.GenerateAndroidManifest();
         }
 
     }

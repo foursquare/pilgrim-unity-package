@@ -26,14 +26,18 @@ namespace Foursquare
 		public static string Get(string key)
 		{
 			lock (classLock) {
-				return Settings[key];
+				return Settings.ContainsKey(key) ? Settings[key] : null;
 			}
 		}
 		
 		public static void Set(string key, string value)
 		{
 			lock (classLock) {
-				Settings[key] = value;
+				if (value != null && value.Length > 0) {
+					Settings[key] = value;
+				} else {
+					Settings.Remove(key);
+				}
 			}
 		}
 

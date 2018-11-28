@@ -30,8 +30,7 @@ namespace Foursquare
 
 			GUILayout.Space(10.0f);
 
-			var save = GUILayout.Button("Save");
-			if (save) {
+			if (GUILayout.Button("Save")) {
 				PilgrimConfigSettings.Set("ConsumerKey", consumerKey);
 				PilgrimConfigSettings.Set("ConsumerSecret", consumerSecret);
 				PilgrimConfigSettings.Save();
