@@ -1,6 +1,6 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
-defaultTasks 'exportUnityPackage'
+defaultTasks "exportUnityPackage"
 
 project.ext {
     unity_command = System.getProperty("UNITY_COMMAND")
@@ -19,10 +19,26 @@ project.ext {
     resolverDir = file('temp/play-services-resolver').absolutePath
 }
 
+task buildAndCleanAndroidLibrary(type: GradleBuild) {
+    buildFile = "source/android-source/build.gradle"
+    tasks = ['clean', 'assembleRelease']
+}
+
+task copyAndroidLibrary(type: Copy) {
+    from("source/android-source/pilgrimunitysdk/build/outputs/aar/")
+    into("${pluginBuildDir}/Assets/Plugins/Android")
+    include("pilgrimunitysdk-release.aar")
+    rename("pilgrimunitysdk-release.aar", "pilgrimunitysdk.aar")
+}
+
+copyAndroidLibrary.dependsOn(buildAndCleanAndroidLibrary)
+
 task downloadPlayServicesResolver() {
-    exec {
-        executable "git"
-        args "clone", "https://github.com/googlesamples/unity-jar-resolver.git", "${resolverDir}"
+    doLast {
+        exec {
+            executable "git"
+            args "clone", "https://github.com/googlesamples/unity-jar-resolver.git", "${resolverDir}"
+        }
     }
 }
 
@@ -63,5 +79,5 @@ task deleteTempDirectory(type: Delete) {
     delete {"${tempDir}"}
 }
 
-exportUnityPackage.dependsOn(createTempDirectory, downloadPlayServicesResolver)
+exportUnityPackage.dependsOn(createTempDirectory, copyAndroidLibrary, downloadPlayServicesResolver)
 exportUnityPackage.finalizedBy(deleteTempDirectory)
