@@ -13,7 +13,7 @@ project.ext {
     }
 
     tempDir = file('temp').absolutePath
-    pluginSource = file('pilgrim-unity-sdk').absolutePath
+    pluginSource = file('source').absolutePath
     pluginBuildDir = file('temp/pilgrim-unity-sdk').absolutePath
     exportPath = file('pilgrim-unity-sdk.unitypackage').absolutePath 
     resolverDir = file('temp/play-services-resolver').absolutePath
