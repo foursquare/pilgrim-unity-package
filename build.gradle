@@ -1,0 +1,67 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+defaultTasks 'exportUnityPackage'
+
+project.ext {
+    unity_command = System.getProperty("UNITY_COMMAND")
+    if (unity_command == null || unity_command.isEmpty()) {
+        if (Os.isFamily(Os.FAMILY_MAC)) {
+            unity_command = "/Applications/Unity/Unity.app/Contents/MacOS/Unity"
+        } else {
+            unity_command = "C:\\Program Files\\Unity\\Editor\\Unity.exe"
+        }
+    }
+
+    tempDir = file('temp').absolutePath
+    pluginSource = file('pilgrim-unity-sdk').absolutePath
+    pluginBuildDir = file('temp/pilgrim-unity-sdk').absolutePath
+    exportPath = file('pilgrim-unity-sdk.unitypackage').absolutePath 
+    resolverDir = file('temp/play-services-resolver').absolutePath
+}
+
+task downloadPlayServicesResolver() {
+    exec {
+        executable "git"
+        args "clone", "https://github.com/googlesamples/unity-jar-resolver.git", "${resolverDir}"
+    }
+}
+
+task exportUnityPackage() {
+    doLast {
+        def tree = fileTree("${resolverDir}")
+        {
+            include '*.unitypackage'
+        }
+        def jarresolver_package = tree.getSingleFile()
+
+        exec {
+            executable "${unity_command}"
+            args "-gvh_disable",
+                 "-batchmode",
+                 "-importPackage", "${jarresolver_package}",
+                 "-projectPath", "${pluginBuildDir}",
+                 "-logFile", "temp/unity.log",
+                 "-exportPackage",
+                 "Assets/PlayServicesResolver",
+                 "Assets/PilgrimUnitySDK/Api",
+                 "Assets/PilgrimUnitySDK/Editor",
+                 "Assets/PilgrimUnitySDK/Platforms",
+                 "Assets/PilgrimUnitySDK/Types",
+                 "Assets/Plugins",
+                 "${exportPath}",
+                 "-quit"
+        }
+    }
+}
+
+task createTempDirectory(type: Copy) {
+    from {"${pluginSource}"}
+    into {"${pluginBuildDir}"}
+}
+
+task deleteTempDirectory(type: Delete) {
+    delete {"${tempDir}"}
+}
+
+exportUnityPackage.dependsOn(createTempDirectory, downloadPlayServicesResolver)
+exportUnityPackage.finalizedBy(deleteTempDirectory)
