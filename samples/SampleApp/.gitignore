@@ -40,9 +40,11 @@ sysinfo.txt
 Assets/StreamingAssets/crashlytics-build.properties
 
 .vscode/
-Assets/*.keystore
 Assets/PilgrimUnitySDK/
+Assets/PilgrimUnitySDK.meta
 Assets/Plugins/
+Assets/Plugins.meta
 Assets/PlayServicesResolver/
+Assets/PlayServicesResolver.meta
 ProjectSettings/
 Packages/
