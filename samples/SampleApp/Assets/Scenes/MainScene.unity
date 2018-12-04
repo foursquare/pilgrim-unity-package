@@ -954,11 +954,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27be00d57b5644f3e8fdb77c89f5e309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLocationUIPrefab: {fileID: 1062691736750812, guid: 89d7aa63fb86049869b476d30d77853a,
+  currentLocationUIPrefab: {fileID: 114898830896893774, guid: 89d7aa63fb86049869b476d30d77853a,
     type: 2}
-  userInfoUIPrefab: {fileID: 1843074939997776, guid: dbc45801c47c244e5823ab9012a4fa06,
+  userInfoUIPrefab: {fileID: 114964520718324702, guid: dbc45801c47c244e5823ab9012a4fa06,
     type: 2}
   loadingUIPrefab: {fileID: 1944262319765426, guid: 9b6fc76fa32834281b336c78fa76a8b0,
+    type: 2}
+  alertUIPrefab: {fileID: 114435903636331140, guid: 6c3f7beec014c49eaafce9caf4370801,
     type: 2}
 --- !u!4 &1218558442
 Transform:

@@ -8,11 +8,15 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour 
 {
 
-	public GameObject currentLocationUIPrefab;
+	public CurrentLocationUI currentLocationUIPrefab;
 
-	public GameObject userInfoUIPrefab;
+	public UserInfoUI userInfoUIPrefab;
+
+	
 
 	public GameObject loadingUIPrefab;
+
+	public AlertUI alertUIPrefab;
 
 	private GameObject loadingUI;
 
@@ -61,8 +65,8 @@ public class GameManager : MonoBehaviour
 	public void OnPressSetUserInfo()
 	{
 		var canvas = GameObject.FindObjectOfType<Canvas>();
-		var gameObject = Instantiate<GameObject>(userInfoUIPrefab, Vector3.zero, Quaternion.identity);
-		gameObject.transform.SetParent(canvas.transform, false);
+		var userInfoUI = Instantiate<UserInfoUI>(userInfoUIPrefab, Vector3.zero, Quaternion.identity);
+		userInfoUI.transform.SetParent(canvas.transform, false);
 	}
 
 	private void OnLocationPermissionsResult(bool granted)
@@ -84,15 +88,15 @@ public class GameManager : MonoBehaviour
 	{
 		Destroy(loadingUI);
 
+		var canvas = GameObject.FindObjectOfType<Canvas>();
 		if (currentLocation != null) {
-			var canvas = GameObject.FindObjectOfType<Canvas>();
-			var gameObject = Instantiate<GameObject>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
-			gameObject.transform.SetParent(canvas.transform, false);
-			
-			var currentLocationUI = gameObject.GetComponent<CurrentLocationUI>();
+			var currentLocationUI = Instantiate<CurrentLocationUI>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
+			currentLocationUI.transform.SetParent(canvas.transform, false);
 			currentLocationUI.CurrentLocation = currentLocation;
 		} else {
-			Debug.LogError(exception.Message);
+			var alertUI = Instantiate<AlertUI>(alertUIPrefab, Vector3.zero, Quaternion.identity);
+			alertUI.transform.SetParent(canvas.transform, false);
+			alertUI.Message = exception.Message;
 		}
 	}
 	
