@@ -16,7 +16,7 @@ namespace Foursquare.iOS
 
         internal delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
 
-        internal delegate void PilgrimGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson);
+        internal delegate void PilgrimGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson, string errorMessage);
 
         private GCHandle clientHandle;
 
@@ -85,15 +85,15 @@ namespace Foursquare.iOS
         }
 
         [MonoPInvokeCallback(typeof(PilgrimGetCurrentLocationCallback))]
-        private static void OnGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson)
+        private static void OnGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson, string errorMessage)
         {
             var client = GCHandle.FromIntPtr(clientHandlePtr).Target as PilgrimClient;
             if (client.OnGetCurrentLocationResult != null) {
                 if (success) {
                     var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
-                    client.OnGetCurrentLocationResult(true, currentLocation);
+                    client.OnGetCurrentLocationResult(currentLocation, null);
                 } else {
-                    client.OnGetCurrentLocationResult(false, null);
+                    client.OnGetCurrentLocationResult(null, new Exception(errorMessage));
                 }
             }
         }
