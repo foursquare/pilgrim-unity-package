@@ -1,8 +1,10 @@
+using System;
+
 namespace Foursquare
 {
 
     public delegate void LocationPermissionsResult(bool granted);
 
-    public delegate void GetCurrentLocationResult(bool success, CurrentLocation currentLocation);
+    public delegate void GetCurrentLocationResult(CurrentLocation currentLocation, Exception exception);
 
 }

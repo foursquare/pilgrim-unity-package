@@ -83,13 +83,13 @@ namespace Foursquare.Android
             }
         }
 
-        public void onGetCurrentLocationResult(bool success, string currentLocationJson) {
+        public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage) {
             if (OnGetCurrentLocationResult != null) {
                 if (success) {
                     var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
-                    OnGetCurrentLocationResult(true, currentLocation);
+                    OnGetCurrentLocationResult(currentLocation, null);
                 } else {
-                    OnGetCurrentLocationResult(false, null);
+                    OnGetCurrentLocationResult(null, new Exception(errorMessage));
                 }
             }
         }

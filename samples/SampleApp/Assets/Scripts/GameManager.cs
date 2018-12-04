@@ -67,24 +67,24 @@ public class GameManager : MonoBehaviour
 
 	private void OnLocationPermissionsResult(bool granted)
 	{
-		if (granted) {
-			if (nextAction == NextAction.START) {
+		if (nextAction == NextAction.START) {
+			if (granted) {
 				PilgrimUnitySDK.Start();
-			} else if (nextAction == NextAction.GET_CURRENT_LOCATION) {
-				var canvas = GameObject.FindObjectOfType<Canvas>();
-				loadingUI = Instantiate<GameObject>(loadingUIPrefab, Vector3.zero, Quaternion.identity);
-				loadingUI.transform.SetParent(canvas.transform, false);
-				
-				PilgrimUnitySDK.GetCurrentLocation();
 			}
+		} else if (nextAction == NextAction.GET_CURRENT_LOCATION) {
+			var canvas = GameObject.FindObjectOfType<Canvas>();
+			loadingUI = Instantiate<GameObject>(loadingUIPrefab, Vector3.zero, Quaternion.identity);
+			loadingUI.transform.SetParent(canvas.transform, false);
+			
+			PilgrimUnitySDK.GetCurrentLocation();
 		}
 	}
 
-	private void OnGetCurrentLocationResult(bool success, CurrentLocation currentLocation)
+	private void OnGetCurrentLocationResult(CurrentLocation currentLocation, Exception exception)
 	{
 		Destroy(loadingUI);
 
-		if (success) {
+		if (currentLocation != null) {
 			var canvas = GameObject.FindObjectOfType<Canvas>();
 			var gameObject = Instantiate<GameObject>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
 			gameObject.transform.SetParent(canvas.transform, false);
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 			var currentLocationUI = gameObject.GetComponent<CurrentLocationUI>();
 			currentLocationUI.CurrentLocation = currentLocation;
 		} else {
-			// TODO Handle error
+			Debug.LogError(exception.Message);
 		}
 	}
 	

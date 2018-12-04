@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -90,11 +91,18 @@ public final class PilgrimClient {
                             handleResult(result);
                         }
                     });
-                } catch (SecurityException e) {
+                } catch (final SecurityException e) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            listener.onGetCurrentLocationResult(false, null);
+                            listener.onGetCurrentLocationResult(false, "", getErrorMessage(e));
+                        }
+                    });
+                } catch (final IllegalStateException e) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onGetCurrentLocationResult(false, "", getErrorMessage(e));
                         }
                     });
                 }
@@ -108,16 +116,20 @@ public final class PilgrimClient {
                 CurrentLocation currentLocation = result.getOrNull();
                 if (currentLocation != null) {
                     String json = Utils.currentLocationJson(currentLocation).toString();
-                    listener.onGetCurrentLocationResult(true, json);
+                    listener.onGetCurrentLocationResult(true, json, "");
                 } else {
-                    listener.onGetCurrentLocationResult(false, null);
+                    listener.onGetCurrentLocationResult(false, "", "Unknown Error");
                 }
             } catch (JSONException e) {
-                listener.onGetCurrentLocationResult(false, null);
+                listener.onGetCurrentLocationResult(false,"", getErrorMessage(e));
             }
         } else {
-            listener.onGetCurrentLocationResult(false, null);
+            listener.onGetCurrentLocationResult(false, "", getErrorMessage(result.getErr()));
         }
+    }
+
+    private static String getErrorMessage(Exception e) {
+        return  e.getMessage() != null ? e.getMessage() : "Unknown Error";
     }
 
 }
