@@ -207,14 +207,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getCurrentLocation {
     [[FSQPPilgrimManager sharedManager] getCurrentLocationWithCompletion:^(FSQPCurrentLocation * _Nullable currentLocation, NSError * _Nullable error) {
         if (error) {
-            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil);
+            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:error]);
             return;
         }
 
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[currentLocation json] options:0 error:nil];
-        NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        self.getCurrentLocationCallback(self.clientHandlePtr, YES, [json cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSError *jsonError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[currentLocation json] options:0 error:&jsonError];
+        if (!jsonError) {
+            NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            self.getCurrentLocationCallback(self.clientHandlePtr, YES, [json cStringUsingEncoding:NSUTF8StringEncoding], nil);
+        } else {
+            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:jsonError]);
+        }
     }];
+}
+
+- (const char *)getErrorMessage:(NSError *)error {
+    return [([error localizedDescription] ?: @"Unkown Error") cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
 #pragma mark - CLLocationManagerDelegate methods
