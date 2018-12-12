@@ -23,6 +23,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)json;
 @end
 
+@interface FSQPChain (Json)
+- (NSDictionary *)json;
+@end
+
+@interface FSQPCategory (Json)
+- (NSDictionary *)json;
+@end
+
+@interface FSQPCategoryIcon (Json)
+- (NSDictionary *)json;
+@end
+
 @interface FSQPVenue (Json)
 - (NSDictionary *)json;
 @end
@@ -76,6 +88,54 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@implementation FSQPChain (Json)
+
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+    jsonDict[@"id"] = self.foursquareID;
+    jsonDict[@"name"] = self.name;
+    return jsonDict;
+}
+
+@end
+
+@implementation FSQPCategory (Json)
+
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+    jsonDict[@"id"] = self.foursquareID;
+    jsonDict[@"name"] = self.name;
+
+    if (self.pluralName) {
+        jsonDict[@"pluralName"] = self.pluralName;
+    }
+
+    if (self.shortName) {
+        jsonDict[@"shortName"] = self.shortName;
+    }
+
+    if (self.icon) {
+        jsonDict[@"icon"] = [self.icon json];
+    }
+
+    jsonDict[@"isPrimary"] = @(self.isPrimary);
+
+    return jsonDict;
+}
+
+@end
+
+@implementation FSQPCategoryIcon (Json)
+
+- (NSDictionary *)json {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+    jsonDict[@"prefix"] = self.prefix;
+    jsonDict[@"suffix"] = self.suffix;
+    return jsonDict;
+}
+
+@end
+
 @implementation FSQPVenue (Json)
 
 - (NSDictionary *)json {
@@ -85,31 +145,65 @@ NS_ASSUME_NONNULL_BEGIN
     jsonDict[@"name"] = self.name;
 
     if (self.locationInformation) {
-        NSMutableDictionary *venueLocationDict = [NSMutableDictionary dictionary];
+        NSMutableDictionary *locationInformationDict = [NSMutableDictionary dictionary];
 
         if (self.locationInformation.address) {
-            venueLocationDict[@"address"] = self.locationInformation.address;
+            locationInformationDict[@"address"] = self.locationInformation.address;
         }
         if (self.locationInformation.crossStreet) {
-            venueLocationDict[@"crossStreet"] = self.locationInformation.crossStreet;
+            locationInformationDict[@"crossStreet"] = self.locationInformation.crossStreet;
         }
         if (self.locationInformation.city) {
-            venueLocationDict[@"city"] = self.locationInformation.city;
+            locationInformationDict[@"city"] = self.locationInformation.city;
         }
         if (self.locationInformation.state) {
-            venueLocationDict[@"state"] = self.locationInformation.state;
+            locationInformationDict[@"state"] = self.locationInformation.state;
         }
         if (self.locationInformation.postalCode) {
-            venueLocationDict[@"postalCode"] = self.locationInformation.postalCode;
+            locationInformationDict[@"postalCode"] = self.locationInformation.postalCode;
         }
         if (self.locationInformation.country) {
-            venueLocationDict[@"country"] = self.locationInformation.country;
+            locationInformationDict[@"country"] = self.locationInformation.country;
         }
-        venueLocationDict[@"coordinate"] = @{@"latitude": @(self.locationInformation.coordinate.latitude),
-                                             @"longitude": @(self.locationInformation.coordinate.longitude)};
+        locationInformationDict[@"location"] = @{@"latitude": @(self.locationInformation.coordinate.latitude),
+                                                 @"longitude": @(self.locationInformation.coordinate.longitude)};
 
-        jsonDict[@"location"] = venueLocationDict;
+        jsonDict[@"locationInformation"] = locationInformationDict;
     }
+
+    if (self.partnerVenueId) {
+        jsonDict[@"partnerVenueId"] = self.partnerVenueId;
+    }
+
+    if (self.probability) {
+        jsonDict[@"probability"] = self.probability;
+    }
+
+    NSMutableArray *chainsArray = [NSMutableArray array];
+    for (FSQPChain *chain in self.chains) {
+        [chainsArray addObject:[chain json]];
+    }
+    jsonDict[@"chains"] = chainsArray;
+
+    NSMutableArray *categoriesArray = [NSMutableArray array];
+    for (FSQPCategory *category in self.categories) {
+        [categoriesArray addObject:[category json]];
+    }
+    jsonDict[@"categories"] = categoriesArray;
+
+    NSMutableArray *hierarchyArray = [NSMutableArray array];
+    for (FSQPVenue *venueParent in self.hierarchy) {
+        NSMutableDictionary *venueParentDict = [NSMutableDictionary dictionary];
+        venueParentDict[@"id"] = venueParent.foursquareID;
+        venueParentDict[@"name"] = venueParent.name;
+
+        NSMutableArray *venueParentCategoriesArray = [NSMutableArray array];
+        for (FSQPCategory *category in venueParent.categories) {
+            [venueParentCategoriesArray addObject:[category json]];
+        }
+        venueParentDict[@"categories"] = venueParentCategoriesArray;
+    }
+    jsonDict[@"hierarchy"] = hierarchyArray;
 
     return jsonDict;
 }
