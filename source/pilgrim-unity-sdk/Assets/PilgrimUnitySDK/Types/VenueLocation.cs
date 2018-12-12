@@ -39,9 +39,9 @@ namespace Foursquare
         public string Country { get { return country; } }
 
         [SerializeField]
-        private Location coordinate;
+        private Location location;
 
-        public Location Coordinate { get { return coordinate; } }
+        public Location Location { get { return location; } }
 
     }
 
