@@ -11,6 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface CLLocation (Json)
+- (NSDictionary *)json;
+@end
+
 @interface FSQPCurrentLocation (Json)
 - (NSDictionary *)json;
 @end
@@ -39,6 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)json;
 @end
 
+@implementation CLLocation (Json)
+
+- (NSDictionary *)json {
+    return @{@"latitude": @(self.coordinate.latitude),
+             @"longitude": @(self.coordinate.longitude)};
+}
+
+@end
+
 @implementation FSQPCurrentLocation (Json)
 
 - (NSDictionary *)json {
@@ -61,8 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
 
-    jsonDict[@"location"] = @{@"latitude": @(self.arrivalLocation.coordinate.latitude),
-                              @"longitude": @(self.arrivalLocation.coordinate.longitude)};
+    jsonDict[@"location"] = [self.arrivalLocation json];
     jsonDict[@"locationType"] = @(self.locationType);
     jsonDict[@"confidence"] = @(self.confidence);
     jsonDict[@"arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
@@ -88,12 +100,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
+    jsonDict[@"venueId"] = self.venueID;
+
+    if (self.categoryIDs) {
+        NSMutableArray *categoryIDsArray = [NSMutableArray array];
+        for (NSString *categoryID in self.categoryIDs) {
+            [categoryIDsArray addObject:categoryID];
+        }
+        jsonDict[@"categoryIds"] = categoryIDsArray;
+    }
+
+    if (self.chainIDs) {
+        NSMutableArray *chainIDsArray = [NSMutableArray array];
+        for (NSString *chainID in self.chainIDs) {
+            [chainIDsArray addObject:chainID];
+        }
+        jsonDict[@"chainIds"] = chainIDsArray;
+    }
+
+    if (self.partnerVenueID) {
+        jsonDict[@"partnerVenueId"] = self.partnerVenueID;
+    }
 
     jsonDict[@"venue"] = [self.venue json];
-    jsonDict[@"location"] = @{@"latitude": @(self.location.coordinate.latitude),
-                              @"longitude": @(self.location.coordinate.longitude)};
+    jsonDict[@"location"] = [self.location json];
     jsonDict[@"timestamp"] = @(self.timestamp.timeIntervalSince1970);
-
     return jsonDict;
 }
 
