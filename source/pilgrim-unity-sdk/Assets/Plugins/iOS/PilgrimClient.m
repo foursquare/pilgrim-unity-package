@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FSQPVenue (Json)
 - (NSDictionary *)json;
+- (NSArray<NSDictionary *> *)categoriesArrayJson;
 @end
 
 @implementation CLLocation (Json)
@@ -227,27 +228,26 @@ NS_ASSUME_NONNULL_BEGIN
     }
     jsonDict[@"chains"] = chainsArray;
 
-    NSMutableArray *categoriesArray = [NSMutableArray array];
-    for (FSQPCategory *category in self.categories) {
-        [categoriesArray addObject:[category json]];
-    }
-    jsonDict[@"categories"] = categoriesArray;
+    jsonDict[@"categories"] = [FSQPVenue categoriesArrayJson:self.categories];
 
     NSMutableArray *hierarchyArray = [NSMutableArray array];
     for (FSQPVenue *venueParent in self.hierarchy) {
         NSMutableDictionary *venueParentDict = [NSMutableDictionary dictionary];
         venueParentDict[@"id"] = venueParent.foursquareID;
         venueParentDict[@"name"] = venueParent.name;
-
-        NSMutableArray *venueParentCategoriesArray = [NSMutableArray array];
-        for (FSQPCategory *category in venueParent.categories) {
-            [venueParentCategoriesArray addObject:[category json]];
-        }
-        venueParentDict[@"categories"] = venueParentCategoriesArray;
+        venueParentDict[@"categories"] = [FSQPVenue categoriesArrayJson:venueParent.categories];
     }
     jsonDict[@"hierarchy"] = hierarchyArray;
 
     return jsonDict;
+}
+
++ (NSArray<NSDictionary *> *)categoriesArrayJson:(NSArray<FSQPCategory *> *)categories {
+    NSMutableArray *categoriesArray = [NSMutableArray array];
+    for (FSQPCategory *category in categories) {
+        [categoriesArray addObject:[category json]];
+    }
+    return categoriesArray;
 }
 
 @end
