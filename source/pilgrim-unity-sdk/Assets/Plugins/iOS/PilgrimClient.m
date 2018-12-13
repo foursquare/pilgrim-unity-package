@@ -63,9 +63,20 @@ NS_ASSUME_NONNULL_BEGIN
 
     jsonDict[@"location"] = @{@"latitude": @(self.arrivalLocation.coordinate.latitude),
                               @"longitude": @(self.arrivalLocation.coordinate.longitude)};
+    jsonDict[@"locationType"] = @(self.locationType);
+    jsonDict[@"confidence"] = @(self.confidence);
     jsonDict[@"arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
+
     if (self.venue) {
         jsonDict[@"venue"] = [self.venue json];
+    }
+
+    if (self.otherPossibleVenues) {
+        NSMutableArray *otherPossibleVenuesArray = [NSMutableArray array];
+        for (FSQPVenue *venue in self.otherPossibleVenues) {
+            [otherPossibleVenuesArray addObject:[venue json]];
+        }
+        jsonDict[@"otherPossibleVenues"] = otherPossibleVenuesArray;
     }
 
     return jsonDict;
