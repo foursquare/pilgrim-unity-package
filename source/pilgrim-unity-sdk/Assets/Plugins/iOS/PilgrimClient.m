@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FSQPVenue (Json)
 - (NSDictionary *)json;
-- (NSArray<NSDictionary *> *)categoriesArrayJson;
++ (NSArray<NSDictionary *> *)categoriesArrayJson:(NSArray<FSQPCategory *> *)categories;
 @end
 
 @implementation CLLocation (Json)
