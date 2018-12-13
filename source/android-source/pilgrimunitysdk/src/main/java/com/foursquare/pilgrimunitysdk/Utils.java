@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.foursquare.api.FoursquareLocation;
+import com.foursquare.api.types.Category;
 import com.foursquare.api.types.GeofenceEvent;
+import com.foursquare.api.types.Photo;
 import com.foursquare.api.types.Venue;
 import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimUserInfo;
@@ -17,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 final class Utils {
@@ -115,10 +118,53 @@ final class Utils {
     private static JSONObject visitJson(@NonNull Visit visit) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("location", foursquareLocationJson(visit.getLocation()));
+
+        int locationType;
+        switch (visit.getType()) {
+            case HOME:
+                locationType = 1;
+                break;
+            case WORK:
+                locationType = 2;
+                break;
+            case VENUE:
+                locationType = 3;
+                break;
+            default:
+                locationType = 0;
+                break;
+        }
+        json.put("locationType", locationType);
+
+        int confidence;
+        switch (visit.getConfidence()) {
+            case LOW:
+                confidence = 1;
+                break;
+            case MEDIUM:
+                confidence = 2;
+                break;
+            case HIGH:
+                confidence = 3;
+                break;
+            default:
+                confidence = 0;
+                break;
+        }
+        json.put("confidence", confidence);
+
         json.put("arrivalTime", visit.getArrival() / 1000);
 
         if (visit.getVenue() != null) {
             json.put("venue", venueJson(visit.getVenue()));
+        }
+
+        if (visit.getOtherPossibleVenues() != null) {
+            JSONArray otherPossibleVenuesArray = new JSONArray();
+            for (Venue venue : visit.getOtherPossibleVenues()) {
+                otherPossibleVenuesArray.put(venueJson(venue));
+            }
+            json.put("otherPossibleVenues", otherPossibleVenuesArray);
         }
 
         return json;
@@ -132,14 +178,81 @@ final class Utils {
         return json;
     }
 
+    private static JSONObject chainJson(@NonNull Venue.VenueChain chain) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("id", chain.getId());
+        json.put("name", chain.getName());
+        return json;
+    }
+
+    private static JSONArray categoryArrayJson(@NonNull List<Category> categories) throws JSONException {
+        JSONArray categoriesJson = new JSONArray();
+        for (Category category : categories) {
+            categoriesJson.put(categoryJson(category));
+        }
+        return categoriesJson;
+    }
+
+    private static JSONObject categoryJson(@NonNull Category category) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("id", category.getId());
+        json.put("name", category.getName());
+
+        if (category.getPluralName() != null) {
+            json.put("pluralName", category.getPluralName());
+        }
+
+        if (category.getShortName() != null) {
+            json.put("shortName", category.getShortName());
+        }
+
+        if (category.getImage() != null) {
+            json.put("icon", categoryImageJson(category.getImage()));
+        }
+
+        json.put("isPrimary", category.isPrimary());
+
+        return json;
+    }
+
+    private static JSONObject categoryImageJson(@NonNull Photo photo) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("prefix", photo.getPrefix());
+        json.put("suffix", photo.getSuffix());
+        return json;
+    }
+
     private static JSONObject venueJson(@NonNull Venue venue) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("id", venue.getId());
         json.put("name", venue.getName());
 
         if (venue.getLocation() != null) {
-            json.put("location", venueLocationJson(venue.getLocation()));
+            json.put("locationInformation", venueLocationJson(venue.getLocation()));
         }
+
+        if (venue.getPartnerVenueId() != null) {
+            json.put("partnerVenueId", venue.getPartnerVenueId());
+        }
+
+        json.put("probability", venue.getProbability());
+
+        JSONArray chains = new JSONArray();
+        for (Venue.VenueChain chain : venue.getVenueChains()) {
+            chains.put(chainJson(chain));
+        }
+        json.put("chains", chains);
+
+        json.put("categories", categoryArrayJson(venue.getCategories()));
+
+        JSONArray hierarchy = new JSONArray();
+        for (Venue.VenueParent parent : venue.getHierarchy()) {
+            JSONObject parentJson = new JSONObject();
+            parentJson.put("id", parent.getId());
+            parentJson.put("name", parent.getName());
+            parentJson.put("categories", categoryArrayJson(venue.getCategories()));
+        }
+        json.put("hierarchy", hierarchy);
 
         return json;
     }
