@@ -172,6 +172,28 @@ final class Utils {
 
     private static JSONObject geofenceEventJson(@NonNull GeofenceEvent geofenceEvent) throws JSONException {
         JSONObject json = new JSONObject();
+        json.put("venueId", geofenceEvent.getVenueId());
+
+        if (geofenceEvent.getCategoryIds() != null) {
+            JSONArray categoryIdsJson = new JSONArray();
+            for (String categoryId : geofenceEvent.getCategoryIds()) {
+                categoryIdsJson.put(categoryId);
+            }
+            json.put("categoryIds", categoryIdsJson);
+        }
+
+        if (geofenceEvent.getChainIds() != null) {
+            JSONArray chainIdsJson = new JSONArray();
+            for (String chainId : geofenceEvent.getChainIds()) {
+                chainIdsJson.put(chainId);
+            }
+            json.put("chainIds", chainIdsJson);
+        }
+
+        if (geofenceEvent.getPartnerVenueId() != null) {
+            json.put("partnerVenueId", geofenceEvent.getPartnerVenueId());
+        }
+
         json.put("venue", venueJson(geofenceEvent.getVenue()));
         json.put("location", locationJson(geofenceEvent.getLat(), geofenceEvent.getLng()));
         json.put("timestamp", geofenceEvent.getTimestamp() / 1000);
