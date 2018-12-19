@@ -1,6 +1,10 @@
 <dependencies>
   <iosPods>
-    <iosPod name="pilgrim-sdk" version="2.1.0" minTargetSdk="10.0" />
+    <iosPod name="Pilgrim" version="2.1.0" minTargetSdk="10.0">
+      <sources>
+        <source>git@github.com:foursquare/Pilgrim-CocoaPods.git</source>
+      </sources>
+    </iosPod>
   </iosPods>
   <androidPackages>
     <androidPackage spec="com.google.code.gson:gson:2.8.2" />
