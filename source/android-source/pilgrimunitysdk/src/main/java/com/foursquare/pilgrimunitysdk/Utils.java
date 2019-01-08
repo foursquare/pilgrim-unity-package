@@ -207,12 +207,22 @@ final class Utils {
         return json;
     }
 
-    private static JSONArray categoryArrayJson(@NonNull List<Category> categories) throws JSONException {
-        JSONArray categoriesJson = new JSONArray();
-        for (Category category : categories) {
-            categoriesJson.put(categoryJson(category));
+    private static JSONArray chainsArrayJson(@Nullable List<Venue.VenueChain> chains) throws JSONException {
+        JSONArray json = new JSONArray();
+        if (chains != null) {
+            for (Venue.VenueChain chain : chains) {
+                json.put(chainJson(chain));
+            }
         }
-        return categoriesJson;
+        return json;
+    }
+
+    private static JSONArray categoryArrayJson(@NonNull List<Category> categories) throws JSONException {
+        JSONArray json = new JSONArray();
+        for (Category category : categories) {
+            json.put(categoryJson(category));
+        }
+        return json;
     }
 
     private static JSONObject categoryJson(@NonNull Category category) throws JSONException {
@@ -244,6 +254,20 @@ final class Utils {
         return json;
     }
 
+    private static JSONArray hierarchyJson(@Nullable List<Venue.VenueParent> hierarchy) throws JSONException {
+        JSONArray json = new JSONArray();
+        if (hierarchy != null) {
+            for (Venue.VenueParent parent : hierarchy) {
+                JSONObject parentJson = new JSONObject();
+                parentJson.put("id", parent.getId());
+                parentJson.put("name", parent.getName());
+                parentJson.put("categories", categoryArrayJson(parent.getCategories()));
+                json.put(parentJson);
+            }
+        }
+        return json;
+    }
+
     private static JSONObject venueJson(@NonNull Venue venue) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("id", venue.getId());
@@ -259,22 +283,13 @@ final class Utils {
 
         json.put("probability", venue.getProbability());
 
-        JSONArray chains = new JSONArray();
-        for (Venue.VenueChain chain : venue.getVenueChains()) {
-            chains.put(chainJson(chain));
-        }
-        json.put("chains", chains);
+
+        json.put("chains", chainsArrayJson(venue.getVenueChains()));
 
         json.put("categories", categoryArrayJson(venue.getCategories()));
 
-        JSONArray hierarchy = new JSONArray();
-        for (Venue.VenueParent parent : venue.getHierarchy()) {
-            JSONObject parentJson = new JSONObject();
-            parentJson.put("id", parent.getId());
-            parentJson.put("name", parent.getName());
-            parentJson.put("categories", categoryArrayJson(venue.getCategories()));
-        }
-        json.put("hierarchy", hierarchy);
+
+        json.put("hierarchy", hierarchyJson(venue.getHierarchy()));
 
         return json;
     }
