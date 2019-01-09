@@ -120,7 +120,7 @@ public final class PilgrimClient {
                 } else {
                     listener.onGetCurrentLocationResult(false, "", "Unknown Error");
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 listener.onGetCurrentLocationResult(false,"", getErrorMessage(e));
             }
         } else {
