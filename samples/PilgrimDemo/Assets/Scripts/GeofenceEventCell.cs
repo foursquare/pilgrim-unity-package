@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class GeofenceEventCell : MonoBehaviour 
 {
 
-	public Text geofenceEventInfoText;
+	[SerializeField]
+	private Text _geofenceEventInfoText;
 
 	public GeofenceEvent GeofenceEvent
 	{
@@ -22,7 +23,7 @@ public class GeofenceEventCell : MonoBehaviour
 				text += "lat: " + string.Format("{0:0.000000}", value.Location.Latitude) + ", lng: " + string.Format("{0:0.000000}", value.Location.Longitude) + "\n";
 				text += value.Timestamp;
 			}
-			geofenceEventInfoText.text = text;
+			_geofenceEventInfoText.text = text;
 		}
 	}
 

@@ -5,11 +5,14 @@ using UnityEngine.UI;
 public class CurrentLocationUI : MonoBehaviour 
 {
 
-	public Text currentPlaceInfoText;
+	[SerializeField]
+	private Text _currentPlaceInfoText;
 
-	public ScrollRect scrollRect;
+	[SerializeField]
+	private ScrollRect _scrollRect;
 
-	public GameObject geofenceEventCellPrefab;
+	[SerializeField]
+	private GameObject _geofenceEventCellPrefab;
 
 	public CurrentLocation CurrentLocation
 	{
@@ -26,11 +29,11 @@ public class CurrentLocationUI : MonoBehaviour
 				text += "lat: " + string.Format("{0:0.000000}", value.CurrentPlace.Location.Latitude) + ", lng: " + string.Format("{0:0.000000}", value.CurrentPlace.Location.Longitude) + "\n";
 				text += value.CurrentPlace.ArrivalTime;
 			}
-			currentPlaceInfoText.text = text;
+			_currentPlaceInfoText.text = text;
 			
 			foreach (var geofenceEvent in value.MatchedGeofences) {
-				var gameObject = Instantiate<GameObject>(geofenceEventCellPrefab, Vector3.zero, Quaternion.identity);
-				gameObject.transform.SetParent(scrollRect.content, false);
+				var gameObject = Instantiate<GameObject>(_geofenceEventCellPrefab, Vector3.zero, Quaternion.identity);
+				gameObject.transform.SetParent(_scrollRect.content, false);
 			
 				var geofenceEventCell = gameObject.GetComponent<GeofenceEventCell>();
 				geofenceEventCell.GeofenceEvent = geofenceEvent;

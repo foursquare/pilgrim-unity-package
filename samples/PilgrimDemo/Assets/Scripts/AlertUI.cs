@@ -4,11 +4,12 @@ using UnityEngine.UI;
 public class AlertUI : MonoBehaviour 
 {
 
-	public Text alertText;
+	[SerializeField]
+	private Text _alertText;
 
 	public string Message
 	{
-		set { alertText.text = value; }
+		set { _alertText.text = value; }
 	}
 
 	public void OnPressClose()

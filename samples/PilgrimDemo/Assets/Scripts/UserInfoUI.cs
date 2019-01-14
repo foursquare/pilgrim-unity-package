@@ -8,20 +8,35 @@ using UnityEngine.UI;
 public class UserInfoUI : MonoBehaviour 
 {
 
-	public Toggle userIdToggle;
-	public InputField userIdInputField;
+	[SerializeField]
+	private Toggle _userIdToggle;
 
-	public Toggle genderToggle;
-	public Dropdown genderDropdown;
+	[SerializeField]
+	private InputField _userIdInputField;
 
-	public Toggle birthdayToggle;
-	public InputField yearInputField;
-	public Dropdown monthDropDown;
-	public Dropdown dayDropDown;
+	[SerializeField]
+	private Toggle _genderToggle;
 
-	public GameObject userInfoCellPrefab;
+	[SerializeField]
+	private Dropdown _genderDropdown;
 
-	public ScrollRect scrollRect;
+	[SerializeField]
+	private Toggle _birthdayToggle;
+
+	[SerializeField]
+	private InputField _yearInputField;
+
+	[SerializeField]
+	private Dropdown _monthDropDown;
+
+	[SerializeField]
+	private Dropdown _dayDropDown;
+
+	[SerializeField]
+	private UserInfoCell _userInfoCellPrefab;
+
+	[SerializeField]
+	private ScrollRect _scrollRect;
 
 	private int year = 0;
 	private int month = 0;
@@ -35,15 +50,15 @@ public class UserInfoUI : MonoBehaviour
 			foreach (var key in keys) {
 				var value = PlayerPrefs.GetString(key);
 				if (key == "userId") {
-					userIdToggle.isOn = true;
-					userIdInputField.interactable = true;
-					userIdInputField.text = value;
+					_userIdToggle.isOn = true;
+					_userIdInputField.interactable = true;
+					_userIdInputField.text = value;
 				} else if (key == "gender") {
-					genderToggle.isOn = true;
-					genderDropdown.interactable = true;
-					genderDropdown.value = value == "male" ? 1 : 2;
+					_genderToggle.isOn = true;
+					_genderDropdown.interactable = true;
+					_genderDropdown.value = value == "male" ? 1 : 2;
 				} else if (key == "birthday") {
-					birthdayToggle.isOn = true;
+					_birthdayToggle.isOn = true;
 
 					var seconds = long.Parse(value);
 					#if UNITY_ANDROID
@@ -52,20 +67,19 @@ public class UserInfoUI : MonoBehaviour
 					var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 					var birthday = epochStart.AddSeconds(seconds);
 					
-					yearInputField.interactable = true;
-					yearInputField.text = string.Format("{0}", birthday.Year);
-					monthDropDown.interactable = true;
-					monthDropDown.value = birthday.Month - 1;
-					dayDropDown.interactable = true;
-					dayDropDown.value = birthday.Day - 1;
+					_yearInputField.interactable = true;
+					_yearInputField.text = string.Format("{0}", birthday.Year);
+					_monthDropDown.interactable = true;
+					_monthDropDown.value = birthday.Month - 1;
+					_dayDropDown.interactable = true;
+					_dayDropDown.value = birthday.Day - 1;
 				} else {
-					var gameObject = Instantiate<GameObject>(userInfoCellPrefab, Vector3.zero, Quaternion.identity);
-					gameObject.transform.SetParent(scrollRect.content, false);
-					gameObject.transform.SetAsFirstSibling();
+					var userInfoCell = Instantiate(_userInfoCellPrefab, Vector3.zero, Quaternion.identity);
+					userInfoCell.transform.SetParent(_scrollRect.content, false);
+					userInfoCell.transform.SetAsFirstSibling();
 
-					var userInfoCell = gameObject.GetComponent<UserInfoCell>();
-					userInfoCell.keyInputField.text = key;
-					userInfoCell.valueInputField.text = value;
+					userInfoCell.Key = key;
+					userInfoCell.Value = value;
 				}
 			}
 		}
@@ -74,22 +88,22 @@ public class UserInfoUI : MonoBehaviour
 	public void OnPressClose()
 	{
 		PilgrimUserInfo userInfo = new PilgrimUserInfo();
-		if (userIdInputField.text != null && userIdInputField.text.Length > 0) {
-			userInfo.SetUserId(userIdInputField.text);
+		if (_userIdInputField.text != null && _userIdInputField.text.Length > 0) {
+			userInfo.SetUserId(_userIdInputField.text);
 		}
 		if (year > 0 && month > 0 && day > 0) {
 			userInfo.SetBirthday(new DateTime(year, month, day));
 		}
-		if (genderDropdown.value == 1) {
+		if (_genderDropdown.value == 1) {
 			userInfo.SetGender(PilgrimUserInfo.Gender.Male);	
-		} else if (genderDropdown.value == 2) {
+		} else if (_genderDropdown.value == 2) {
 			userInfo.SetGender(PilgrimUserInfo.Gender.Female);
 		}
 
 		var userInfoCells = FindObjectsOfType<UserInfoCell>();
 		foreach (var userInfoCell in userInfoCells) {
-			var key = userInfoCell.keyInputField.text;
-			var value = userInfoCell.valueInputField.text;
+			var key = userInfoCell.Key;
+			var value = userInfoCell.Value;
 			if (key != null && value != null & key.Length > 0 && value.Length > 0) {
 				userInfo.Set(key, value);
 			}
@@ -102,55 +116,55 @@ public class UserInfoUI : MonoBehaviour
 
 	public void OnCheckUserIdEnabled(bool isOn) 
 	{
-		userIdInputField.interactable = isOn;
+		_userIdInputField.interactable = isOn;
 		if (!isOn) {
-			userIdInputField.text = null;
+			_userIdInputField.text = null;
 		}
 	}
 
 	public void OnCheckGenderEnabled(bool isOn) 
 	{
-		genderDropdown.interactable = isOn;
+		_genderDropdown.interactable = isOn;
 		if (!isOn) {
-			genderDropdown.value = 0;
+			_genderDropdown.value = 0;
 		}
 	}
 
 	public void OnCheckBirthdayEnabled(bool isOn) 
 	{
 		if (isOn) {
-			yearInputField.interactable = isOn;
+			_yearInputField.interactable = isOn;
 		} else {
-			yearInputField.interactable = false;
-			yearInputField.text = null;
+			_yearInputField.interactable = false;
+			_yearInputField.text = null;
 			year = 0;
-			monthDropDown.interactable = false;
-			monthDropDown.ClearOptions();
+			_monthDropDown.interactable = false;
+			_monthDropDown.ClearOptions();
 			month = 0;
-			monthDropDown.AddOptions(new List<string>(new string[] { "Month" }));
-			dayDropDown.interactable = false;
-			dayDropDown.ClearOptions();
-			dayDropDown.AddOptions(new List<string>(new string[] { "Day" }));
+			_monthDropDown.AddOptions(new List<string>(new string[] { "Month" }));
+			_dayDropDown.interactable = false;
+			_dayDropDown.ClearOptions();
+			_dayDropDown.AddOptions(new List<string>(new string[] { "Day" }));
 			day = 0;
 		}
 	}
 
 	public void OnYearEntered() 
 	{
-		var input = yearInputField.text;
+		var input = _yearInputField.text;
 		if (input.Length == 4 && int.TryParse(input, out year)) {
 			UpdateMonthsDropdown();
 			month = 1;
 			day = 1;
 			UpdateDaysDropdown();
 		} else {
-			monthDropDown.interactable = false;
-			monthDropDown.ClearOptions();
+			_monthDropDown.interactable = false;
+			_monthDropDown.ClearOptions();
 			month = 0;
-			monthDropDown.AddOptions(new List<string>(new string[] { "Month" }));
-			dayDropDown.interactable = false;
-			dayDropDown.ClearOptions();
-			dayDropDown.AddOptions(new List<string>(new string[] { "Day" }));
+			_monthDropDown.AddOptions(new List<string>(new string[] { "Month" }));
+			_dayDropDown.interactable = false;
+			_dayDropDown.ClearOptions();
+			_dayDropDown.AddOptions(new List<string>(new string[] { "Day" }));
 			day = 0;
 		}
 	}
@@ -162,14 +176,14 @@ public class UserInfoUI : MonoBehaviour
 
 	public void OnDaySelected()
 	{
-		day = dayDropDown.value + 1;
+		day = _dayDropDown.value + 1;
 	}
 
 	public void OnPressAddUserInfo()
 	{
-		var gameObject = Instantiate<GameObject>(userInfoCellPrefab, Vector3.zero, Quaternion.identity);
-		gameObject.transform.SetParent(scrollRect.content, false);
-		gameObject.transform.SetAsFirstSibling();
+		var userInfoCell = Instantiate(_userInfoCellPrefab, Vector3.zero, Quaternion.identity);
+		userInfoCell.transform.SetParent(_scrollRect.content, false);
+		userInfoCell.transform.SetAsFirstSibling();
 	}
 
 	private void UpdateMonthsDropdown()
@@ -179,22 +193,22 @@ public class UserInfoUI : MonoBehaviour
 		if (monthNames.Length > 12)  {// 13 for some reason, last value is empty?!?
 			Array.Resize(ref monthNames, monthNames.Length - (monthNames.Length - 12));
 		}
-		monthDropDown.ClearOptions();
-		monthDropDown.AddOptions(new List<string>(monthNames));
-		monthDropDown.interactable = true;
+		_monthDropDown.ClearOptions();
+		_monthDropDown.AddOptions(new List<string>(monthNames));
+		_monthDropDown.interactable = true;
 	}
 
 	private void UpdateDaysDropdown()
 	{
-		month = monthDropDown.value + 1;
+		month = _monthDropDown.value + 1;
 		int daysInMonth = DateTime.DaysInMonth(year, month);
 		List<string> days = new List<string>();
 		for (int i = 1; i <= daysInMonth; i++) {
 			days.Add(string.Format("{0}", i));
 		}
-		dayDropDown.ClearOptions();
-		dayDropDown.AddOptions(days);
-		dayDropDown.interactable = true;
+		_dayDropDown.ClearOptions();
+		_dayDropDown.AddOptions(days);
+		_dayDropDown.interactable = true;
 	}
 
 	private void SaveUserInfoToPlayerPrefs(PilgrimUserInfo userInfo)

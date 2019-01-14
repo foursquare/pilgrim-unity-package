@@ -1,22 +1,21 @@
 ﻿using Foursquare;
 using System;
-using System.Collections;
-using System.Globalization;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour 
 {
 
-	public CurrentLocationUI currentLocationUIPrefab;
+	[SerializeField]
+	private CurrentLocationUI _currentLocationUIPrefab;
 
-	public UserInfoUI userInfoUIPrefab;
+	[SerializeField]
+	private UserInfoUI _userInfoUIPrefab;
 
-	
+	[SerializeField]
+	private GameObject _loadingUIPrefab;
 
-	public GameObject loadingUIPrefab;
-
-	public AlertUI alertUIPrefab;
+	[SerializeField]
+	private AlertUI _alertUIPrefab;
 
 	private GameObject loadingUI;
 
@@ -27,7 +26,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	private NextAction nextAction;
-
+	
 	void OnEnable()
 	{
 		PilgrimUnitySDK.OnLocationPermissionsResult += OnLocationPermissionsResult;
@@ -65,7 +64,7 @@ public class GameManager : MonoBehaviour
 	public void OnPressSetUserInfo()
 	{
 		var canvas = GameObject.FindObjectOfType<Canvas>();
-		var userInfoUI = Instantiate<UserInfoUI>(userInfoUIPrefab, Vector3.zero, Quaternion.identity);
+		var userInfoUI = Instantiate<UserInfoUI>(_userInfoUIPrefab, Vector3.zero, Quaternion.identity);
 		userInfoUI.transform.SetParent(canvas.transform, false);
 	}
 
@@ -77,7 +76,7 @@ public class GameManager : MonoBehaviour
 			}
 		} else if (nextAction == NextAction.GET_CURRENT_LOCATION) {
 			var canvas = GameObject.FindObjectOfType<Canvas>();
-			loadingUI = Instantiate<GameObject>(loadingUIPrefab, Vector3.zero, Quaternion.identity);
+			loadingUI = Instantiate<GameObject>(_loadingUIPrefab, Vector3.zero, Quaternion.identity);
 			loadingUI.transform.SetParent(canvas.transform, false);
 			
 			PilgrimUnitySDK.GetCurrentLocation();
@@ -90,11 +89,11 @@ public class GameManager : MonoBehaviour
 
 		var canvas = GameObject.FindObjectOfType<Canvas>();
 		if (currentLocation != null) {
-			var currentLocationUI = Instantiate<CurrentLocationUI>(currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
+			var currentLocationUI = Instantiate<CurrentLocationUI>(_currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
 			currentLocationUI.transform.SetParent(canvas.transform, false);
 			currentLocationUI.CurrentLocation = currentLocation;
 		} else {
-			var alertUI = Instantiate<AlertUI>(alertUIPrefab, Vector3.zero, Quaternion.identity);
+			var alertUI = Instantiate<AlertUI>(_alertUIPrefab, Vector3.zero, Quaternion.identity);
 			alertUI.transform.SetParent(canvas.transform, false);
 			alertUI.Message = exception.Message;
 		}
