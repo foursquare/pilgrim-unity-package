@@ -23,42 +23,38 @@ namespace Foursquare
             public const string Birthday = "birthday";
         }
 
-        private IDictionary<string, string> backingStore = new Dictionary<string, string>();
+        private IDictionary<string, string> _backingStore = new Dictionary<string, string>();
 
-        public IDictionary<string, string> BackingStore { get { return new Dictionary<string, string>(backingStore); } }
+        public IDictionary<string, string> BackingStore { get { return new Dictionary<string, string>(_backingStore); } }
 
         public void SetUserId(string userId) 
         {
-            backingStore[Constants.UserID] = userId;
+            _backingStore[Constants.UserID] = userId;
         }
 
         public void SetGender(Gender gender) 
         {
             switch (gender) {
                 case Gender.Male:
-                    backingStore[Constants.Gender] = Constants.Male;
+                    _backingStore[Constants.Gender] = Constants.Male;
                     break;
                 case Gender.Female:
-                    backingStore[Constants.Gender] = Constants.Female;
+                    _backingStore[Constants.Gender] = Constants.Female;
                     break;
                 case Gender.NotSpecified:
-                    backingStore.Remove(Constants.Gender);
+                    _backingStore.Remove(Constants.Gender);
                     break;
             }
         }
 
         public void SetBirthday(DateTime birthday)
         {
-            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
             #if UNITY_EDITOR
-            var seconds = (long)(birthday - epochStart).TotalSeconds;
-            backingStore[Constants.Birthday] = seconds.ToString();
+            _backingStore[Constants.Birthday] = birthday.UnixSecondsFromDateTime().ToString();
             #elif UNITY_IOS
-            var seconds = (long)(birthday - epochStart).TotalSeconds;
-            backingStore[Constants.Birthday] = seconds.ToString();
+            _backingStore[Constants.Birthday] = birthday.UnixSecondsFromDateTime().ToString();
             #elif UNITY_ANDROID
-            var milliseconds = (long)(birthday - epochStart).TotalMilliseconds;
-            backingStore[Constants.Birthday] = milliseconds.ToString();
+            _backingStore[Constants.Birthday] = birthday.UnixMillisecondsFromDateTime().ToString();
             #endif
         }
 
@@ -67,7 +63,7 @@ namespace Foursquare
             if (key == Constants.UserID || key == Constants.Gender || key == Constants.Birthday) {
                 return;
             }
-            backingStore[key] = value;
+            _backingStore[key] = value;
         }
 
     }

@@ -6,54 +6,56 @@ namespace Foursquare
 	public static class PilgrimUnitySDK
 	{
 
-		public static event LocationPermissionsResult OnLocationPermissionsResult {
+		public static event Action<bool> OnLocationPermissionsResult 
+		{
 			add {
-				client.OnLocationPermissionsResult += value;
+				_client.OnLocationPermissionResult += value;
 			}
 			remove {
-				client.OnLocationPermissionsResult -= value;
+				_client.OnLocationPermissionResult -= value;
 			}
 		}
 
-		public static event GetCurrentLocationResult OnGetCurrentLocationResult {
+		public static event Action<CurrentLocation, Exception> OnGetCurrentLocationResult
+		{
 			add {
-				client.OnGetCurrentLocationResult += value;
+				_client.OnGetCurrentLocationResult += value;
 			}
 			remove {
-				client.OnGetCurrentLocationResult -= value;
+				_client.OnGetCurrentLocationResult -= value;
 			}
 		}
 
-		private static IPilgrimClient client = PilgrimClientFactory.PilgrimClient();
+		private static IPilgrimClient _client = PilgrimClientFactory.PilgrimClient();
 
 		public static void SetUserInfo(PilgrimUserInfo userInfo)
 		{
-			client.SetUserInfo(userInfo);
+			_client.SetUserInfo(userInfo);
 		}
 
 		public static void RequestLocationPermissions()
 		{
-			client.RequestLocationPermissions();
+			_client.RequestLocationPermissions();
 		}
 
 		public static void Start()
 		{
-			client.Start();
+			_client.Start();
 		}
 
 		public static void Stop()
 		{
-			client.Stop();
+			_client.Stop();
 		}
 
 		public static void ClearAllData()
 		{
-			client.ClearAllData();
+			_client.ClearAllData();
 		}
 
 		public static void GetCurrentLocation()
 		{
-			client.GetCurrentLocation();
+			_client.GetCurrentLocation();
 		}
 
 	}

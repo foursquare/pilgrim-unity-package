@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -12,27 +12,27 @@ namespace Foursquare
 
 		private static string PROJECT_SETTINGS_FILE = Path.Combine("ProjectSettings", "PilgrimConfigSettings.xml");
 
-		private static SortedDictionary<string, string> settings;
+		private static SortedDictionary<string, string> _settings;
 
 		private static SortedDictionary<string, string> Settings {
             get {
                 LoadIfEmpty();
-                return settings;
+                return _settings;
             }
         }
 
-		private static object classLock = new object();
+		private static object _aLock = new object();
 
 		public static string Get(string key)
 		{
-			lock (classLock) {
+			lock (_aLock) {
 				return Settings.ContainsKey(key) ? Settings[key] : null;
 			}
 		}
 		
 		public static void Set(string key, string value)
 		{
-			lock (classLock) {
+			lock (_aLock) {
 				if (value != null && value.Length > 0) {
 					Settings[key] = value;
 				} else {
@@ -43,8 +43,8 @@ namespace Foursquare
 
 		public static void Save()
 		{
-			lock (classLock) {
-                if (settings == null) {
+			lock (_aLock) {
+                if (_settings == null) {
                     return;
                 }
                 Directory.CreateDirectory(Path.GetDirectoryName(PROJECT_SETTINGS_FILE));
@@ -52,7 +52,7 @@ namespace Foursquare
                         Formatting = Formatting.Indented,
                     }) {
                     writer.WriteStartElement("configSettings");
-                    foreach (var kv in settings) {
+                    foreach (var kv in _settings) {
                         writer.WriteStartElement("configSetting");
                         if (!String.IsNullOrEmpty(kv.Key) && !String.IsNullOrEmpty(kv.Value)) {
                             writer.WriteAttributeString("name", kv.Key);
@@ -66,15 +66,15 @@ namespace Foursquare
 		}
 
 		private static void Clear() {
-            lock (classLock) {
-                settings = new SortedDictionary<string, string>();
+            lock (_aLock) {
+                _settings = new SortedDictionary<string, string>();
             }
         }
 
 		private static void LoadIfEmpty() 
 		{
-            lock (classLock) {
-                if (settings == null) {
+            lock (_aLock) {
+                if (_settings == null) {
 					Load();
 				}
             }
@@ -82,13 +82,13 @@ namespace Foursquare
 
 		private static void Load()
 		{
-			lock (classLock) {
+			lock (_aLock) {
                 Clear();
 				var document = XDocument.Load(new StreamReader(File.Open(PROJECT_SETTINGS_FILE, FileMode.OpenOrCreate)));
                 foreach (var element in document.Root.Elements()) {
 					var key = element.Attribute("name").Value;
 					var value = element.Attribute("value").Value;
-					settings[key] = value;
+					_settings[key] = value;
 				}
             }
 		}

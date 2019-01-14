@@ -9,10 +9,14 @@ namespace Foursquare
     {
 
         [SerializeField]
-        public string id;
+        private string id;
+
+        public string ID { get { return id; } }
 
         [SerializeField]
-        public string name;
+        private string name;
+
+        public string Name { get { return name; } }
 
     }
 

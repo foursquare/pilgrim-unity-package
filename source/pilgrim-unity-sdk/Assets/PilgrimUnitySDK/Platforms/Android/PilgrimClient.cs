@@ -9,18 +9,18 @@ namespace Foursquare.Android
     public class PilgrimClient : AndroidJavaProxy, IPilgrimClient, IDisposable
     {
 
-        public event LocationPermissionsResult OnLocationPermissionsResult;
+        public event Action<bool> OnLocationPermissionResult = delegate {};
 
-        public event GetCurrentLocationResult OnGetCurrentLocationResult;
+        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate {};
 
-        private AndroidJavaObject pilgrimClient;
+        private AndroidJavaObject _androidPilgrimClient;
 
         public PilgrimClient() : base("com.foursquare.pilgrimunitysdk.PilgrimClientListener")
         {
             using (var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             using (var activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity"))
             {
-                pilgrimClient = new AndroidJavaObject("com.foursquare.pilgrimunitysdk.PilgrimClient", activity, this);
+                _androidPilgrimClient = new AndroidJavaObject("com.foursquare.pilgrimunitysdk.PilgrimClient", activity, this);
             }
         }
 
@@ -43,54 +43,50 @@ namespace Foursquare.Android
                     }
                 }
 
-                pilgrimClient.Call("setUserInfo", userInfoMap);
+                _androidPilgrimClient.Call("setUserInfo", userInfoMap);
             }
         }
 
         public void RequestLocationPermissions()
         {
-            pilgrimClient.Call("requestLocationPermissions");
+            _androidPilgrimClient.Call("requestLocationPermissions");
         }
 
         public void Start()
         {
-            pilgrimClient.Call("start");
+            _androidPilgrimClient.Call("start");
         }
 
         public void Stop()
         {
-            pilgrimClient.Call("stop");
+            _androidPilgrimClient.Call("stop");
         }
 
         public void ClearAllData()
         {
-            pilgrimClient.Call("clearAllData");
+            _androidPilgrimClient.Call("clearAllData");
         }
 
         public void GetCurrentLocation()
         {
-            pilgrimClient.Call("getCurrentLocation");
+            _androidPilgrimClient.Call("getCurrentLocation");
         }
 
         public void Dispose()
         {
-            pilgrimClient.Dispose();
+            _androidPilgrimClient.Dispose();
         }
 
         public void onLocationPermissionResult(bool granted) {
-            if (OnLocationPermissionsResult != null) {
-                OnLocationPermissionsResult(granted);
-            }
+            OnLocationPermissionResult(granted);
         }
 
         public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage) {
-            if (OnGetCurrentLocationResult != null) {
-                if (success) {
-                    var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
-                    OnGetCurrentLocationResult(currentLocation, null);
-                } else {
-                    OnGetCurrentLocationResult(null, new Exception(errorMessage));
-                }
+            if (success) {
+                var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
+                OnGetCurrentLocationResult(currentLocation, null);
+            } else {
+                OnGetCurrentLocationResult(null, new Exception(errorMessage));
             }
         }
 

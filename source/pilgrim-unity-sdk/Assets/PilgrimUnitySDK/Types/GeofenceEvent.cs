@@ -21,7 +21,7 @@ namespace Foursquare
         [SerializeField]
         private double timestamp;
 
-        public DateTime Timestamp { get { return Utils.FromUnixSeconds(timestamp); } }
+        public DateTime Timestamp { get { return timestamp.DateTimeFromUnixTime(); } }
 
     }
 

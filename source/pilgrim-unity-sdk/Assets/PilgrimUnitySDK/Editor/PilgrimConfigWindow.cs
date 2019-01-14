@@ -7,13 +7,13 @@ namespace Foursquare
 	public class PilgrimConfigWindow : EditorWindow 
 	{
 
-		private string consumerKey;
-		private string consumerSecret;
+		private string _consumerKey;
+		private string _consumerSecret;
 
 		void OnEnable()
 		{
-			consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
-			consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
+			_consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
+			_consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
 		}
 
 		void OnGUI()
@@ -23,16 +23,16 @@ namespace Foursquare
 			GUILayout.BeginVertical();
 
 			GUILayout.Label("Consumer Key");
-			consumerKey = EditorGUILayout.TextField(consumerKey);
+			_consumerKey = EditorGUILayout.TextField(_consumerKey);
 
 			GUILayout.Label("Consumer Secret");
-			consumerSecret = EditorGUILayout.TextField(consumerSecret);
+			_consumerSecret = EditorGUILayout.TextField(_consumerSecret);
 
 			GUILayout.Space(10.0f);
 
 			if (GUILayout.Button("Save")) {
-				PilgrimConfigSettings.Set("ConsumerKey", consumerKey);
-				PilgrimConfigSettings.Set("ConsumerSecret", consumerSecret);
+				PilgrimConfigSettings.Set("ConsumerKey", _consumerKey);
+				PilgrimConfigSettings.Set("ConsumerSecret", _consumerSecret);
 				PilgrimConfigSettings.Save();
 				Close();
 			}

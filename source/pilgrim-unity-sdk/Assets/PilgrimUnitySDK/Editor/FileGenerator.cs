@@ -1,6 +1,6 @@
 using System.IO;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace Foursquare
 {
@@ -8,7 +8,7 @@ namespace Foursquare
     public static class FileGenerator
     {
         
-                private const string appControllerText = 
+                private const string _appControllerText = 
 @"#import ""UnityAppController.h""
 #import ""PilgrimUnitySDK.h""
 
@@ -28,7 +28,7 @@ IMPL_APP_CONTROLLER_SUBCLASS(AppController)
 @end
 ";
 
-        private const string appSubclassText = 
+        private const string _appSubclassText = 
 @"package {0};
 
 import android.app.Application;
@@ -46,7 +46,7 @@ public final class App extends Application {{
 }}
 ";
 
-        private const string manifestText = 
+        private const string _manifestText = 
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <manifest xmlns:android=""http://schemas.android.com/apk/res/android"" package=""{0}"" xmlns:tools=""http://schemas.android.com/tools"" android:installLocation=""preferExternal"">
   <supports-screens android:smallScreens=""true"" android:normalScreens=""true"" android:largeScreens=""true"" android:xlargeScreens=""true"" android:anyDensity=""true"" />
@@ -67,7 +67,7 @@ public final class App extends Application {{
             if (HasSetConsumerKeyAndSecret()) {
                 var consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
                 var consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
-                var fileContents = string.Format(appControllerText, consumerKey, consumerSecret);
+                var fileContents = string.Format(_appControllerText, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/iOS/AppController.m";
                 if (File.Exists(filePath)) {
                     Debug.LogError(filePath + " already exists!");
@@ -84,7 +84,7 @@ public final class App extends Application {{
             if (HasSetConsumerKeyAndSecret() && HasSetPackageName()) {
                 var consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
                 var consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
-                var fileContents = string.Format(appSubclassText, PlayerSettings.applicationIdentifier, consumerKey, consumerSecret);
+                var fileContents = string.Format(_appSubclassText, PlayerSettings.applicationIdentifier, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/Android/App.java";
                 if (File.Exists(filePath)) {
                     Debug.LogError(filePath + " already exists!");
@@ -99,7 +99,7 @@ public final class App extends Application {{
         public static void GenerateAndroidManifest()
         {
             if (HasSetConsumerKeyAndSecret() && HasSetPackageName()) {
-                var fileContents = string.Format(manifestText, PlayerSettings.applicationIdentifier, PlayerSettings.applicationIdentifier);
+                var fileContents = string.Format(_manifestText, PlayerSettings.applicationIdentifier, PlayerSettings.applicationIdentifier);
                 var filePath = Application.dataPath + "/Plugins/Android/AndroidManifest.xml";
                 if (File.Exists(filePath)) {
                     Debug.LogError(filePath + " already exists!");

@@ -1,11 +1,13 @@
+using System;
+
 namespace Foursquare
 {
     public interface IPilgrimClient
     {
 
-        event LocationPermissionsResult OnLocationPermissionsResult;
+        event Action<bool> OnLocationPermissionResult;
 
-        event GetCurrentLocationResult OnGetCurrentLocationResult;
+        event Action<CurrentLocation, Exception> OnGetCurrentLocationResult;
 
         void SetUserInfo(PilgrimUserInfo userInfo);
 

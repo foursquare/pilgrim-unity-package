@@ -16,7 +16,7 @@ namespace Foursquare
         [SerializeField]
         private double arrivalTime;
 
-        public DateTime ArrivalTime { get { return Utils.FromUnixSeconds(arrivalTime); } }
+        public DateTime ArrivalTime { get { return arrivalTime.DateTimeFromUnixTime(); } }
 
         [SerializeField]
         private Venue venue;
