@@ -48,6 +48,7 @@ Assets/PlayServicesResolver/
 Assets/PlayServicesResolver.meta
 ProjectSettings/
 Packages/
-Assets/Mapbox/Examples
-Assets/Resources/Mapbox.meta
-Assets/Resources/Mapbox/
+Assets/Mapbox/Examples/
+Assets/Mapbox/Examples.meta
+Assets/Resources/
+Assets/Resources.meta
