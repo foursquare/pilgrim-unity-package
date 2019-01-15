@@ -29,13 +29,13 @@ public class GameManager : MonoBehaviour
 	
 	void OnEnable()
 	{
-		PilgrimUnitySDK.OnLocationPermissionsResult += OnLocationPermissionsResult;
+		PilgrimUnitySDK.OnLocationPermissionResult += OnLocationPermissionResult;
 		PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocationResult;
 	}
 
 	void OnDisable()
 	{
-		PilgrimUnitySDK.OnLocationPermissionsResult -= OnLocationPermissionsResult;
+		PilgrimUnitySDK.OnLocationPermissionResult -= OnLocationPermissionResult;
 		PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocationResult;
 	}
 
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 		userInfoUI.transform.SetParent(canvas.transform, false);
 	}
 
-	private void OnLocationPermissionsResult(bool granted)
+	private void OnLocationPermissionResult(bool granted)
 	{
 		if (nextAction == NextAction.START) {
 			if (granted) {
