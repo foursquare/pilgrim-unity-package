@@ -6,7 +6,7 @@ project.ext {
     unity_command = System.getProperty("UNITY_COMMAND")
     if (unity_command == null || unity_command.isEmpty()) {
         if (Os.isFamily(Os.FAMILY_MAC)) {
-            unity_command = "/Applications/Unity/Unity.app/Contents/MacOS/Unity"
+            unity_command = "/Applications/Unity/Hub/Editor/2018.3.0f2/Unity.app/Contents/MacOS/Unity"
         } else {
             unity_command = "C:\\Program Files\\Unity\\Editor\\Unity.exe"
         }
