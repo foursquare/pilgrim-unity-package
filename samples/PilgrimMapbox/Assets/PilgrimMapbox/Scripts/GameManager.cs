@@ -2,7 +2,7 @@
 using Mapbox.Unity.Map;
 using Mapbox.Utils;
 using System;
-using TMPro;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,30 +12,63 @@ public class GameManager : MonoBehaviour
     private AbstractMap _map;
 
     [SerializeField]
-    private TextMeshPro _venueNameText;
+    private LocationElements _locationElements;
+
+    private float _elevation;
+
+    void OnEnable()
+    {
+        PilgrimUnitySDK.OnLocationPermissionResult += OnGetLocationPermission;
+        PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocation;
+    }
+
+    void OnDisable()
+    {
+        PilgrimUnitySDK.OnLocationPermissionResult -= OnGetLocationPermission;
+        PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocation;
+    }
 
     void Start()
     {
-        PilgrimUnitySDK.OnLocationPermissionResult += OnGetLocationPermission;
         PilgrimUnitySDK.RequestLocationPermissions();
     }
 
     public void OnGetLocationPermission(bool granted)
     {
-        PilgrimUnitySDK.OnLocationPermissionResult -= OnGetLocationPermission;
-        PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocation;
         PilgrimUnitySDK.GetCurrentLocation();
     }
 
     public void OnGetCurrentLocation(CurrentLocation currentLocation, Exception exception)
-    {
-        PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocation;
-        
+    {   
         var currentPlace = currentLocation.CurrentPlace;
+        var latLng = new Vector2d(currentPlace.Location.Latitude, currentPlace.Location.Longitude);
         if (currentPlace != null) {
-            _venueNameText.text = currentLocation.CurrentPlace.Venue.Name;
-            _map.Initialize(new Vector2d(currentPlace.Location.Latitude, currentPlace.Location.Longitude), 17);
+            _locationElements.PlaceBubble.Venue = currentPlace.Venue;
+
+            _map.OnInitialized += () => {
+                _map.UpdateMap(latLng); // QueryElevationInUnityUnitsAt doesn't seem to work in OnInitialized
+            };
+            _map.OnUpdated += () => {
+                _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
+                if (_elevation == 0) {
+                    _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
+                }
+                GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
+            };
+            _map.Initialize(latLng, 17);
         }
+    }
+
+    public void FadeOutDidFinish()
+    {
+        var duration = _locationElements.Move(_elevation);
+        StartCoroutine(SwitchToCameraExtents(duration));
+    }
+
+    private IEnumerator SwitchToCameraExtents(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _map.SetExtent(MapExtentType.CameraBounds);
     }
 
 }
