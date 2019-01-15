@@ -6,7 +6,7 @@ namespace Foursquare
 	public static class PilgrimUnitySDK
 	{
 
-		public static event Action<bool> OnLocationPermissionsResult 
+		public static event Action<bool> OnLocationPermissionResult 
 		{
 			add {
 				_client.OnLocationPermissionResult += value;
