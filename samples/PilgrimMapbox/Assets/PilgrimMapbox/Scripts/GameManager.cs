@@ -4,6 +4,7 @@ using Mapbox.Utils;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private LocationElements _locationElements;
+
+    [SerializeField]
+    private Button _centerButton;
 
     private float _elevation;
 
@@ -30,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        _centerButton.gameObject.SetActive(false);
         PilgrimUnitySDK.RequestLocationPermissions();
     }
 
@@ -69,6 +74,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         _map.SetExtent(MapExtentType.CameraBounds);
+        _centerButton.gameObject.SetActive(true);
     }
 
 }

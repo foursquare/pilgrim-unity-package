@@ -60,6 +60,8 @@ public class LocationElements : MonoBehaviour
         _targetCameraPosition = Camera.main.transform.position;
         _targetCameraPosition.y += elevation;
 
+        Camera.main.GetComponent<CameraDrag>().Center = _targetCameraPosition;
+
         _isMoving = true;
 
         return _animDuration;
