@@ -24,7 +24,8 @@ public class FadeImage : MonoBehaviour
 
     private void FadeOutComplete()
     {
-        if (_onFadeOutComplete != null) {
+        if (_onFadeOutComplete != null)
+        {
             _onFadeOutComplete.Invoke();
             Destroy(gameObject);
         }

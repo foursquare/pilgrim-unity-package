@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    
+
     [SerializeField]
     private AbstractMap _map;
 
@@ -44,18 +44,22 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnGetCurrentLocation(CurrentLocation currentLocation, Exception exception)
-    {   
+    {
         var currentPlace = currentLocation.CurrentPlace;
         var latLng = new Vector2d(currentPlace.Location.Latitude, currentPlace.Location.Longitude);
-        if (currentPlace != null) {
+        if (currentPlace != null)
+        {
             _locationElements.PlaceBubble.Venue = currentPlace.Venue;
 
-            _map.OnInitialized += () => {
+            _map.OnInitialized += () =>
+            {
                 _map.UpdateMap(latLng); // QueryElevationInUnityUnitsAt doesn't seem to work in OnInitialized
             };
-            _map.OnUpdated += () => {
+            _map.OnUpdated += () =>
+            {
                 _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
-                if (_elevation == 0) {
+                if (_elevation == 0)
+                {
                     _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
                 }
                 GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
