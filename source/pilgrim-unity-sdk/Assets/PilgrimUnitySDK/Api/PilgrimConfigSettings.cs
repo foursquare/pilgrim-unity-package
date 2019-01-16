@@ -10,6 +10,10 @@ namespace Foursquare
 	public static class PilgrimConfigSettings
 	{
 
+		public const string  ConsumerKeyKey = "ConsumerKey";
+		public const string  ConsumerSecretKey = "ConsumerSecret";
+		public const string  CopyWhenInUseToAlwaysKey = "CopyWhenInUseToAlways";
+
 		private static string PROJECT_SETTINGS_FILE = Path.Combine("ProjectSettings", "PilgrimConfigSettings.xml");
 
 		private static SortedDictionary<string, string> _settings;
@@ -23,10 +27,18 @@ namespace Foursquare
 
 		private static object _aLock = new object();
 
-		public static string Get(string key)
+		public static string GetString(string key)
 		{
 			lock (_aLock) {
 				return Settings.ContainsKey(key) ? Settings[key] : null;
+			}
+		}
+
+		public static bool GetBool(string key, bool defaultValue)
+		{
+			lock (_aLock) {
+				var value = GetString(key);
+				return value != null ? value == "true" : defaultValue;
 			}
 		}
 		
@@ -38,6 +50,13 @@ namespace Foursquare
 				} else {
 					Settings.Remove(key);
 				}
+			}
+		}
+
+		public static void Set(string key, bool value)
+		{
+			lock (_aLock) {
+				Settings[key] = value ? "true" : "false";
 			}
 		}
 
