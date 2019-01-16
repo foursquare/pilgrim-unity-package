@@ -10,7 +10,6 @@ namespace Foursquare
     public static class PostBuildiOS
     {
 
-        // TODO MAKE THIS CONFIGURABLE IN PILGRIM CONFIG
         [PostProcessBuild]
         public static void AddAlwaysAndWhenInUseUsageDescription(BuildTarget buildTarget, string pathToBuiltProject)
         {
