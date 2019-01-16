@@ -87,7 +87,7 @@ public class UserInfoUI : MonoBehaviour
 
 	public void OnPressClose()
 	{
-		PilgrimUserInfo userInfo = new PilgrimUserInfo();
+		UserInfo userInfo = new UserInfo();
 		if (_userIdInputField.text != null && _userIdInputField.text.Length > 0) {
 			userInfo.SetUserId(_userIdInputField.text);
 		}
@@ -95,9 +95,9 @@ public class UserInfoUI : MonoBehaviour
 			userInfo.SetBirthday(new DateTime(year, month, day));
 		}
 		if (_genderDropdown.value == 1) {
-			userInfo.SetGender(PilgrimUserInfo.Gender.Male);	
+			userInfo.SetGender(UserInfo.Gender.Male);	
 		} else if (_genderDropdown.value == 2) {
-			userInfo.SetGender(PilgrimUserInfo.Gender.Female);
+			userInfo.SetGender(UserInfo.Gender.Female);
 		}
 
 		var userInfoCells = FindObjectsOfType<UserInfoCell>();
@@ -211,7 +211,7 @@ public class UserInfoUI : MonoBehaviour
 		_dayDropDown.interactable = true;
 	}
 
-	private void SaveUserInfoToPlayerPrefs(PilgrimUserInfo userInfo)
+	private void SaveUserInfoToPlayerPrefs(UserInfo userInfo)
 	{
 		PlayerPrefs.DeleteAll();
 		
