@@ -29,19 +29,21 @@ namespace Foursquare.iOS
             Externs.SetCallbacks(_clientPtr, OnLocationPermissionsCallback, OnGetCurrentLocationCallback);
         }
 
-        public void SetUserInfo(PilgrimUserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
             var json = "{";
-            foreach (var pair in userInfo.BackingStore) {
-                if (json.Length > 1) {
-                    json += ",";
-                }
-                if (pair.Value != null) {
-                    json += "\"" + pair.Key + "\":\"" + pair.Value + "\"";
+            if (userInfo != null) {
+                foreach (var pair in userInfo.BackingStore) {
+                    if (json.Length > 1) {
+                        json += ",";
+                    }
+                    if (pair.Value != null) {
+                        json += "\"" + pair.Key + "\":\"" + pair.Value + "\"";
+                    }
                 }
             }
             json += "}";
-            Externs.SetUserInfo(_clientPtr, json);
+            Externs.SetUserInfo(_clientPtr, json, persisted);
         }
 
         public void RequestLocationPermissions()

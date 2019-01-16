@@ -21,9 +21,9 @@ void SetCallbacks(PilgrimClientRef clientPtr,
     client.getCurrentLocationCallback = getCurrentLocationCallback;
 }
 
-void SetUserInfo(PilgrimClientRef clientPtr, const char *userInfoJson) {
+void SetUserInfo(PilgrimClientRef clientPtr, const char *userInfoJson, BOOL persisted) {
     PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
-    [client setUserInfo:userInfoJson];
+    [client setUserInfo:userInfoJson persisted:persisted];
 }
 
 void RequestLocationPermissions(PilgrimClientRef clientPtr) {

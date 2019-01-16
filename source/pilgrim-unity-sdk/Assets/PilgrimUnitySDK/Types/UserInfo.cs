@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Foursquare
 {
 
-    public class PilgrimUserInfo
+    public class UserInfo
     {
 
         public enum Gender 

@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
                                                  PilgrimClient.PilgrimGetCurrentLocationCallback getCurrentLocationCallback);
 
         [DllImport("__Internal")]
-        internal static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson);
+        internal static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson, bool persisted);
         
         [DllImport("__Internal")]
         internal static extern void RequestLocationPermissions(IntPtr clientPtr);
