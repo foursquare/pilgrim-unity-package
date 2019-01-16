@@ -65,8 +65,8 @@ public final class App extends Application {{
         public static void GenerateiOSAppController()
         {
             if (HasSetConsumerKeyAndSecret()) {
-                var consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
-                var consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
+                var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
+                var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appControllerText, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/iOS/AppController.m";
                 if (File.Exists(filePath)) {
@@ -82,8 +82,8 @@ public final class App extends Application {{
         public static void GenerateAndroidAppSubclass()
         {
             if (HasSetConsumerKeyAndSecret() && HasSetPackageName()) {
-                var consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
-                var consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
+                var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
+                var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appSubclassText, PlayerSettings.applicationIdentifier, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/Android/App.java";
                 if (File.Exists(filePath)) {
@@ -113,8 +113,8 @@ public final class App extends Application {{
 
         private static bool HasSetConsumerKeyAndSecret() 
         {
-            var consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
-            var consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
+            var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
+            var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
             if (consumerKey == null || consumerKey.Length == 0 || consumerSecret == null || consumerSecret.Length == 0) {
                 Debug.LogError("Consumer Key and Consumer Secret are required.");
                 EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();

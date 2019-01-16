@@ -8,12 +8,16 @@ namespace Foursquare
 	{
 
 		private string _consumerKey;
+
 		private string _consumerSecret;
+
+		private bool _copyAlwaysEnabled;
 
 		void OnEnable()
 		{
-			_consumerKey = PilgrimConfigSettings.Get("ConsumerKey");
-			_consumerSecret = PilgrimConfigSettings.Get("ConsumerSecret");
+			_consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
+			_consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
+			_copyAlwaysEnabled = PilgrimConfigSettings.GetBool(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, true);
 		}
 
 		void OnGUI()
@@ -30,9 +34,14 @@ namespace Foursquare
 
 			GUILayout.Space(10.0f);
 
+			_copyAlwaysEnabled = GUILayout.Toggle(_copyAlwaysEnabled, " iOS: Copy NSLocationWhenInUseUsageDescription to\n        NSLocationAlwaysAndWhenInUseUsageDescription");
+
+			GUILayout.Space(10.0f);
+
 			if (GUILayout.Button("Save")) {
-				PilgrimConfigSettings.Set("ConsumerKey", _consumerKey);
-				PilgrimConfigSettings.Set("ConsumerSecret", _consumerSecret);
+				PilgrimConfigSettings.Set(PilgrimConfigSettings.ConsumerKeyKey, _consumerKey);
+				PilgrimConfigSettings.Set(PilgrimConfigSettings.ConsumerSecretKey, _consumerSecret);
+				PilgrimConfigSettings.Set(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, _copyAlwaysEnabled);
 				PilgrimConfigSettings.Save();
 				Close();
 			}

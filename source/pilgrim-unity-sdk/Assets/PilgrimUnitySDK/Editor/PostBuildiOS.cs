@@ -14,7 +14,7 @@ namespace Foursquare
         [PostProcessBuild]
         public static void AddAlwaysAndWhenInUseUsageDescription(BuildTarget buildTarget, string pathToBuiltProject)
         {
-            if (buildTarget == BuildTarget.iOS) {
+            if (buildTarget == BuildTarget.iOS && PilgrimConfigSettings.GetBool(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, true)) {
                 var plistPath = string.Format("{0}/Info.plist", pathToBuiltProject);
                 
                 var plist = new PlistDocument();
