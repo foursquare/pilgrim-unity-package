@@ -15,15 +15,7 @@ public final class PilgrimUnitySDK {
 
     public static void init(@NonNull Context context, @NonNull String consumerKey, @NonNull String consumerSecret) {
         PilgrimSdk.with(new PilgrimSdk.Builder(context).consumer(consumerKey, consumerSecret));
-        setUserInfo(context);
         restartIfPreviouslyStarted(context);
-    }
-
-    private static void setUserInfo(@NonNull Context context) {
-        PilgrimUserInfo userInfo = Utils.loadUserInfo(context);
-        if (userInfo != null) {
-            PilgrimSdk.get().setUserInfo(userInfo);
-        }
     }
 
     private static void restartIfPreviouslyStarted(@NonNull Context context) {

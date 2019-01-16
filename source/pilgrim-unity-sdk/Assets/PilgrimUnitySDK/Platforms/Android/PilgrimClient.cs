@@ -24,7 +24,7 @@ namespace Foursquare.Android
             }
         }
 
-        public void SetUserInfo(PilgrimUserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
             using (var userInfoMap = new AndroidJavaObject("java.util.HashMap"))
             {
@@ -43,7 +43,7 @@ namespace Foursquare.Android
                     }
                 }
 
-                _androidPilgrimClient.Call("setUserInfo", userInfoMap);
+                _androidPilgrimClient.Call("setUserInfo", userInfoMap, persisted);
             }
         }
 
