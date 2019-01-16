@@ -7,7 +7,7 @@ namespace Foursquare
     [Serializable]
     public class GeofenceEvent
     {
-        
+
         [SerializeField]
         private Venue venue;
 

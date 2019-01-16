@@ -10,9 +10,9 @@ namespace Foursquare.iOS
     public class PilgrimClient : IPilgrimClient, IDisposable
     {
 
-        public event Action<bool> OnLocationPermissionResult = delegate {};
+        public event Action<bool> OnLocationPermissionResult = delegate { };
 
-        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate {};
+        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
         internal delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
 
@@ -32,11 +32,14 @@ namespace Foursquare.iOS
         public void SetUserInfo(PilgrimUserInfo userInfo)
         {
             var json = "{";
-            foreach (var pair in userInfo.BackingStore) {
-                if (json.Length > 1) {
+            foreach (var pair in userInfo.BackingStore)
+            {
+                if (json.Length > 1)
+                {
                     json += ",";
                 }
-                if (pair.Value != null) {
+                if (pair.Value != null)
+                {
                     json += "\"" + pair.Key + "\":\"" + pair.Value + "\"";
                 }
             }
@@ -86,10 +89,13 @@ namespace Foursquare.iOS
         private static void OnGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson, string errorMessage)
         {
             var client = GCHandle.FromIntPtr(clientHandlePtr).Target as PilgrimClient;
-            if (success) {
+            if (success)
+            {
                 var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
                 client.OnGetCurrentLocationResult(currentLocation, null);
-            } else {
+            }
+            else
+            {
                 client.OnGetCurrentLocationResult(null, new Exception(errorMessage));
             }
         }

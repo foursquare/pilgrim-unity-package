@@ -8,7 +8,7 @@ namespace Foursquare
     [Serializable]
     public class CurrentLocation
     {
-        
+
         [SerializeField]
         private Visit currentPlace;
 

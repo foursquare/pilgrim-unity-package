@@ -7,7 +7,7 @@ namespace Foursquare
     [Serializable]
     public class Visit
     {
-        
+
         [SerializeField]
         private Location location;
 

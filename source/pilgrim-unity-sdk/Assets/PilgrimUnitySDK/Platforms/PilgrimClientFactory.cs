@@ -3,18 +3,18 @@ namespace Foursquare
 
     public static class PilgrimClientFactory
     {
-        
+
         public static IPilgrimClient PilgrimClient()
         {
-            #if UNITY_EDITOR
-                return new DummyClient();
-            #elif UNITY_IOS
+#if UNITY_EDITOR
+            return new DummyClient();
+#elif UNITY_IOS
                 return new Foursquare.iOS.PilgrimClient();
-            #elif UNITY_ANDROID
+#elif UNITY_ANDROID
                 return new Foursquare.Android.PilgrimClient();
-            #else
+#else
                 return new DummyClient();
-            #endif
+#endif
         }
 
     }

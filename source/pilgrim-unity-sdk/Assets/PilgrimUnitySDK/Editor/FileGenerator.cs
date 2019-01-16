@@ -7,8 +7,8 @@ namespace Foursquare
 
     public static class FileGenerator
     {
-        
-                private const string _appControllerText = 
+
+        private const string _appControllerText =
 @"#import ""UnityAppController.h""
 #import ""PilgrimUnitySDK.h""
 
@@ -28,7 +28,7 @@ IMPL_APP_CONTROLLER_SUBCLASS(AppController)
 @end
 ";
 
-        private const string _appSubclassText = 
+        private const string _appSubclassText =
 @"package {0};
 
 import android.app.Application;
@@ -46,7 +46,7 @@ public final class App extends Application {{
 }}
 ";
 
-        private const string _manifestText = 
+        private const string _manifestText =
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <manifest xmlns:android=""http://schemas.android.com/apk/res/android"" package=""{0}"" xmlns:tools=""http://schemas.android.com/tools"" android:installLocation=""preferExternal"">
   <supports-screens android:smallScreens=""true"" android:normalScreens=""true"" android:largeScreens=""true"" android:xlargeScreens=""true"" android:anyDensity=""true"" />
@@ -64,14 +64,18 @@ public final class App extends Application {{
 
         public static void GenerateiOSAppController()
         {
-            if (HasSetConsumerKeyAndSecret()) {
+            if (HasSetConsumerKeyAndSecret())
+            {
                 var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
                 var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appControllerText, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/iOS/AppController.m";
-                if (File.Exists(filePath)) {
+                if (File.Exists(filePath))
+                {
                     Debug.LogError(filePath + " already exists!");
-                } else {
+                }
+                else
+                {
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(filePath + " created successfully!");
                 }
@@ -81,14 +85,18 @@ public final class App extends Application {{
 
         public static void GenerateAndroidAppSubclass()
         {
-            if (HasSetConsumerKeyAndSecret() && HasSetPackageName()) {
+            if (HasSetConsumerKeyAndSecret() && HasSetPackageName())
+            {
                 var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
                 var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appSubclassText, PlayerSettings.applicationIdentifier, consumerKey, consumerSecret);
                 var filePath = Application.dataPath + "/Plugins/Android/App.java";
-                if (File.Exists(filePath)) {
+                if (File.Exists(filePath))
+                {
                     Debug.LogError(filePath + " already exists!");
-                } else {
+                }
+                else
+                {
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(filePath + " created successfully!");
                 }
@@ -98,12 +106,16 @@ public final class App extends Application {{
 
         public static void GenerateAndroidManifest()
         {
-            if (HasSetConsumerKeyAndSecret() && HasSetPackageName()) {
+            if (HasSetConsumerKeyAndSecret() && HasSetPackageName())
+            {
                 var fileContents = string.Format(_manifestText, PlayerSettings.applicationIdentifier, PlayerSettings.applicationIdentifier);
                 var filePath = Application.dataPath + "/Plugins/Android/AndroidManifest.xml";
-                if (File.Exists(filePath)) {
+                if (File.Exists(filePath))
+                {
                     Debug.LogError(filePath + " already exists!");
-                } else {
+                }
+                else
+                {
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(filePath + " created successfully!");
                 }
@@ -111,11 +123,12 @@ public final class App extends Application {{
             }
         }
 
-        private static bool HasSetConsumerKeyAndSecret() 
+        private static bool HasSetConsumerKeyAndSecret()
         {
             var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
             var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
-            if (consumerKey == null || consumerKey.Length == 0 || consumerSecret == null || consumerSecret.Length == 0) {
+            if (consumerKey == null || consumerKey.Length == 0 || consumerSecret == null || consumerSecret.Length == 0)
+            {
                 Debug.LogError("Consumer Key and Consumer Secret are required.");
                 EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
                 return false;
@@ -125,7 +138,8 @@ public final class App extends Application {{
 
         private static bool HasSetPackageName()
         {
-            if (PlayerSettings.applicationIdentifier == null || PlayerSettings.applicationIdentifier.Length == 0) {
+            if (PlayerSettings.applicationIdentifier == null || PlayerSettings.applicationIdentifier.Length == 0)
+            {
                 Debug.LogError("You must set the package name!");
                 return false;
             }

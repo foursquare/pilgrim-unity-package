@@ -9,9 +9,9 @@ namespace Foursquare.Android
     public class PilgrimClient : AndroidJavaProxy, IPilgrimClient, IDisposable
     {
 
-        public event Action<bool> OnLocationPermissionResult = delegate {};
+        public event Action<bool> OnLocationPermissionResult = delegate { };
 
-        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate {};
+        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
         private AndroidJavaObject _androidPilgrimClient;
 
@@ -24,18 +24,20 @@ namespace Foursquare.Android
             }
         }
 
-        public void SetUserInfo(PilgrimUserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo)
         {
             using (var userInfoMap = new AndroidJavaObject("java.util.HashMap"))
             {
                 var putMethod = AndroidJNIHelper.GetMethodID(userInfoMap.GetRawClass(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
                 object[] args = new object[2];
-                foreach (var pair in userInfo.BackingStore) {
-                    if (pair.Value == null) {
+                foreach (var pair in userInfo.BackingStore)
+                {
+                    if (pair.Value == null)
+                    {
                         continue;
                     }
                     using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", pair.Key))
-                    using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", pair.Value)) 
+                    using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", pair.Value))
                     {
                         args[0] = k;
                         args[1] = v;
@@ -77,15 +79,20 @@ namespace Foursquare.Android
             _androidPilgrimClient.Dispose();
         }
 
-        public void onLocationPermissionResult(bool granted) {
+        public void onLocationPermissionResult(bool granted)
+        {
             OnLocationPermissionResult(granted);
         }
 
-        public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage) {
-            if (success) {
+        public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage)
+        {
+            if (success)
+            {
                 var currentLocation = JsonUtility.FromJson<CurrentLocation>(currentLocationJson);
                 OnGetCurrentLocationResult(currentLocation, null);
-            } else {
+            }
+            else
+            {
                 OnGetCurrentLocationResult(null, new Exception(errorMessage));
             }
         }

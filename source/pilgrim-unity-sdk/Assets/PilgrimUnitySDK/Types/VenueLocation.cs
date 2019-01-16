@@ -7,7 +7,7 @@ namespace Foursquare
     [Serializable]
     public class VenueLocation
     {
-        
+
         [SerializeField]
         private string address;
 

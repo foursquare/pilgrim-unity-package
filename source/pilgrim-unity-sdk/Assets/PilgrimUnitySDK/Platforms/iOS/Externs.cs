@@ -3,11 +3,11 @@
 using System;
 using System.Runtime.InteropServices;
 
- namespace Foursquare.iOS
- {
+namespace Foursquare.iOS
+{
 
-     public class Externs
-     {
+    public class Externs
+    {
 
         [DllImport("__Internal")]
         internal static extern IntPtr CreateClient(IntPtr clientHandlePtr);
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 
         [DllImport("__Internal")]
         internal static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson);
-        
+
         [DllImport("__Internal")]
         internal static extern void RequestLocationPermissions(IntPtr clientPtr);
 
@@ -38,8 +38,8 @@ using System.Runtime.InteropServices;
         [DllImport("__Internal")]
         internal static extern void GetCurrentLocation(IntPtr clientPtr);
 
-     }
+    }
 
- }
+}
 
- #endif
+#endif
