@@ -23,7 +23,7 @@ namespace Foursquare
         private Category[] categories;
 
         public IList<Category> Categories { get { return new List<Category>(categories); } }
-        
+
     }
 
 }

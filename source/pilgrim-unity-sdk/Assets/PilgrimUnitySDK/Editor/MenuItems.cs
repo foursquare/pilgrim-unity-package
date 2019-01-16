@@ -9,10 +9,10 @@ namespace Foursquare
     {
 
         [MenuItem("Assets/Pilgrim Unity SDK/Configuration")]
-		private static void ShowWindow()
-		{
-			EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
-		}
+        private static void ShowWindow()
+        {
+            EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
+        }
 
         [MenuItem("Assets/Pilgrim Unity SDK/iOS/Generate AppController.m")]
         private static void GenerateiOSAppController()

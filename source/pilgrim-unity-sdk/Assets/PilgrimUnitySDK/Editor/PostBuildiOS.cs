@@ -10,20 +10,21 @@ namespace Foursquare
     public static class PostBuildiOS
     {
 
-        // TODO MAKE THIS CONFIGURABLE IN PILGRIM CONFIG
         [PostProcessBuild]
         public static void AddAlwaysAndWhenInUseUsageDescription(BuildTarget buildTarget, string pathToBuiltProject)
         {
-            if (buildTarget == BuildTarget.iOS && PilgrimConfigSettings.GetBool(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, true)) {
+            if (buildTarget == BuildTarget.iOS && PilgrimConfigSettings.GetBool(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, true))
+            {
                 var plistPath = string.Format("{0}/Info.plist", pathToBuiltProject);
-                
+
                 var plist = new PlistDocument();
                 plist.ReadFromFile(plistPath);
 
                 var root = plist.root;
 
                 var whenInUseUsageDescription = root["NSLocationWhenInUseUsageDescription"];
-                if (whenInUseUsageDescription != null) {
+                if (whenInUseUsageDescription != null)
+                {
                     root["NSLocationAlwaysAndWhenInUseUsageDescription"] = whenInUseUsageDescription;
                 }
 

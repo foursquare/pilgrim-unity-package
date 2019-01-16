@@ -2,101 +2,108 @@
 using System;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour 
+public class GameManager : MonoBehaviour
 {
 
-	[SerializeField]
-	private CurrentLocationUI _currentLocationUIPrefab;
+    [SerializeField]
+    private CurrentLocationUI _currentLocationUIPrefab;
 
-	[SerializeField]
-	private UserInfoUI _userInfoUIPrefab;
+    [SerializeField]
+    private UserInfoUI _userInfoUIPrefab;
 
-	[SerializeField]
-	private GameObject _loadingUIPrefab;
+    [SerializeField]
+    private GameObject _loadingUIPrefab;
 
-	[SerializeField]
-	private AlertUI _alertUIPrefab;
+    [SerializeField]
+    private AlertUI _alertUIPrefab;
 
-	private GameObject loadingUI;
+    private GameObject loadingUI;
 
-	private enum NextAction
-	{
-		START,
-		GET_CURRENT_LOCATION
-	}
+    private enum NextAction
+    {
+        START,
+        GET_CURRENT_LOCATION
+    }
 
-	private NextAction nextAction;
-	
-	void OnEnable()
-	{
-		PilgrimUnitySDK.OnLocationPermissionResult += OnLocationPermissionResult;
-		PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocationResult;
-	}
+    private NextAction nextAction;
 
-	void OnDisable()
-	{
-		PilgrimUnitySDK.OnLocationPermissionResult -= OnLocationPermissionResult;
-		PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocationResult;
-	}
+    void OnEnable()
+    {
+        PilgrimUnitySDK.OnLocationPermissionResult += OnLocationPermissionResult;
+        PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocationResult;
+    }
 
-	public void OnPressStart()
-	{
-		nextAction = NextAction.START;
-		PilgrimUnitySDK.RequestLocationPermissions();
-	}
+    void OnDisable()
+    {
+        PilgrimUnitySDK.OnLocationPermissionResult -= OnLocationPermissionResult;
+        PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocationResult;
+    }
 
-	public void OnPressStop()
-	{
-		PilgrimUnitySDK.Stop();
-	}
+    public void OnPressStart()
+    {
+        nextAction = NextAction.START;
+        PilgrimUnitySDK.RequestLocationPermissions();
+    }
 
-	public void OnPressClearData()
-	{
-		PilgrimUnitySDK.ClearAllData();
-	}
+    public void OnPressStop()
+    {
+        PilgrimUnitySDK.Stop();
+    }
 
-	public void OnPressGetCurrentLocation()
-	{
-		nextAction = NextAction.GET_CURRENT_LOCATION;
-		PilgrimUnitySDK.RequestLocationPermissions();
-	}
+    public void OnPressClearData()
+    {
+        PilgrimUnitySDK.ClearAllData();
+    }
 
-	public void OnPressSetUserInfo()
-	{
-		var canvas = GameObject.FindObjectOfType<Canvas>();
-		var userInfoUI = Instantiate<UserInfoUI>(_userInfoUIPrefab, Vector3.zero, Quaternion.identity);
-		userInfoUI.transform.SetParent(canvas.transform, false);
-	}
+    public void OnPressGetCurrentLocation()
+    {
+        nextAction = NextAction.GET_CURRENT_LOCATION;
+        PilgrimUnitySDK.RequestLocationPermissions();
+    }
 
-	private void OnLocationPermissionResult(bool granted)
-	{
-		if (nextAction == NextAction.START) {
-			if (granted) {
-				PilgrimUnitySDK.Start();
-			}
-		} else if (nextAction == NextAction.GET_CURRENT_LOCATION) {
-			var canvas = GameObject.FindObjectOfType<Canvas>();
-			loadingUI = Instantiate<GameObject>(_loadingUIPrefab, Vector3.zero, Quaternion.identity);
-			loadingUI.transform.SetParent(canvas.transform, false);
-			
-			PilgrimUnitySDK.GetCurrentLocation();
-		}
-	}
+    public void OnPressSetUserInfo()
+    {
+        var canvas = GameObject.FindObjectOfType<Canvas>();
+        var userInfoUI = Instantiate<UserInfoUI>(_userInfoUIPrefab, Vector3.zero, Quaternion.identity);
+        userInfoUI.transform.SetParent(canvas.transform, false);
+    }
 
-	private void OnGetCurrentLocationResult(CurrentLocation currentLocation, Exception exception)
-	{
-		Destroy(loadingUI);
+    private void OnLocationPermissionResult(bool granted)
+    {
+        if (nextAction == NextAction.START)
+        {
+            if (granted)
+            {
+                PilgrimUnitySDK.Start();
+            }
+        }
+        else if (nextAction == NextAction.GET_CURRENT_LOCATION)
+        {
+            var canvas = GameObject.FindObjectOfType<Canvas>();
+            loadingUI = Instantiate<GameObject>(_loadingUIPrefab, Vector3.zero, Quaternion.identity);
+            loadingUI.transform.SetParent(canvas.transform, false);
 
-		var canvas = GameObject.FindObjectOfType<Canvas>();
-		if (currentLocation != null) {
-			var currentLocationUI = Instantiate<CurrentLocationUI>(_currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
-			currentLocationUI.transform.SetParent(canvas.transform, false);
-			currentLocationUI.CurrentLocation = currentLocation;
-		} else {
-			var alertUI = Instantiate<AlertUI>(_alertUIPrefab, Vector3.zero, Quaternion.identity);
-			alertUI.transform.SetParent(canvas.transform, false);
-			alertUI.Message = exception.Message;
-		}
-	}
-	
+            PilgrimUnitySDK.GetCurrentLocation();
+        }
+    }
+
+    private void OnGetCurrentLocationResult(CurrentLocation currentLocation, Exception exception)
+    {
+        Destroy(loadingUI);
+
+        var canvas = GameObject.FindObjectOfType<Canvas>();
+        if (currentLocation != null)
+        {
+            var currentLocationUI = Instantiate<CurrentLocationUI>(_currentLocationUIPrefab, Vector3.zero, Quaternion.identity);
+            currentLocationUI.transform.SetParent(canvas.transform, false);
+            currentLocationUI.CurrentLocation = currentLocation;
+        }
+        else
+        {
+            var alertUI = Instantiate<AlertUI>(_alertUIPrefab, Vector3.zero, Quaternion.identity);
+            alertUI.transform.SetParent(canvas.transform, false);
+            alertUI.Message = exception.Message;
+        }
+    }
+
 }

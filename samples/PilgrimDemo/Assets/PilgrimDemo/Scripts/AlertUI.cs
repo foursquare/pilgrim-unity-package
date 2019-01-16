@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AlertUI : MonoBehaviour 
+public class AlertUI : MonoBehaviour
 {
 
-	[SerializeField]
-	private Text _alertText;
+    [SerializeField]
+    private Text _alertText;
 
-	public string Message
-	{
-		set { _alertText.text = value; }
-	}
+    public string Message
+    {
+        set { _alertText.text = value; }
+    }
 
-	public void OnPressClose()
-	{
-		Destroy(gameObject);
-	}
+    public void OnPressClose()
+    {
+        Destroy(gameObject);
+    }
 
 }

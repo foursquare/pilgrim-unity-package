@@ -7,11 +7,11 @@ namespace Foursquare
     public class DummyClient : IPilgrimClient
     {
 
-        public event Action<bool> OnLocationPermissionResult = delegate {};
+        public event Action<bool> OnLocationPermissionResult = delegate { };
 
-        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate {};
+        public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
-        public void SetUserInfo(UserInfo userInfo, bool persisted)
+        public void SetUserInfo(UserInfo userInfo)
         {
 
         }
@@ -23,17 +23,17 @@ namespace Foursquare
 
         public void Start()
         {
-            
+
         }
 
         public void Stop()
         {
-            
+
         }
 
         public void ClearAllData()
         {
-            
+
         }
 
         public void GetCurrentLocation()
@@ -42,7 +42,7 @@ namespace Foursquare
             var dummyLocation = JsonUtility.FromJson<CurrentLocation>(dummyJson);
             OnGetCurrentLocationResult(dummyLocation, null);
         }
-        
+
     }
 
 }

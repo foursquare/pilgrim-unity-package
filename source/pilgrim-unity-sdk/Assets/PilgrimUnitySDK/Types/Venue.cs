@@ -14,7 +14,7 @@ namespace Foursquare
 
         public string ID { get { return id; } }
 
-        [SerializeField]        
+        [SerializeField]
         private string name;
 
         public string Name { get { return name; } }

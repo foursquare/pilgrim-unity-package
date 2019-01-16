@@ -7,7 +7,7 @@ namespace Foursquare
     public class UserInfo
     {
 
-        public enum Gender 
+        public enum Gender
         {
             Male,
             Female,
@@ -27,14 +27,15 @@ namespace Foursquare
 
         public IDictionary<string, string> BackingStore { get { return new Dictionary<string, string>(_backingStore); } }
 
-        public void SetUserId(string userId) 
+        public void SetUserId(string userId)
         {
             _backingStore[Constants.UserID] = userId;
         }
 
-        public void SetGender(Gender gender) 
+        public void SetGender(Gender gender)
         {
-            switch (gender) {
+            switch (gender)
+            {
                 case Gender.Male:
                     _backingStore[Constants.Gender] = Constants.Male;
                     break;
@@ -49,18 +50,19 @@ namespace Foursquare
 
         public void SetBirthday(DateTime birthday)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             _backingStore[Constants.Birthday] = birthday.UnixSecondsFromDateTime().ToString();
-            #elif UNITY_IOS
+#elif UNITY_IOS
             _backingStore[Constants.Birthday] = birthday.UnixSecondsFromDateTime().ToString();
-            #elif UNITY_ANDROID
+#elif UNITY_ANDROID
             _backingStore[Constants.Birthday] = birthday.UnixMillisecondsFromDateTime().ToString();
-            #endif
+#endif
         }
 
         public void Set(string key, string value)
         {
-            if (key == Constants.UserID || key == Constants.Gender || key == Constants.Birthday) {
+            if (key == Constants.UserID || key == Constants.Gender || key == Constants.Birthday)
+            {
                 return;
             }
             _backingStore[key] = value;
