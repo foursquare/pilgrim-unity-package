@@ -1,6 +1,6 @@
 <dependencies>
   <iosPods>
-    <iosPod name="Pilgrim" version="2.1.0" minTargetSdk="10.0" />
+    <iosPod name="Pilgrim" version="2.1.1" minTargetSdk="10.0" />
   </iosPods>
   <androidPackages>
     <androidPackage spec="com.google.code.gson:gson:2.8.2" />
@@ -12,7 +12,7 @@
     <androidPackage spec="com.google.android.gms:play-services-location:11.6.0" />
     <androidPackage spec="com.google.android.gms:play-services-gcm:11.6.0" />
     <androidPackage spec="com.evernote:android-job:1.2.2" />
-    <androidPackage spec="com.foursquare:pilgrimsdk:2.1.0">
+    <androidPackage spec="com.foursquare:pilgrimsdk:2.1.1">
       <repositories>
         <repository>https://foursquare.jfrog.io/foursquare/libs-release/</repository>
       </repositories>
