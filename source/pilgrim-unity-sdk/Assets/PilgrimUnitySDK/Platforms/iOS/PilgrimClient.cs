@@ -29,7 +29,7 @@ namespace Foursquare.iOS
             Externs.SetCallbacks(_clientPtr, OnLocationPermissionsCallback, OnGetCurrentLocationCallback);
         }
 
-        public void SetUserInfo(PilgrimUserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo)
         {
             var json = "{";
             foreach (var pair in userInfo.BackingStore)
