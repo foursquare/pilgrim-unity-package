@@ -1,17 +1,14 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 defaultTasks "exportUnityPackage"
 
 project.ext {
-    unity_command = System.getProperty("UNITY_COMMAND")
-    if (unity_command == null || unity_command.isEmpty()) {
-        if (Os.isFamily(Os.FAMILY_MAC)) {
-            unity_command = "/Applications/Unity/Hub/Editor/2018.3.0f2/Unity.app/Contents/MacOS/Unity"
-        } else {
-            unity_command = "C:\\Program Files\\Unity\\Editor\\Unity.exe"
-        }
+    if (project.hasProperty('unity_command')) {
+        unity_command = project.unity_command
+    } else if (System.getenv("UNITY_COMMAND") != null) {
+        unity_command = System.getenv("UNITY_COMMAND")
+    } else {
+        throw new GradleException("Set UNITY_COMMAND env variable or pass as parameter -Punity_command")
     }
-
+    
     tempDir = file('temp').absolutePath
     pluginSource = file('source/pilgrim-unity-sdk').absolutePath
     pluginBuildDir = file('temp/pilgrim-unity-sdk').absolutePath
