@@ -46,7 +46,7 @@ namespace Foursquare
             }
             else if (editorMock.mockLocation == null)
             {
-                Debug.LogError("PilgrimUnitySDK Error: Null mock location on GetCurrentLocationEditorMock script attached to " + editorMock.gameObject.name);
+                Debug.LogError(string.Format("PilgrimUnitySDK Error: Null mock location on GetCurrentLocationEditorMock script attached to {0}", editorMock.gameObject.name));
                 return;
             }
             var currentLocation = editorMock.mockLocation.CurrentLocation;
