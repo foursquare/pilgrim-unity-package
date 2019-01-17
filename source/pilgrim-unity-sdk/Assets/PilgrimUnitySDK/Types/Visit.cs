@@ -19,6 +19,12 @@ namespace Foursquare
         public DateTime ArrivalTime { get { return arrivalTime.DateTimeFromUnixTime(); } }
 
         [SerializeField]
+        private LocationType locationType;
+
+        [SerializeField]
+        private Confidence confidence;
+
+        [SerializeField]
         private Venue venue;
 
         public Venue Venue { get { return venue; } }

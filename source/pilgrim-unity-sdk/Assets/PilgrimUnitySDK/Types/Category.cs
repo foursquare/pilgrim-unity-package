@@ -40,6 +40,4 @@ namespace Foursquare
 
     }
 
-
-
 }
