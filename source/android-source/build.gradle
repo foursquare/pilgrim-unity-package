@@ -20,7 +20,11 @@ allprojects {
         google()
         jcenter()
         maven {
-            url 'https://foursquare.jfrog.io/foursquare/libs-release/'
+            credentials {
+                username "brojas"
+                password "Foursquare!"
+            }
+            url 'https://foursquare.jfrog.io/foursquare/libs-internal-release/'
         }
     }
 }
