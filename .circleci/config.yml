@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: debian:stretch
+    macos:
+      xcode: "10.1.0"
     steps:
       - checkout
       - run:
@@ -11,3 +11,8 @@ jobs:
       - run:
           name: Print the Current Time
           command: date
+      - run:
+          name: Code Has Arrived
+          command: |
+            ls -al
+            echo '^^^That should look familiar^^^'
