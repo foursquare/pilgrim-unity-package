@@ -12,6 +12,7 @@ android {
     }
 }
 dependencies {
-    compileOnly files('/Applications/Unity/Hub/Editor/2018.3.0f2/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+    project.ext.unity_root = project.unity_root
+    compileOnly files(unity_root + '/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
     compileOnly 'com.foursquare:pilgrimsdk:2.1.1'
 }

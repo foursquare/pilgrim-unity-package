@@ -1,13 +1,45 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: debian:stretch
+    macos:
+      xcode: "10.1.0"
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Install Android
+          command: brew cask install android-sdk
       - run:
-          name: Print the Current Time
-          command: date
+          name: Copy Android License
+          command: cp -R licenses /usr/local/share/android-sdk/licenses
+      - run:
+          name: Install Unity
+          command: brew cask install unity unity-android-support-for-editor
+      - run: 
+          name: Build Pilgrim Unity SDK Package
+          environment:
+            UNITY_ROOT: /Applications/Unity
+            ANDROID_HOME: /usr/local/share/android-sdk
+          command: ./gradlew
+      - run:
+            name: Publish Release on GitHub 
+            command: |
+              ios_version=$(sed -n '/iosPod name="Pilgrim"/p' source/pilgrim-unity-sdk/Assets/PilgrimUnitySDK/Editor/PilgrimUnitySDKDependencies.xml | sed 's/.*version="\([0-9]\.[0-9]\.[0-9]\)".*/\1/')
+              android_version=$(sed -n '/androidPackage spec="com\.foursquare:pilgrimsdk/p' source/pilgrim-unity-sdk/Assets/PilgrimUnitySDK/Editor/PilgrimUnitySDKDependencies.xml | sed 's/.*pilgrimsdk:\([0-9]\.[0-9]\.[0-9]\)".*/\1/')
+              response_json=$(curl -s -X POST -d "{\"tag_name\":\"$CIRCLE_TAG\",\"name\":\"$CIRCLE_TAG\",\"body\":\"iOS SDK version: ${ios_version}\nAndroid SDK version: ${android_version}\",\"draft\":false,\"prerelease\":false}" -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/foursquare/pilgrim-unity-sdk/releases")
+              
+              release_id=$(echo $response_json | jq '.id')
+              project_dir="$CIRCLE_WORKING_DIRECTORY"
+              # just using $CIRCLE_WORKING_DIRECTORY in curl doesn't work for some reason
+              eval project_dir=$project_dir
+              curl -s -X POST --data-binary "@${project_dir}/pilgrim-unity-sdk.unitypackage" -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/octet-stream" -H "Accept: application/vnd.github.v3+json" "https://uploads.github.com/repos/foursquare/pilgrim-unity-sdk/releases/$release_id/assets?name=pilgrim-unity-sdk-$CIRCLE_TAG.unitypackage"
+              
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
