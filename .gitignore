@@ -1,1 +1,6 @@
-pilgrim-unity-sdk-*.unitypackage
+*.unitypackage
+*.log
+.project
+*.gradle
+*.vscode
+.settings
