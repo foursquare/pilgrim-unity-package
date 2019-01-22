@@ -93,8 +93,6 @@ public class GameManager : MonoBehaviour
 
     public void FadeOutDidFinish()
     {
-        _locationElements.ShowArrow();
-
         var duration = _locationElements.MoveToMap(_elevation);
         StartCoroutine(SwitchToCameraExtents(duration));
     }
@@ -115,6 +113,7 @@ public class GameManager : MonoBehaviour
         _map.SetExtent(MapExtentType.CameraBounds);
         _centerButton.gameObject.SetActive(true);
         _backButton.gameObject.SetActive(true);
+        _locationElements.ShowArrow();
     }
 
     private IEnumerator FadeInAndGetCurrentLocation(float delay)
