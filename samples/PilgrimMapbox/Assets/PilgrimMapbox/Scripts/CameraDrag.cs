@@ -43,8 +43,6 @@ public class CameraDrag : MonoBehaviour
         _fromPosition = transform.position;
         var distance = (_fromPosition - Center).magnitude;
         _duration = 100.0f / distance;
-        Debug.Log(distance);
-        Debug.Log(_duration);
         _isCentering = true;
     }
 

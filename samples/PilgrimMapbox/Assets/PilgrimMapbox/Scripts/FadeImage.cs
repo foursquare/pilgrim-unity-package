@@ -22,12 +22,16 @@ public class FadeImage : MonoBehaviour
         _animator.SetTrigger("FadeOut");
     }
 
+    public void FadeIn()
+    {
+        _animator.SetTrigger("FadeIn");
+    }
+
     private void FadeOutComplete()
     {
         if (_onFadeOutComplete != null)
         {
             _onFadeOutComplete.Invoke();
-            Destroy(gameObject);
         }
     }
 
