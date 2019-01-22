@@ -9,11 +9,11 @@ namespace Foursquare
 #if UNITY_EDITOR
             return new DummyClient();
 #elif UNITY_IOS
-                return new Foursquare.iOS.PilgrimClient();
+            return new Foursquare.iOS.PilgrimClient();
 #elif UNITY_ANDROID
-                return new Foursquare.Android.PilgrimClient();
+            return new Foursquare.Android.PilgrimClient();
 #else
-                return new DummyClient();
+            return new DummyClient();
 #endif
         }
 
