@@ -73,9 +73,13 @@ public class GameManager : MonoBehaviour
             _map.OnUpdated += () =>
             {
                 _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
-                if (_elevation == 0)
+                if (Mathf.Approximately(_elevation, 0.0f))
                 {
                     _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
+                }
+                else
+                {
+                    _map.Terrain.ElevationType = ElevationLayerType.TerrainWithElevation;
                 }
                 GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
             };
