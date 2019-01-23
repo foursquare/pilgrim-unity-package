@@ -13,7 +13,7 @@ jobs:
           command: cp -R licenses /usr/local/share/android-sdk/licenses
       - run:
           name: Install Unity
-          command: brew cask install unity unity-android-support-for-editor
+          command: brew cask install unity
       - run: 
           name: Build Pilgrim Unity SDK Package
           environment:
