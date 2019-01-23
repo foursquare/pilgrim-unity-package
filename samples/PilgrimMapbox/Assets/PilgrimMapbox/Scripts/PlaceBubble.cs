@@ -1,4 +1,5 @@
 ﻿using Foursquare;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,6 +12,16 @@ public class PlaceBubble : MonoBehaviour
     {
         set
         {
+            if (value == null)
+            {
+                _loadingText.text = "Pilgrim is determining your location...";
+                _venueNameText.text = "";
+                _address1Text.text = "";
+                _address2Text.text = "";
+                _categoryIconRenderer.gameObject.SetActive(false);
+                return;
+            }
+
             _loadingText.text = "";
             _venueNameText.text = value.Name;
             var location = value.LocationInformation;
@@ -24,6 +35,18 @@ public class PlaceBubble : MonoBehaviour
                 _address1Text.text = "No Address Information";
             }
             StartCoroutine(LoadCategoryIcon(value.Categories[0].Icon));
+        }
+    }
+
+    public Exception Exception
+    {
+        set
+        {
+            _loadingText.text = value.Message;
+            _venueNameText.text = "";
+            _address1Text.text = "";
+            _address2Text.text = "";
+            _categoryIconRenderer.gameObject.SetActive(false);
         }
     }
 
@@ -58,6 +81,7 @@ public class PlaceBubble : MonoBehaviour
             }
             else
             {
+                _categoryIconRenderer.gameObject.SetActive(true);
                 _categoryIconRenderer.material.color = Color.white;
                 _categoryIconRenderer.material.mainTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             }

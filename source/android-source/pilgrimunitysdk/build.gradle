@@ -11,8 +11,8 @@ android {
         multiDexEnabled true
     }
 }
+
 dependencies {
-    project.ext.unity_root = project.unity_root
-    compileOnly files(unity_root + '/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
-    compileOnly 'com.foursquare:pilgrimsdk:2.1.1'
+    compileOnly files(project.getProperties().get("unity_root") + '/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+    compileOnly 'com.foursquare:pilgrimsdk:2.1.0'
 }

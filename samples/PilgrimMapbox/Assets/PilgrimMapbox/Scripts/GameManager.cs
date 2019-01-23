@@ -18,7 +18,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button _centerButton;
 
+    [SerializeField]
+    private Button _backButton;
+
     private float _elevation;
+
+    private bool _isMapInitialized;
 
     void OnEnable()
     {
@@ -35,16 +40,25 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _centerButton.gameObject.SetActive(false);
+        _backButton.gameObject.SetActive(false);
+        _locationElements.HideArrow();
+
         PilgrimUnitySDK.RequestLocationPermissions();
     }
 
     public void OnGetLocationPermission(bool granted)
     {
-        PilgrimUnitySDK.GetCurrentLocation();
+        StartCoroutine(FakeLatency(() => { PilgrimUnitySDK.GetCurrentLocation(); }));
     }
 
     public void OnGetCurrentLocation(CurrentLocation currentLocation, Exception exception)
     {
+        if (exception != null)
+        {
+            _locationElements.PlaceBubble.Exception = exception;
+            return;
+        }
+
         var currentPlace = currentLocation.CurrentPlace;
         var latLng = new Vector2d(currentPlace.Location.Latitude, currentPlace.Location.Longitude);
         if (currentPlace != null)
@@ -53,25 +67,48 @@ public class GameManager : MonoBehaviour
 
             _map.OnInitialized += () =>
             {
+                _isMapInitialized = true;
                 _map.UpdateMap(latLng); // QueryElevationInUnityUnitsAt doesn't seem to work in OnInitialized
             };
             _map.OnUpdated += () =>
             {
                 _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
-                if (_elevation == 0)
+                if (Mathf.Approximately(_elevation, 0.0f))
                 {
                     _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
                 }
+                else
+                {
+                    _map.Terrain.ElevationType = ElevationLayerType.TerrainWithElevation;
+                }
                 GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
             };
-            _map.Initialize(latLng, 17);
+
+            if (!_isMapInitialized)
+            {
+                _map.Initialize(latLng, 17);
+            }
+            else
+            {
+                _map.UpdateMap(latLng);
+            }
         }
     }
 
     public void FadeOutDidFinish()
     {
-        var duration = _locationElements.Move(_elevation);
+        var duration = _locationElements.MoveToMap(_elevation);
         StartCoroutine(SwitchToCameraExtents(duration));
+    }
+
+    public void OnPressBack()
+    {
+        _centerButton.gameObject.SetActive(false);
+        _backButton.gameObject.SetActive(false);
+        _locationElements.HideArrow();
+
+        var duration = _locationElements.MoveFromMap();
+        StartCoroutine(FadeInAndGetCurrentLocation(duration));
     }
 
     private IEnumerator SwitchToCameraExtents(float delay)
@@ -79,6 +116,26 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         _map.SetExtent(MapExtentType.CameraBounds);
         _centerButton.gameObject.SetActive(true);
+        _backButton.gameObject.SetActive(true);
+        _locationElements.ShowArrow();
+    }
+
+    private IEnumerator FadeInAndGetCurrentLocation(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
+        _locationElements.PlaceBubble.Venue = null;
+        StartCoroutine(FakeLatency(() => { PilgrimUnitySDK.GetCurrentLocation(); }));
+    }
+
+    private IEnumerator FakeLatency(Action action)
+    {
+#if UNITY_EDITOR
+        yield return new WaitForSeconds(1.0f);
+#else
+        yield return null;
+#endif
+        action();
     }
 
 }

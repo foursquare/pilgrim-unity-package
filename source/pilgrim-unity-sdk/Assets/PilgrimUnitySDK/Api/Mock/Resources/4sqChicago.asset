@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f08d8f7d1bfa418fb22f858e3ab655e, type: 3}
+  m_Script: {fileID: 11500000, guid: 17eee8b5a0c5746dca9395c86e1f561f, type: 3}
   m_Name: 4sqChicago
   m_EditorClassIdentifier: 
   _currentLocation:
     currentPlace:
       location:
-        latitude: 41.889312744140625
-        longitude: -87.62864226755086
+        latitude: 41.889264
+        longitude: -87.628911
       arrivalTime: 1547743400.999652
       locationType: 2
       confidence: 3

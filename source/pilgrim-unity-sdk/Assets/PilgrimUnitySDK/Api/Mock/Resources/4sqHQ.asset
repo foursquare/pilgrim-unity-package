@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17eee8b5a0c5746dca9395c86e1f561f, type: 3}
+  m_Name: 4sqHQ
+  m_EditorClassIdentifier: 
+  _currentLocation:
+    currentPlace:
+      location:
+        latitude: 40.7420588232155
+        longitude: -73.9918041229248
+      arrivalTime: 1547743400.99965
+      locationType: 2
+      confidence: 3
+      venue:
+        id: 5a187743ccad6b307315e6fe
+        name: Foursquare HQ
+        locationInformation:
+          address: 50 W 23rd St
+          crossStreet: btwn 5th & 6th Ave
+          city: New York
+          state: NY
+          postalCode: 10010
+          country: US
+          location:
+            latitude: 40.742058823215544
+            longitude: -73.9918041229248
+        partnerVenueId: 
+        probability: 0.47811751967216193
+        chains:
+        - id: 556e5779bd6a82902e28bcea
+          name: Foursquare
+        categories:
+        - id: 4bf58dd8d48988d125941735
+          name: Tech Startup
+          pluralName: Tech Startups
+          shortName: Tech Startup
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
+            suffix: .png
+          isPrimary: 1
+        hierarchy: []
+    matchedGeofences:
+    - venue:
+        id: 4e38157daeb7c8fe3177aa84
+        name: Fianacier
+        locationInformation:
+          address: 87 E 42nd St
+          crossStreet: 
+          city: New York
+          state: NY
+          postalCode: 10017
+          country: US
+          location:
+            latitude: 40.742002779012296
+            longitude: -73.99329581685849
+        partnerVenueId: 
+        probability: 0
+        chains: []
+        categories:
+        - id: 4bf58dd8d48988d16d941735
+          name: "Caf\xE9"
+          pluralName: "Caf\xE9s"
+          shortName: "Caf\xE9"
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/food/cafe_
+            suffix: .png
+          isPrimary: 1
+        - id: 4bf58dd8d48988d1e0931735
+          name: Coffee Shop
+          pluralName: Coffee Shops
+          shortName: Coffee Shop
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_
+            suffix: .png
+          isPrimary: 0
+        - id: 4bf58dd8d48988d16a941735
+          name: Bakery
+          pluralName: Bakeries
+          shortName: Bakery
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/food/bakery_
+            suffix: .png
+          isPrimary: 0
+        hierarchy: []
+      location:
+        latitude: 40.742218017578125
+        longitude: -73.993863
+      timestamp: 1548185141.215256
+    - venue:
+        id: 4a58d0acf964a520f6b71fe3
+        name: Starbucks
+        locationInformation:
+          address: 684 Avenue of the Americas
+          crossStreet: at W 22nd St
+          city: New York
+          state: NY
+          postalCode: 10010
+          country: US
+          location:
+            latitude: 40.741844
+            longitude: -73.99324
+        partnerVenueId: 
+        probability: 0
+        chains: []
+        categories:
+        - id: 4bf58dd8d48988d1e0931735
+          name: Coffee Shop
+          pluralName: Coffee Shops
+          shortName: Coffee Shop
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_
+            suffix: .png
+          isPrimary: 1
+        hierarchy: []
+      location:
+        latitude: 40.742218017578125
+        longitude: -73.993863
+      timestamp: 1548185141.215256
+    - venue:
+        id: 4f625ddce4b00c2a011b879e
+        name: Joe Pro Shop
+        locationInformation:
+          address: 131 W 21st St
+          crossStreet: btwn 6th & 7th Ave
+          city: New York
+          state: NY
+          postalCode: 10011
+          country: US
+          location:
+            latitude: 40.742320079393764
+            longitude: -73.99491446073057
+        partnerVenueId: 
+        probability: 0
+        chains: []
+        categories:
+        - id: 4bf58dd8d48988d1e0931735
+          name: Coffee Shop
+          pluralName: Coffee Shops
+          shortName: Coffee Shop
+          icon:
+            prefix: https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_
+            suffix: .png
+          isPrimary: 1
+        hierarchy: []
+      location:
+        latitude: 40.742218017578125
+        longitude: -73.993863
+      timestamp: 1548185141.215256

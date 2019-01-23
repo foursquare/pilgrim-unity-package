@@ -123,13 +123,17 @@ namespace Foursquare
             lock (_aLock)
             {
                 Clear();
-                var document = XDocument.Load(new StreamReader(File.Open(PROJECT_SETTINGS_FILE, FileMode.OpenOrCreate)));
-                foreach (var element in document.Root.Elements())
+                try
                 {
-                    var key = element.Attribute("name").Value;
-                    var value = element.Attribute("value").Value;
-                    _settings[key] = value;
+                    var document = XDocument.Load(new StreamReader(File.Open(PROJECT_SETTINGS_FILE, FileMode.OpenOrCreate)));
+                    foreach (var element in document.Root.Elements())
+                    {
+                        var key = element.Attribute("name").Value;
+                        var value = element.Attribute("value").Value;
+                        _settings[key] = value;
+                    }
                 }
+                catch { }
             }
         }
 
