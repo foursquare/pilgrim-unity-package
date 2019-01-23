@@ -20,7 +20,7 @@ jobs:
             wget https://netstorage.unity3d.com/unity/b3c100a4b73a/MacEditorInstaller/Unity.pkg
             sudo installer -pkg Unity.pkg -target /
             wget https://netstorage.unity3d.com/unity/b3c100a4b73a/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-2018.3.2f1.pkg
-            sudo install -pkg UnitySetup-Android-Support-for-Editor-2018.3.2f1.pkg -target /
+            sudo installer -pkg UnitySetup-Android-Support-for-Editor-2018.3.2f1.pkg -target /
       - run: 
           name: Build Pilgrim Unity SDK Package
           environment:
