@@ -3,6 +3,8 @@
 public class CameraDrag : MonoBehaviour
 {
 
+    public bool DragEnabled { get; set; } = false;
+
     public Vector3 Center { get; set; }
 
     private bool _isCentering;
@@ -15,16 +17,6 @@ public class CameraDrag : MonoBehaviour
 
     void Update()
     {
-        if (Input.touches.Length > 0)
-        {
-            if (Input.touches[0].phase == TouchPhase.Moved)
-            {
-                Vector2 delta = Input.touches[0].deltaPosition;
-                Vector3 move = new Vector3(-delta.x, 0.0f, -delta.y);
-                transform.position += move;
-            }
-        }
-
         if (_isCentering)
         {
             _time += Time.deltaTime;
@@ -34,6 +26,15 @@ public class CameraDrag : MonoBehaviour
             {
                 _isCentering = false;
                 _time = 0.0f;
+            }
+        }
+        else if (Input.touches.Length > 0 && DragEnabled)
+        {
+            if (Input.touches[0].phase == TouchPhase.Moved)
+            {
+                Vector2 delta = Input.touches[0].deltaPosition;
+                Vector3 move = new Vector3(-delta.x, 0.0f, -delta.y);
+                transform.position += move;
             }
         }
     }

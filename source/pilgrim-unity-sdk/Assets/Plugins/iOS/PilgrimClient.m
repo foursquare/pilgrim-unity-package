@@ -365,9 +365,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self.wasLocationRequested) {
         return;
     }
-    self.locationRequested = NO;
 
     if (status != kCLAuthorizationStatusNotDetermined) {
+        self.locationRequested = NO;
+
         BOOL granted = status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse;
         self.locationPermissionsCallback(self.clientHandlePtr, granted);
     }

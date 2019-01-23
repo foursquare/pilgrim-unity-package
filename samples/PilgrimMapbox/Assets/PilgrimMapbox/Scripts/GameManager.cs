@@ -72,15 +72,18 @@ public class GameManager : MonoBehaviour
             };
             _map.OnUpdated += () =>
             {
+                _map.Terrain.SetElevationType(ElevationLayerType.TerrainWithElevation);
                 _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
+
                 if (Mathf.Approximately(_elevation, 0.0f))
                 {
-                    _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
+                    _map.Terrain.SetElevationType(ElevationLayerType.FlatTerrain);
                 }
                 else
                 {
-                    _map.Terrain.ElevationType = ElevationLayerType.TerrainWithElevation;
+                    _map.Terrain.SetElevationType(ElevationLayerType.TerrainWithElevation);
                 }
+
                 GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
             };
 
@@ -118,6 +121,7 @@ public class GameManager : MonoBehaviour
         _centerButton.gameObject.SetActive(true);
         _backButton.gameObject.SetActive(true);
         _locationElements.ShowArrow();
+        Camera.main.GetComponent<CameraDrag>().DragEnabled = true;
     }
 
     private IEnumerator FadeInAndGetCurrentLocation(float delay)
@@ -125,6 +129,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
         _locationElements.PlaceBubble.Venue = null;
+        Camera.main.GetComponent<CameraDrag>().DragEnabled = false;
         StartCoroutine(FakeLatency(() => { PilgrimUnitySDK.GetCurrentLocation(); }));
     }
 

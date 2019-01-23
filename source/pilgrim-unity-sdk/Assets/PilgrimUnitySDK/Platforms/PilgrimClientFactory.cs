@@ -7,13 +7,13 @@ namespace Foursquare
         public static IPilgrimClient PilgrimClient()
         {
 #if UNITY_EDITOR
-            return new DummyClient();
+            return new EditorClient();
 #elif UNITY_IOS
             return new Foursquare.iOS.PilgrimClient();
 #elif UNITY_ANDROID
             return new Foursquare.Android.PilgrimClient();
 #else
-            return new DummyClient();
+            return new EditorClient();
 #endif
         }
 
