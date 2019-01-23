@@ -12,8 +12,15 @@ jobs:
           name: Copy Android License
           command: cp -R licenses /usr/local/share/android-sdk/licenses
       - run:
+          name: Install wget
+          command: brew install wget
+      - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
           name: Install Unity
-          command: brew cask install unity unity-android-support-for-editor
+          command: |
+            wget https://netstorage.unity3d.com/unity/b3c100a4b73a/MacEditorInstaller/Unity.pkg
+            sudo installer -pkg Unity.pkg -target /
+            wget https://netstorage.unity3d.com/unity/b3c100a4b73a/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-2018.3.2f1.pkg
+            sudo install -pkg UnitySetup-Android-Support-for-Editor-2018.3.2f1.pkg -target /
       - run: 
           name: Build Pilgrim Unity SDK Package
           environment:
