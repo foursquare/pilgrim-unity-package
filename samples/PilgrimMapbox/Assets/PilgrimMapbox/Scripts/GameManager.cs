@@ -72,16 +72,18 @@ public class GameManager : MonoBehaviour
             };
             _map.OnUpdated += () =>
             {
+                _map.Terrain.SetElevationType(ElevationLayerType.TerrainWithElevation);
                 _elevation = _map.QueryElevationInUnityUnitsAt(_map.CenterLatitudeLongitude);
-                Debug.Log("_elevation " + _elevation);
+
                 if (Mathf.Approximately(_elevation, 0.0f))
                 {
-                    _map.Terrain.ElevationType = ElevationLayerType.FlatTerrain;
+                    _map.Terrain.SetElevationType(ElevationLayerType.FlatTerrain);
                 }
                 else
                 {
-                    _map.Terrain.ElevationType = ElevationLayerType.TerrainWithElevation;
+                    _map.Terrain.SetElevationType(ElevationLayerType.TerrainWithElevation);
                 }
+
                 GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeOut();
             };
 

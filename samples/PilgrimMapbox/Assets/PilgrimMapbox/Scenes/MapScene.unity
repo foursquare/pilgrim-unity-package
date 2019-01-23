@@ -1398,7 +1398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 533053371}
   - component: {fileID: 533053372}
-  - component: {fileID: 533053373}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1436,19 +1435,6 @@ MonoBehaviour:
   _locationElements: {fileID: 1797296152}
   _centerButton: {fileID: 1635315386}
   _backButton: {fileID: 1727147928}
---- !u!114 &533053373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533053370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0631174267f1c4c7aaad61c1842e971d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mockLocation: {fileID: 11400000, guid: 66b10ba75c1d44e5c925a9ef7afd0ad7, type: 2}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
