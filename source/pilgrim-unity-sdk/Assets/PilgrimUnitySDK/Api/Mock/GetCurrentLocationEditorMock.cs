@@ -3,6 +3,7 @@
 namespace Foursquare
 {
 
+    [AddComponentMenu("Pilgrim/Current Location Editor Mock")]
     public class GetCurrentLocationEditorMock : MonoBehaviour
     {
 
