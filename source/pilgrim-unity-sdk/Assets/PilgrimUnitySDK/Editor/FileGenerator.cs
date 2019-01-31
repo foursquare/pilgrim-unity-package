@@ -57,7 +57,7 @@ public final class App extends Application {{
         <category android:name=""android.intent.category.LAUNCHER"" />
       </intent-filter>
       <meta-data android:name=""unityplayer.UnityActivity"" android:value=""true"" />
-      <!-- <meta-data android:name=""unityplayer.SkipPermissionsDialog"" android:value=""true"" /> -->
+      <meta-data android:name=""unityplayer.SkipPermissionsDialog"" android:value=""true"" />
     </activity>
   </application>
 </manifest>";
@@ -72,12 +72,12 @@ public final class App extends Application {{
                 var filePath = Application.dataPath + "/Plugins/iOS/AppController.m";
                 if (File.Exists(filePath))
                 {
-                    Debug.LogError(filePath + " already exists!");
+                    Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
                     File.WriteAllText(filePath, fileContents);
-                    Debug.Log(filePath + " created successfully!");
+                    Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
                 AssetDatabase.Refresh();
             }
@@ -93,12 +93,12 @@ public final class App extends Application {{
                 var filePath = Application.dataPath + "/Plugins/Android/App.java";
                 if (File.Exists(filePath))
                 {
-                    Debug.LogError(filePath + " already exists!");
+                    Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
                     File.WriteAllText(filePath, fileContents);
-                    Debug.Log(filePath + " created successfully!");
+                    Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
                 AssetDatabase.Refresh();
             }
@@ -112,12 +112,12 @@ public final class App extends Application {{
                 var filePath = Application.dataPath + "/Plugins/Android/AndroidManifest.xml";
                 if (File.Exists(filePath))
                 {
-                    Debug.LogError(filePath + " already exists!");
+                    Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
                     File.WriteAllText(filePath, fileContents);
-                    Debug.Log(filePath + " created successfully!");
+                    Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
                 AssetDatabase.Refresh();
             }
@@ -129,7 +129,7 @@ public final class App extends Application {{
             var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
             if (consumerKey == null || consumerKey.Length == 0 || consumerSecret == null || consumerSecret.Length == 0)
             {
-                Debug.LogError("Consumer Key and Consumer Secret are required.");
+                Debug.LogError("PilgrimUnitySDK - Consumer Key and Consumer Secret are required.");
                 EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
                 return false;
             }
@@ -138,9 +138,11 @@ public final class App extends Application {{
 
         private static bool HasSetPackageName()
         {
-            if (PlayerSettings.applicationIdentifier == null || PlayerSettings.applicationIdentifier.Length == 0)
+            if (PlayerSettings.applicationIdentifier == null ||
+                PlayerSettings.applicationIdentifier.Length == 0 ||
+                PlayerSettings.applicationIdentifier == "com.Company.ProductName")
             {
-                Debug.LogError("You must set the package name!");
+                Debug.LogError("PilgrimUnitySDK - You must set the package name in Player Settings!");
                 return false;
             }
             return true;
