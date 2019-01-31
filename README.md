@@ -175,6 +175,7 @@ Custom user data can be sent to Pilgrim to be passed along to other services usi
 
 ```
 using Foursquare;
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
