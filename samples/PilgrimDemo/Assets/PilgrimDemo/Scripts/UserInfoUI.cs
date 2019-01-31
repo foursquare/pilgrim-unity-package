@@ -96,7 +96,7 @@ public class UserInfoUI : MonoBehaviour
 
     public void OnPressClose()
     {
-        UserInfo userInfo = new UserInfo();
+        var userInfo = new UserInfo();
         if (_userIdInputField.text != null && _userIdInputField.text.Length > 0)
         {
             userInfo.SetUserId(_userIdInputField.text);
