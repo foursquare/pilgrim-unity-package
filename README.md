@@ -18,9 +18,10 @@ Pilgrim SDK dependencies for iOS and Android are managed via the [Play Services 
     * [PilgrimUnitySDK C# Class](#pilgrimunitysdk-c-class)
     * [Location Permissions](#location-permissions)
     * [Getting User's Current Location](#getting-users-current-location)
+    * [Mocking Editor Locations](#mocking-editor-locations)
     * [Passive Location Detection](#passive-location-detection)
     * [Sending Custom User Data](#sending-custom-user-data)
-    * [Mocking Editor Locations](#mocking-editor-locations)
+* [FAQ](#faq)
 
 ## Requirements
 
@@ -110,6 +111,8 @@ public final class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         PilgrimUnitySDK.init(this, "CONSUMER_KEY", "CONSUMER_SECRET");
+
+        // Other code
     }
 
 }
@@ -206,6 +209,14 @@ public class GameManager : MonoBehaviour
 }
 ```
 
+### Mocking Editor Locations
+
+When running your Unity project in the editor it is possible to mock the location returned by the `PilgrimUnitySDK.GetCurrentLocation()` method.  To do this first you need to create a `CurrentLocationMock` asset by selecting the menu item `Assets\Create\Pilgrim\Mock Current Location`.  When selected you can configure in the inspector the `CurrentLocation` fields.  Then you need to attach a `GetCurrentLocationEditorMock` to a `GameObject` in your scene, and set the `Mock Location` property to the .asset you created.  When run in the editor the `PilgrimUnitySDK.OnGetCurrentLocationResult` action will return the `CurrentLocation` you set in the `GetCurrentLocationEditorMock`.
+
+![](images/mock1.png)
+
+![](images/mock2.png)
+
 ### Passive Location Detection
 
 Passive location detection is controlled with the `PilgrimUnitySDK.Start()` and `PilgrimUnitySDK.Stop()` methods. When started Pilgrim SDK will send notifications to [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations).  Example usage below:
@@ -254,6 +265,6 @@ public class GameManager : MonoBehaviour
 }
 ```
 
-### Mocking Editor Locations
+## FAQ
 
-***TODO***
+Consult the Pilgrim documentation [here](https://developer.foursquare.com/docs/pilgrim-sdk/FAQ)
