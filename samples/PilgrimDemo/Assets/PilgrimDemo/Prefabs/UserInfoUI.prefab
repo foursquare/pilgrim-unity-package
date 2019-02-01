@@ -3873,7 +3873,8 @@ MonoBehaviour:
   _yearInputField: {fileID: 114870559518325266}
   _monthDropDown: {fileID: 114835755190770906}
   _dayDropDown: {fileID: 114478233660605452}
-  _userInfoCellPrefab: {fileID: 0}
+  _userInfoCellPrefab: {fileID: 114320121813020094, guid: 070d0d32e6ae2403ab00fed95d04bf07,
+    type: 2}
   _scrollRect: {fileID: 114041742777115654}
 --- !u!114 &114966218392285184
 MonoBehaviour:
