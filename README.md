@@ -27,12 +27,9 @@ Pilgrim SDK dependencies for iOS and Android are managed via the [Play Services 
 
 This package has been tested with the following Unity versions:
 
-* 2018.3.3f1 *haven't tested*
-* 2018.3.2f1
-* 2018.2.20f1 *haven't tested*
-* 2018.1.9f2 *haven't tested*
-* 2017.2.5f1 *haven't tested*
-* 2017.1.5f1 *haven't tested*
+* 2018.3.3f1 X
+* 2018.2.20f1 X
+* 2018.1.9f2 X
 
 The iOS SDK requires iOS 8+ and the Android SDK requires API level 15+ (ICE_CREAM_SANDWICH_MR1).  Additionally, to build for iOS you must have [CocoaPods](https://cocoapods.org/) installed.
 
