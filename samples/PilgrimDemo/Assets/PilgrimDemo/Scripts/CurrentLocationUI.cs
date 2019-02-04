@@ -42,6 +42,8 @@ public class CurrentLocationUI : MonoBehaviour
                 var geofenceEventCell = gameObject.GetComponent<GeofenceEventCell>();
                 geofenceEventCell.GeofenceEvent = geofenceEvent;
             }
+
+            _scrollRect.normalizedPosition = new Vector2(0, 1);
         }
     }
 
