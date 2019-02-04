@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
 
 * [Pilgrim Demo](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimDemo) - Basic application using PilgrimUnitySDK
 
-* [Pilgrim Mapbox](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimMapbox) - Application using PilgrimUnitySDK and Mapbox to render 3D map of user's current location
+* [Pilgrim Mapbox](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimMapbox) - Application using PilgrimUnitySDK and Mapbox to render a 3D map of user's current location
 
 ## FAQ
 
