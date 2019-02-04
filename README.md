@@ -29,7 +29,7 @@ This package has been tested with the following Unity versions:
 * 2018.2.20f1 (haven't tested)
 * 2018.1.9f2 (haven't tested)
 
-The iOS SDK requires iOS 8+ and the Android SDK requires API level 15+ (ICE_CREAM_SANDWICH_MR1).  Additionally, to build for iOS you must have [CocoaPods](https://cocoapods.org/) installed.
+The iOS SDK requires iOS 8+ and the Android SDK requires API level 15+ (ICE_CREAM_SANDWICH_MR1).
 
 ## Installing
 
