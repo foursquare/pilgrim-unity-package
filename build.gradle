@@ -1,4 +1,10 @@
+plugins {
+    id "de.undercouch.download" version "3.4.3"
+}
+
 defaultTasks "exportUnityPackage"
+
+// TOOD consistent naming convention for variables, camel case or underscore
 
 project.ext {
     if (System.getenv("UNITY_ROOT") != null) {
@@ -25,45 +31,53 @@ project.ext {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
 
+    pilgrimiOSVersion = "2.1.0"
+    pilgrimAndroidVersion = "2.1.0"
     tempDir = file('temp').absolutePath
     pluginSource = file('source/pilgrim-unity-sdk').absolutePath
     pluginBuildDir = file('temp/pilgrim-unity-sdk').absolutePath
-    exportPath = file('pilgrim-unity-sdk.unitypackage').absolutePath 
-    resolverDir = file('temp/play-services-resolver').absolutePath
+    exportPath = file('pilgrim-unity-sdk.unitypackage').absolutePath
 }
 
-task buildAndCleanAndroidLibrary(type: GradleBuild) {
+task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
     tasks = ['clean', 'assembleRelease']
     startParameter.projectProperties = [unity_root: "${unity_root}"]
 }
 
-task copyAndroidLibrary(type: Copy) {
-    from("source/android-source/pilgrimunitysdk/build/outputs/aar/")
-    into("${pluginBuildDir}/Assets/Plugins/Android")
+task copyAndroidWrapperLibrary(type: Copy) {
+    from("source/android-source/pilgrimunitysdk/build/outputs/aar")
+    into("${pluginBuildDir}/Assets/PilgrimUnitySDK/Plugins/Android")
     include("pilgrimunitysdk-release.aar")
     rename("pilgrimunitysdk-release.aar", "pilgrimunitysdk.aar")
 }
 
-copyAndroidLibrary.dependsOn(buildAndCleanAndroidLibrary)
+copyAndroidWrapperLibrary.dependsOn(buildAndCleanAndroidWrapperLibrary)
 
-task downloadPlayServicesResolver() {
+task downloadPilgrimiOS(type: Download) {
+    src "https://foursquare.jfrog.io/foursquare/pilgrimsdk-ios/v${pilgrimiOSVersion}/Pilgrim.framework.zip"
+    dest "${tempDir}/Pilgrim.framework.zip"
+}
+
+task unzipPilgrimiOS() {
     doLast {
         exec {
-            executable "git"
-            args "clone", "https://github.com/googlesamples/unity-jar-resolver.git", "${resolverDir}"
+            executable "unzip"
+            args "${tempDir}/Pilgrim.framework.zip", "-d", "${tempDir}"
         }
     }
 }
 
+task copyPilgrimiOS(type: Copy) {
+    from("${tempDir}/Pilgrim-${pilgrimiOSVersion}/Pilgrim.framework")
+    into("${pluginBuildDir}/Assets/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework")
+    include("**")
+}
+
+copyPilgrimiOS.dependsOn(downloadPilgrimiOS, unzipPilgrimiOS)
+
 task exportUnityPackage() {
     doLast {
-        def tree = fileTree("${resolverDir}")
-        {
-            include '*.unitypackage'
-        }
-        def jarresolver_package = tree.getSingleFile()
-
         exec {
             executable "${unity_root}/Unity.app/Contents/MacOS/Unity"
             args "-gvh_disable",
@@ -74,16 +88,14 @@ task exportUnityPackage() {
                  "${unity_username}",
                  "-password",
                  "${unity_password}",
-                 "-importPackage", "${jarresolver_package}",
                  "-projectPath", "${pluginBuildDir}",
                  "-logFile", "unity-exportPackage.log",
                  "-exportPackage",
-                 "Assets/PlayServicesResolver",
                  "Assets/PilgrimUnitySDK/Api",
                  "Assets/PilgrimUnitySDK/Editor",
                  "Assets/PilgrimUnitySDK/Platforms",
+                 "Assets/PilgrimUnitySDK/Plugins",
                  "Assets/PilgrimUnitySDK/Types",
-                 "Assets/Plugins",
                  "${exportPath}",
                  "-quit"
         }
@@ -111,5 +123,6 @@ task deleteTempDirectory(type: Delete) {
     delete {"${tempDir}"}
 }
 
-exportUnityPackage.dependsOn(createTempDirectory, copyAndroidLibrary, downloadPlayServicesResolver)
-exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
+exportUnityPackage.dependsOn(createTempDirectory, copyAndroidWrapperLibrary, copyPilgrimiOS)
+// exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
+exportUnityPackage.finalizedBy(deleteTempDirectory)
