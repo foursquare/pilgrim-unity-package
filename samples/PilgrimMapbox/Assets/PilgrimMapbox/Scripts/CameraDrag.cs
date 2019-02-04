@@ -3,7 +3,7 @@
 public class CameraDrag : MonoBehaviour
 {
 
-    public bool DragEnabled { get; set; } = false;
+    public bool DragEnabled { get; set; }
 
     public Vector3 Center { get; set; }
 
@@ -14,6 +14,11 @@ public class CameraDrag : MonoBehaviour
     private float _duration;
 
     private Vector3 _fromPosition;
+
+    void Start()
+    {
+        DragEnabled = false;
+    }
 
     void Update()
     {
