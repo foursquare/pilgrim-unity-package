@@ -39,10 +39,10 @@ project.ext {
 configurations {
     pilgrim {
         repositories {
+            mavenCentral()
             maven {
                 url "https://maven.google.com"
             }
-            mavenCentral()
             maven {
                 url 'https://foursquare.jfrog.io/foursquare/libs-release/'
             }
