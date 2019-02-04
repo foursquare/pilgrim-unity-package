@@ -8,8 +8,6 @@ Pilgrim Unity SDK is a package which enables easy integration with the [Pilgrim 
 * Getting the user's [Current Location](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#get-current-location)
 * Sending [Custom User Data](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data)
 
-Pilgrim SDK dependencies for iOS and Android are managed via the [Play Services Resolver](https://github.com/googlesamples/unity-jar-resolver), which is included with the package.
-
 ## Table of Contents
 * [Requirements](#requirements)
 * [Installing](#installing)
@@ -27,17 +25,15 @@ Pilgrim SDK dependencies for iOS and Android are managed via the [Play Services 
 
 This package has been tested with the following Unity versions:
 
-* 2018.3.3f1 X
-* 2018.2.20f1 X
-* 2018.1.9f2 X
+* 2018.3.3f1 (haven't tested)
+* 2018.2.20f1 (haven't tested)
+* 2018.1.9f2 (haven't tested)
 
 The iOS SDK requires iOS 8+ and the Android SDK requires API level 15+ (ICE_CREAM_SANDWICH_MR1).  Additionally, to build for iOS you must have [CocoaPods](https://cocoapods.org/) installed.
 
 ## Installing
 
-Download the latest release from the [Releases](https://github.com/foursquare/pilgrim-unity-sdk/releases) page, it will list which versions of Pilgrim it supports for iOS and Android.  In Unity select the menu item `Assets/Import Package/Custom Package` and open the downloaded package. The package comes with the latest version of the [Play Services Resolver](https://github.com/googlesamples/unity-jar-resolver) available when the package was built.  If your current platform in build settings is Android, or when you switch to Android, the Play Services Resolver will resolve and download the Android dependencies to `Assets/Plugins/Android`. For iOS the Play Services Resolver will run `pod install` when you build for iOS. It will generate an Xcode workspace with Pilgrim iOS SDK added as a Pod.
-
-
+Download the latest release from the [Releases](https://github.com/foursquare/pilgrim-unity-sdk/releases) page, it will list which versions of Pilgrim it supports for iOS and Android.  In Unity select the menu item `Assets/Import Package/Custom Package` and open the downloaded package.
 
 ## Usage
 
