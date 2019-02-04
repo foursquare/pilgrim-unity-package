@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
 
 ### Mocking Editor Locations
 
-When running your Unity project in the editor it is possible to mock the location returned by the `PilgrimUnitySDK.GetCurrentLocation()` method.  To do this first you need to create a `CurrentLocationMock` asset by selecting the menu item `Assets\Create\Pilgrim\Mock Current Location`.  When selected you can configure in the inspector the `CurrentLocation` fields.  Then you need to attach a `GetCurrentLocationEditorMock` to a `GameObject` in your scene, and set the `Mock Location` property to the .asset you created.  When run in the editor the `PilgrimUnitySDK.OnGetCurrentLocationResult` action will return the `CurrentLocation` you set in the `GetCurrentLocationEditorMock`.
+When running your Unity project in the editor it is possible to mock the location returned by the `PilgrimUnitySDK.GetCurrentLocation()` method.  To do this first you need to create a `CurrentLocationMock` asset by selecting the menu item `Assets\Create\Pilgrim\Mock Current Location`.  When selected you can configure in the inspector the `CurrentLocation` fields.  Then you need to attach a `GetCurrentLocationEditorMock` component to a `GameObject` in your scene, and set the `Mock Location` property to the .asset you created.  When run in the editor the `PilgrimUnitySDK.OnGetCurrentLocationResult` action will return the `CurrentLocation` you set in the `GetCurrentLocationEditorMock` component.
 
 ![](images/mock1.png)
 
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
 
 ### Sending Custom User Data
 
-Custom user data can be sent to Pilgrim to be passed along to other services using the `PilgrimUnitySDK.SetUserInfo` method.  More information on custom user data is available [here](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data). Example usage below:
+Custom user data can be sent to Pilgrim to be passed along to other services using the `PilgrimUnitySDK.SetUserInfo()` method.  More information on custom user data is available [here](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data). Example usage below:
 
 ```
 using Foursquare;
