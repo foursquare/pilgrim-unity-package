@@ -1,10 +1,7 @@
 plugins {
     id "de.undercouch.download" version "3.4.3"
+    id "java-library"
 }
-
-defaultTasks "exportUnityPackage"
-
-// TOOD consistent naming convention for variables, camel case or underscore
 
 project.ext {
     if (System.getenv("UNITY_ROOT") != null) {
@@ -33,15 +30,47 @@ project.ext {
 
     pilgrimiOSVersion = "2.1.0"
     pilgrimAndroidVersion = "2.1.0"
-    tempDir = file('temp').absolutePath
-    pluginSource = file('source/pilgrim-unity-sdk').absolutePath
-    pluginBuildDir = file('temp/pilgrim-unity-sdk').absolutePath
-    exportPath = file('pilgrim-unity-sdk.unitypackage').absolutePath
+    tempDir = file("temp").absolutePath
+    pluginSource = file("source/pilgrim-unity-sdk").absolutePath
+    pluginBuildDir = file("temp/pilgrim-unity-sdk").absolutePath
+    exportPath = file("pilgrim-unity-sdk.unitypackage").absolutePath
 }
+
+configurations {
+    pilgrim {
+        repositories {
+            maven {
+                url "https://maven.google.com"
+            }
+            mavenCentral()
+            maven {
+                url 'https://foursquare.jfrog.io/foursquare/libs-release/'
+            }
+        }
+    }
+}
+
+dependencies {
+    pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
+}
+
+// TOOD consistent naming convention for variables, camel case or underscore
+
+task downloadPilgrimAndroid(type: Copy) {
+    from(configurations.pilgrim)
+    into("${tempDir}/android-deps")
+}
+
+task copyPilgrimAndroid(type: Copy) {
+    from("${tempDir}/android-deps")
+    into("${pluginBuildDir}/Assets/PilgrimUnitySDK/Plugins/Android")
+}
+
+copyPilgrimAndroid.dependsOn(downloadPilgrimAndroid)
 
 task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
-    tasks = ['clean', 'assembleRelease']
+    tasks = ["clean", "assembleRelease"]
     startParameter.projectProperties = [unity_root: "${unity_root}"]
 }
 
@@ -123,6 +152,8 @@ task deleteTempDirectory(type: Delete) {
     delete {"${tempDir}"}
 }
 
-exportUnityPackage.dependsOn(createTempDirectory, copyAndroidWrapperLibrary, copyPilgrimiOS)
+exportUnityPackage.dependsOn(createTempDirectory, copyPilgrimAndroid, copyAndroidWrapperLibrary, copyPilgrimiOS)
 // exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
 exportUnityPackage.finalizedBy(deleteTempDirectory)
+
+defaultTasks "exportUnityPackage"
