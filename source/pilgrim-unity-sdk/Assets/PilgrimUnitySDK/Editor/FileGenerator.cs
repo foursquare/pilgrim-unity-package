@@ -69,13 +69,14 @@ public final class App extends Application {{
                 var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
                 var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appControllerText, consumerKey, consumerSecret);
-                var filePath = Application.dataPath + "/Plugins/iOS/AppController.m";
+                var filePath = string.Format("{0}/Plugins/iOS/AppController.m", Application.dataPath);
                 if (File.Exists(filePath))
                 {
                     Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
+                    new FileInfo(filePath).Directory.Create();
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
@@ -90,13 +91,14 @@ public final class App extends Application {{
                 var consumerKey = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerKeyKey);
                 var consumerSecret = PilgrimConfigSettings.GetString(PilgrimConfigSettings.ConsumerSecretKey);
                 var fileContents = string.Format(_appSubclassText, PlayerSettings.applicationIdentifier, consumerKey, consumerSecret);
-                var filePath = Application.dataPath + "/Plugins/Android/App.java";
+                var filePath = string.Format("{0}/Plugins/Android/App.java", Application.dataPath);
                 if (File.Exists(filePath))
                 {
                     Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
+                    new FileInfo(filePath).Directory.Create();
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
@@ -109,13 +111,14 @@ public final class App extends Application {{
             if (HasSetConsumerKeyAndSecret() && HasSetPackageName())
             {
                 var fileContents = string.Format(_manifestText, PlayerSettings.applicationIdentifier, PlayerSettings.applicationIdentifier);
-                var filePath = Application.dataPath + "/Plugins/Android/AndroidManifest.xml";
+                var filePath = string.Format("{0}/Plugins/Android/AndroidManifest.xml", Application.dataPath);
                 if (File.Exists(filePath))
                 {
                     Debug.LogError(string.Format("PilgrimUnitySDK - {0} already exists!", filePath));
                 }
                 else
                 {
+                    new FileInfo(filePath).Directory.Create();
                     File.WriteAllText(filePath, fileContents);
                     Debug.Log(string.Format("PilgrimUnitySDK - {0} created successfully!", filePath));
                 }
