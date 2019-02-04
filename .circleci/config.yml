@@ -30,8 +30,8 @@ jobs:
       - run:
             name: Publish Release on GitHub 
             command: |
-              ios_version=$(sed -n '/iosPod name="Pilgrim"/p' source/pilgrim-unity-sdk/Assets/PilgrimUnitySDK/Editor/PilgrimUnitySDKDependencies.xml | sed 's/.*version="\([0-9]\.[0-9]\.[0-9]\)".*/\1/')
-              android_version=$(sed -n '/androidPackage spec="com\.foursquare:pilgrimsdk/p' source/pilgrim-unity-sdk/Assets/PilgrimUnitySDK/Editor/PilgrimUnitySDKDependencies.xml | sed 's/.*pilgrimsdk:\([0-9]\.[0-9]\.[0-9]\)".*/\1/')
+              ios_version=$(sed -n '/pilgrimiOSVersion = "[0-9].[0-9].[0-9]"/p' build.gradle | sed 's/    pilgrimiOSVersion = "\([0-9].[0-9].[0-9]\)"/\1/')
+              android_version=$(sed -n '/pilgrimAndroidVersion = "[0-9].[0-9].[0-9]"/p' build.gradle | sed 's/    pilgrimAndroidVersion = "\([0-9].[0-9].[0-9]\)"/\1/')
               response_json=$(curl -s -X POST -d "{\"tag_name\":\"$CIRCLE_TAG\",\"name\":\"$CIRCLE_TAG\",\"body\":\"iOS SDK version: ${ios_version}\nAndroid SDK version: ${android_version}\",\"draft\":false,\"prerelease\":false}" -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/foursquare/pilgrim-unity-sdk/releases")
               
               release_id=$(echo $response_json | jq '.id')
