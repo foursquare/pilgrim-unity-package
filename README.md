@@ -128,6 +128,9 @@ Also ensure your `AndroidManifest.xml` sets the `android.app.Application` subcla
   </application>
 </manifest>
 ```
+
+Then add the .java/.xml files to `Assets/Plugins/Android`.
+
 ### PilgrimUnitySDK C# Class
 
 All interactions with Pilgrim SDK in Unity happen through static methods in the `PilgrimUnitySDK` class in the `Foursquare` namespace.  `PilgrimUnitySDK` uses actions (`System.Action`) when it needs to communicate information back to the Unity application for [Location Permissions](#location-permissions) and [Getting User's Current Location](#getting-users-current-location)
