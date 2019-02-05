@@ -24,8 +24,6 @@ import java.util.Map;
 
 final class Utils {
 
-    private static final String PREFS_USER_INFO = "userInfo";
-
     private static final String PREFS_GENERAL = "general";
     private static final String KEY_STARTED = "started";
 
@@ -67,29 +65,6 @@ final class Utils {
         }
 
         return userInfo;
-    }
-
-    static void saveUserInfo(@NonNull Context context, @Nullable PilgrimUserInfo userInfo) {
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFS_USER_INFO, Context.MODE_PRIVATE);
-        sharedPref.edit().clear().apply();
-
-        if (userInfo == null) {
-            return;
-        }
-
-        for (Map.Entry<String, String> entry : userInfo.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            sharedPref.edit().putString(key, value).apply();
-        }
-    }
-
-    static PilgrimUserInfo loadUserInfo(@NonNull Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFS_USER_INFO, Context.MODE_PRIVATE);
-        if (sharedPref.getAll().isEmpty()) {
-            return null;
-        }
-        return fromMap(sharedPref.getAll());
     }
 
     static void setStarted(@NonNull Context context, boolean started) {

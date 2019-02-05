@@ -274,45 +274,41 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setUserInfo:(const char *)userInfoJson {
+- (void)setUserInfo:(const char *)userInfoJson persisted:(BOOL)persisted {
     NSData *data = [NSData dataWithBytes:userInfoJson length:strlen(userInfoJson)];
     NSDictionary *userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    [[NSUserDefaults standardUserDefaults] setObject:userInfoDict forKey:@"UserInfo"];
+
+    if ([userInfoDict count] == 0) {
+        [[FSQPPilgrimManager sharedManager] setUserInfo:nil persisted:persisted];
+        return;
+    }
+
+    FSQPUserInfo *userInfo = [[FSQPUserInfo alloc] init];
 
     NSString *userId = userInfoDict[@"userId"];
-    [[FSQPPilgrimManager sharedManager].userInfo setUserId:userId];
+    [userInfo setUserId:userId];
 
     NSString *birthday = userInfoDict[@"birthday"];
     if (birthday) {
         NSTimeInterval seconds = [birthday doubleValue];
         NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:seconds];
-        [[FSQPPilgrimManager sharedManager].userInfo setBirthday:birthday];
+        [userInfo setBirthday:birthday];
     } else {
-        [[FSQPPilgrimManager sharedManager].userInfo setBirthday:nil];
+        [userInfo setBirthday:nil];
     }
 
     NSString *gender = userInfoDict[@"gender"];
-    [[FSQPPilgrimManager sharedManager].userInfo setGender:gender];
+    [userInfo setGender:gender];
 
     NSMutableDictionary *customUserInfoDict = [userInfoDict mutableCopy];
     [customUserInfoDict removeObjectsForKeys:@[@"userId", @"birthday", @"gender"]];
 
-    // Add custom keys that are nonnull in C#
     for (NSString *key in customUserInfoDict) {
         NSString *value = userInfoDict[key];
-        [[FSQPPilgrimManager sharedManager].userInfo setUserInfo:value forKey:key];
+        [userInfo setUserInfo:value forKey:key];
     }
 
-    // Remove custom keys set to null in C#
-    NSDictionary *existingCustomUserInfoDict = [FSQPPilgrimManager sharedManager].userInfo.source;
-    for (NSString *key in existingCustomUserInfoDict) {
-        if ([@[@"userId", @"birthday", @"gender"] containsObject:key]) {
-            continue;
-        }
-        if (![[customUserInfoDict allKeys] containsObject:key]) {
-            [[FSQPPilgrimManager sharedManager].userInfo removeKey:key];
-        }
-    }
+    [[FSQPPilgrimManager sharedManager] setUserInfo:userInfo persisted:persisted];
 }
 
 - (void)requestLocationPermissions {

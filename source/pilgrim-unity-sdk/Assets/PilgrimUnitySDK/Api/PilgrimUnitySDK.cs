@@ -32,9 +32,9 @@ namespace Foursquare
 
         private static IPilgrimClient _client = PilgrimClientFactory.PilgrimClient();
 
-        public static void SetUserInfo(UserInfo userInfo)
+        public static void SetUserInfo(UserInfo userInfo, bool persisted = true)
         {
-            _client.SetUserInfo(userInfo);
+            _client.SetUserInfo(userInfo, persisted);
         }
 
         public static void RequestLocationPermissions()

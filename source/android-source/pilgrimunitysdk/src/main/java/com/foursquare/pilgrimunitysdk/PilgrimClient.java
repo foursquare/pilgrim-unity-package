@@ -47,12 +47,9 @@ public final class PilgrimClient {
         }, new IntentFilter("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED"));
     }
 
-    public void setUserInfo(@NonNull HashMap<String, String> userInfoMap) {
+    public void setUserInfo(@NonNull HashMap<String, String> userInfoMap, boolean persisted) {
         PilgrimUserInfo userInfo = Utils.fromMap(userInfoMap);
-        if (userInfo != null) {
-            PilgrimSdk.get().setUserInfo(userInfo);
-        }
-        Utils.saveUserInfo(context, userInfo);
+        PilgrimSdk.get().setUserInfo(userInfo, persisted);
     }
 
     public void requestLocationPermissions() {

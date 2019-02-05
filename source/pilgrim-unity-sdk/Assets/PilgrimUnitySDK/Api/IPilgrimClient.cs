@@ -9,7 +9,7 @@ namespace Foursquare
 
         event Action<CurrentLocation, Exception> OnGetCurrentLocationResult;
 
-        void SetUserInfo(UserInfo userInfo);
+        void SetUserInfo(UserInfo userInfo, bool persisted);
 
         void RequestLocationPermissions();
 

@@ -29,7 +29,7 @@ namespace Foursquare.iOS
             Externs.SetCallbacks(_clientPtr, OnLocationPermissionsCallback, OnGetCurrentLocationCallback);
         }
 
-        public void SetUserInfo(UserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
             var json = "{";
             foreach (var pair in userInfo.BackingStore)
@@ -44,7 +44,7 @@ namespace Foursquare.iOS
                 }
             }
             json += "}";
-            Externs.SetUserInfo(_clientPtr, json);
+            Externs.SetUserInfo(_clientPtr, json, persisted);
         }
 
         public void RequestLocationPermissions()
