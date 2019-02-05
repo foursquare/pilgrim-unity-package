@@ -11,7 +11,7 @@ namespace Foursquare
 
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
-        public void SetUserInfo(UserInfo userInfo)
+        public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
 
         }
