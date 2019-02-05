@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator FakeLatency(Action action)
     {
 #if UNITY_EDITOR
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 #else
         yield return null;
 #endif
