@@ -28,8 +28,8 @@ project.ext {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
 
-    pilgrimiOSVersion = "2.1.0"
-    pilgrimAndroidVersion = "2.1.0"
+    pilgrimiOSVersion = "2.1.2"
+    pilgrimAndroidVersion = "2.1.2"
     tempDir = file("temp").absolutePath
     pluginSource = file("source/pilgrim-unity-sdk").absolutePath
     pluginBuildDir = file("temp/pilgrim-unity-sdk").absolutePath
