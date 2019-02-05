@@ -77,7 +77,10 @@ namespace Foursquare
                 {
                     return;
                 }
-                Directory.CreateDirectory(Path.GetDirectoryName(PROJECT_SETTINGS_FILE));
+                if (!File.Exists(PROJECT_SETTINGS_FILE))
+                {
+                    File.CreateText(PROJECT_SETTINGS_FILE);
+                }
                 using (var writer = new XmlTextWriter(new StreamWriter(PROJECT_SETTINGS_FILE))
                 {
                     Formatting = Formatting.Indented,
