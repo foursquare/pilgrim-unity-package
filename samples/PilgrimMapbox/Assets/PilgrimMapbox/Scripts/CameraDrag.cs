@@ -15,6 +15,8 @@ public class CameraDrag : MonoBehaviour
 
     private Vector3 _fromPosition;
 
+    private Vector3 _dragOrigin;
+
     void Start()
     {
         DragEnabled = false;
@@ -33,6 +35,23 @@ public class CameraDrag : MonoBehaviour
                 _time = 0.0f;
             }
         }
+#if UNITY_EDITOR
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _dragOrigin = Input.mousePosition;
+                return;
+            }
+
+            if (!Input.GetMouseButton(0)) return;
+
+            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - _dragOrigin);
+            Vector3 move = new Vector3(pos.x * 100.0f, 0, pos.y * 100.0f);
+
+            transform.Translate(move, Space.World);
+        }
+#else
         else if (Input.touches.Length > 0 && DragEnabled)
         {
             if (Input.touches[0].phase == TouchPhase.Moved)
@@ -42,6 +61,7 @@ public class CameraDrag : MonoBehaviour
                 transform.position += move;
             }
         }
+#endif
     }
 
     public void Recenter()
