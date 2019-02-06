@@ -222,9 +222,6 @@ public class UserInfoUI : MonoBehaviour
                 _birthdayToggle.isOn = true;
 
                 var seconds = long.Parse(userInfo.BackingStore[key]);
-#if !UNITY_EDITOR && UNITY_ANDROID
-                seconds /= 1000; // Android uses milliseconds
-#endif
                 var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
                 var birthday = epochStart.AddSeconds(seconds);
 
@@ -285,9 +282,6 @@ public class UserInfoUI : MonoBehaviour
                 else if (key == "birthday")
                 {
                     var seconds = long.Parse(value);
-#if !UNITY_EDITOR && UNITY_ANDROID
-                    seconds /= 1000; // Android uses milliseconds
-#endif
                     var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
                     var birthday = epochStart.AddSeconds(seconds);
                     userInfo.SetBirthday(new DateTime(birthday.Year, birthday.Month, birthday.Day));
