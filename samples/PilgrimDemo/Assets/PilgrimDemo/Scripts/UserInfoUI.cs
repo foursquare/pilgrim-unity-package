@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class UserInfoUI : MonoBehaviour
 {
 
+    private const string UserInfoKey = "userInfo";
+
     [SerializeField]
     private Toggle _userIdToggle;
 
@@ -44,54 +46,7 @@ public class UserInfoUI : MonoBehaviour
 
     void Start()
     {
-        var keysString = PlayerPrefs.GetString("keys");
-        if (keysString != null && keysString.Length > 0)
-        {
-            var keys = keysString.Split(',');
-            foreach (var key in keys)
-            {
-                var value = PlayerPrefs.GetString(key);
-                if (key == "userId")
-                {
-                    _userIdToggle.isOn = true;
-                    _userIdInputField.interactable = true;
-                    _userIdInputField.text = value;
-                }
-                else if (key == "gender")
-                {
-                    _genderToggle.isOn = true;
-                    _genderDropdown.interactable = true;
-                    _genderDropdown.value = value == "male" ? 1 : 2;
-                }
-                else if (key == "birthday")
-                {
-                    _birthdayToggle.isOn = true;
-
-                    var seconds = long.Parse(value);
-#if UNITY_ANDROID
-                    seconds /= 1000; // Android uses milliseconds
-#endif
-                    var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
-                    var birthday = epochStart.AddSeconds(seconds);
-
-                    _yearInputField.interactable = true;
-                    _yearInputField.text = string.Format("{0}", birthday.Year);
-                    _monthDropDown.interactable = true;
-                    _monthDropDown.value = birthday.Month - 1;
-                    _dayDropDown.interactable = true;
-                    _dayDropDown.value = birthday.Day - 1;
-                }
-                else
-                {
-                    var userInfoCell = Instantiate(_userInfoCellPrefab, Vector3.zero, Quaternion.identity);
-                    userInfoCell.transform.SetParent(_scrollRect.content, false);
-                    userInfoCell.transform.SetAsFirstSibling();
-
-                    userInfoCell.Key = key;
-                    userInfoCell.Value = value;
-                }
-            }
-        }
+        SetupUIFromUserInfo();
     }
 
     public void OnPressClose()
@@ -237,10 +192,117 @@ public class UserInfoUI : MonoBehaviour
         _dayDropDown.interactable = true;
     }
 
+    private void SetupUIFromUserInfo()
+    {
+        var userInfo = LoadUserInfoFromPlayerPrefs();
+        if (userInfo == null)
+        {
+            return;
+        }
+
+        foreach (var kvp in userInfo.BackingStore)
+        {
+            var key = kvp.Key;
+            var value = kvp.Value;
+
+            if (key == "userId")
+            {
+                _userIdToggle.isOn = true;
+                _userIdInputField.interactable = true;
+                _userIdInputField.text = userInfo.BackingStore[key];
+            }
+            else if (key == "gender")
+            {
+                _genderToggle.isOn = true;
+                _genderDropdown.interactable = true;
+                _genderDropdown.value = userInfo.BackingStore[key] == "male" ? 1 : 2;
+            }
+            else if (key == "birthday")
+            {
+                _birthdayToggle.isOn = true;
+
+                var seconds = long.Parse(userInfo.BackingStore[key]);
+#if !UNITY_EDITOR && UNITY_ANDROID
+                seconds /= 1000; // Android uses milliseconds
+#endif
+                var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+                var birthday = epochStart.AddSeconds(seconds);
+
+                _yearInputField.interactable = true;
+                _yearInputField.text = string.Format("{0}", birthday.Year);
+                _monthDropDown.interactable = true;
+                _monthDropDown.value = birthday.Month - 1;
+                _dayDropDown.interactable = true;
+                _dayDropDown.value = birthday.Day - 1;
+            }
+            else
+            {
+                var userInfoCell = Instantiate(_userInfoCellPrefab, Vector3.zero, Quaternion.identity);
+                userInfoCell.transform.SetParent(_scrollRect.content, false);
+                userInfoCell.transform.SetAsFirstSibling();
+
+                userInfoCell.Key = key;
+                userInfoCell.Value = value;
+            }
+        }
+
+    }
+
+    private UserInfo GetUserInfo()
+    {
+        var persistedUserInfo = LoadUserInfoFromPlayerPrefs();
+        if (persistedUserInfo != null)
+        {
+            return persistedUserInfo;
+        }
+
+        return null;
+    }
+
+    private UserInfo LoadUserInfoFromPlayerPrefs()
+    {
+        var keysString = PlayerPrefs.GetString(UserInfoKey);
+        if (keysString == null || keysString == "")
+        {
+            return null;
+        }
+
+        var userInfo = new UserInfo();
+        if (keysString != null && keysString.Length > 0)
+        {
+            var keys = keysString.Split(',');
+            foreach (var key in keys)
+            {
+                var value = PlayerPrefs.GetString(key);
+                if (key == "userId")
+                {
+                    userInfo.SetUserId(value);
+                }
+                else if (key == "gender")
+                {
+                    userInfo.SetGender(value == "male" ? UserInfo.Gender.Male : UserInfo.Gender.Female);
+                }
+                else if (key == "birthday")
+                {
+                    var seconds = long.Parse(value);
+#if !UNITY_EDITOR && UNITY_ANDROID
+                    seconds /= 1000; // Android uses milliseconds
+#endif
+                    var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+                    var birthday = epochStart.AddSeconds(seconds);
+                    userInfo.SetBirthday(new DateTime(birthday.Year, birthday.Month, birthday.Day));
+                }
+                else
+                {
+                    userInfo.Set(key, value);
+                }
+            }
+        }
+        return userInfo;
+    }
+
     private void SaveUserInfoToPlayerPrefs(UserInfo userInfo)
     {
-        PlayerPrefs.DeleteAll();
-
         string keysString = "";
         foreach (var pair in userInfo.BackingStore)
         {
@@ -251,7 +313,7 @@ public class UserInfoUI : MonoBehaviour
             keysString += pair.Key;
             PlayerPrefs.SetString(pair.Key, pair.Value);
         }
-        PlayerPrefs.SetString("keys", keysString);
+        PlayerPrefs.SetString(UserInfoKey, keysString);
         PlayerPrefs.Save();
     }
 
