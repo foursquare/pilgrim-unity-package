@@ -81,6 +81,10 @@ namespace Foursquare
                 {
                     File.CreateText(PROJECT_SETTINGS_FILE);
                 }
+                else
+                {
+                    File.Delete(PROJECT_SETTINGS_FILE);
+                }
                 using (var writer = new XmlTextWriter(new StreamWriter(PROJECT_SETTINGS_FILE))
                 {
                     Formatting = Formatting.Indented,
