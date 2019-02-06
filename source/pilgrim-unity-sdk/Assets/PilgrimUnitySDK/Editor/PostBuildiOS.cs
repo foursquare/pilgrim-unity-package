@@ -80,20 +80,6 @@ namespace Foursquare
             File.WriteAllText(PBXProject.GetPBXProjectPath(pathToBuiltProject), pbxProjContents);
         }
 
-        // TODO REMOVE THIS WHEN MODULES ARE REMOVED FROM PILGRIM IN 2.1.1
-        [PostProcessBuild]
-        public static void EnableModules(BuildTarget buildTarget, string pathToBuiltProject)
-        {
-            var pbxProj = new PBXProject();
-            pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
-
-            var targetName = PBXProject.GetUnityTargetName();
-            var targetGuid = pbxProj.TargetGuidByName(targetName);
-            pbxProj.SetBuildProperty(targetGuid, "CLANG_ENABLE_MODULES", "YES");
-
-            pbxProj.WriteToFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
-        }
-
     }
 
 }
