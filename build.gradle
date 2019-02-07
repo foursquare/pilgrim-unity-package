@@ -5,25 +5,25 @@ plugins {
 
 project.ext {
     if (System.getenv("UNITY_ROOT") != null) {
-        unity_root = System.getenv("UNITY_ROOT")
+        unityRoot = System.getenv("UNITY_ROOT")
     } else {
         throw new GradleException("Set UNITY_ROOT env variable")
     }
 
     if (System.getenv("UNITY_SERIAL") != null) {
-        unity_serial = System.getenv("UNITY_SERIAL")
+        unitySerial = System.getenv("UNITY_SERIAL")
     } else {
         throw new GradleException("Set UNITY_SERIAL env variable")
     }
 
     if (System.getenv("UNITY_USERNAME") != null) {
-        unity_username = System.getenv("UNITY_USERNAME")
+        unityUsername = System.getenv("UNITY_USERNAME")
     } else {
         throw new GradleException("Set UNITY_USERNAME env variable")
     }
 
     if (System.getenv("UNITY_PASSWORD") != null) {
-        unity_password = System.getenv("UNITY_PASSWORD")
+        unityPassword = System.getenv("UNITY_PASSWORD")
     } else {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
@@ -54,8 +54,6 @@ dependencies {
     pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
 }
 
-// TOOD consistent naming convention for variables, camel case or underscore
-
 task downloadPilgrimAndroid(type: Copy) {
     from(configurations.pilgrim)
     into("${tempDir}/android-deps")
@@ -71,7 +69,7 @@ copyPilgrimAndroid.dependsOn(downloadPilgrimAndroid)
 task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
     tasks = ["clean", "assembleRelease"]
-    startParameter.projectProperties = [unity_root: "${unity_root}"]
+    startParameter.projectProperties = [unityRoot: "${unityRoot}"]
 }
 
 task copyAndroidWrapperLibrary(type: Copy) {
@@ -108,15 +106,15 @@ copyPilgrimiOS.dependsOn(downloadPilgrimiOS, unzipPilgrimiOS)
 task exportUnityPackage() {
     doLast {
         exec {
-            executable "${unity_root}/Unity.app/Contents/MacOS/Unity"
+            executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
             args "-gvh_disable",
                  "-batchmode",
                  "-serial",
-                 "${unity_serial}",
+                 "${unitySerial}",
                  "-username",
-                 "${unity_username}",
+                 "${unityUsername}",
                  "-password",
-                 "${unity_password}",
+                 "${unityPassword}",
                  "-projectPath", "${pluginBuildDir}",
                  "-logFile", "unity-exportPackage.log",
                  "-exportPackage",
@@ -134,7 +132,7 @@ task exportUnityPackage() {
 task returnLicense() {
     doLast {
         exec {
-           executable "${unity_root}/Unity.app/Contents/MacOS/Unity"
+           executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
            args "-logFile", "unity-returnlicense.log",
                 "-quit",
                 "-batchmode",
