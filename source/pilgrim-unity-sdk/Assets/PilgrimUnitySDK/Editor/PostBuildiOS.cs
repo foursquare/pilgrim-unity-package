@@ -80,6 +80,23 @@ namespace Foursquare
             File.WriteAllText(PBXProject.GetPBXProjectPath(pathToBuiltProject), pbxProjContents);
         }
 
+        [PostProcessBuild]
+        public static void EnsureCoreLocationIsAdded(BuildTarget buildTarget, string pathToBuiltProject)
+        {
+            var pbxProj = new PBXProject();
+            pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
+
+            var targetName = PBXProject.GetUnityTargetName();
+            var targetGuid = pbxProj.TargetGuidByName(targetName);
+
+            if (!pbxProj.ContainsFramework(targetGuid, "CoreLocation.framework"))
+            {
+                pbxProj.AddFrameworkToProject(targetGuid, "CoreLocation.framework", false);
+            }
+
+            pbxProj.WriteToFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
+        }
+
     }
 
 }
