@@ -70,7 +70,7 @@ public class AndroidDuplicatePluginDisabler : IPreprocessBuildWithReport
                 }
 
                 var pluginPatchVersion = 0;
-                if (groups.Count == 4 && int.TryParse(groups[4].Captures[0].Value, out pluginPatchVersion))
+                if (groups.Count == 4 && !int.TryParse(groups[4].Captures[0].Value, out pluginPatchVersion))
                 {
                     Debug.Log(string.Format("Error parsing version for plugin: {0}", pluginFileName));
                     continue;
