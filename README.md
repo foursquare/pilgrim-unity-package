@@ -1,6 +1,6 @@
 # Pilgrim Unity SDK
 
-[![CircleCI](https://circleci.com/gh/foursquare/pilgrim-unity-sdk/tree/master.svg?style=svg&circle-token=b6e777cc57a0d65b6ee58e576ca64858c5eb3339)](https://circleci.com/gh/foursquare/pilgrim-unity-sdk/tree/master)
+[![CircleCI](https://circleci.com/gh/foursquare/pilgrim-unity-sdk.svg?style=svg&circle-token=b6e777cc57a0d65b6ee58e576ca64858c5eb3339)](https://circleci.com/gh/foursquare/pilgrim-unity-sdk)
 
 Pilgrim Unity SDK is a package which enables easy integration with the [Pilgrim SDK](https://enterprise.foursquare.com/products/pilgrim) in a Unity project. This package supports a subset of the iOS and Android SDKs which currently includes the following functionality:
 
