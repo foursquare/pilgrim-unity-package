@@ -54,9 +54,28 @@ public class AndroidDuplicatePluginDisabler : IPreprocessBuildWithReport
             {
                 var groups = match.Groups;
                 var pluginName = groups[1].Captures[0].Value;
-                var pluginMajorVersion = int.Parse(groups[2].Captures[0].Value);
-                var pluginMinorVersion = int.Parse(groups[3].Captures[0].Value);
-                var pluginPatchVersion = groups.Count == 4 ? int.Parse(groups[4].Captures[0].Value) : 0;
+
+                var pluginMajorVersion = 0;
+                if (!int.TryParse(groups[2].Captures[0].Value, out pluginMajorVersion))
+                {
+                    Debug.Log(string.Format("Error parsing version for plugin: {0}", pluginFileName));
+                    continue;
+                }
+
+                var pluginMinorVersion = 0;
+                if (!int.TryParse(groups[3].Captures[0].Value, out pluginMinorVersion))
+                {
+                    Debug.Log(string.Format("Error parsing version for plugin: {0}", pluginFileName));
+                    continue;
+                }
+
+                var pluginPatchVersion = 0;
+                if (groups.Count == 4 && int.TryParse(groups[4].Captures[0].Value, out pluginPatchVersion))
+                {
+                    Debug.Log(string.Format("Error parsing version for plugin: {0}", pluginFileName));
+                    continue;
+                }
+
                 var version = new AndroidPlugin(pluginName, pluginMajorVersion, pluginMinorVersion, pluginPatchVersion, pluginImporter);
 
                 if (_enabledPluginsMap.ContainsKey(pluginName))
