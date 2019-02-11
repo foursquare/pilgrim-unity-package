@@ -258,6 +258,24 @@ public class GameManager : MonoBehaviour
 }
 ```
 
+Custom user data can also be retreived from Pilgrim SDK using `PilgrimUnitySDK.GetUserInfo()` method. 
+
+```
+using Foursquare;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+
+    void Start()
+    {
+        var userInfo = PilgrimUnitySDK.GetUserInfo();
+        // Do Stuff
+    }
+
+}
+```
+
 ## Samples
 
 * [Pilgrim Demo](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimDemo) - Basic application using PilgrimUnitySDK

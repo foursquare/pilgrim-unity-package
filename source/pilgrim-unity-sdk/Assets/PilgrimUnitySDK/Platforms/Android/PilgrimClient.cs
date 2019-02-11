@@ -24,29 +24,16 @@ namespace Foursquare.Android
             }
         }
 
+        public UserInfo GetUserInfo()
+        {
+            var userInfoJson = _androidPilgrimClient.Call<string>("getUserInfo");
+            return JsonUtility.FromJson<UserInfo>(userInfoJson);
+        }
+
         public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
-            using (var userInfoMap = new AndroidJavaObject("java.util.HashMap"))
-            {
-                var putMethod = AndroidJNIHelper.GetMethodID(userInfoMap.GetRawClass(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-                object[] args = new object[2];
-                foreach (var pair in userInfo.BackingStore)
-                {
-                    if (pair.Value == null)
-                    {
-                        continue;
-                    }
-                    using (AndroidJavaObject k = new AndroidJavaObject("java.lang.String", pair.Key))
-                    using (AndroidJavaObject v = new AndroidJavaObject("java.lang.String", pair.Value))
-                    {
-                        args[0] = k;
-                        args[1] = v;
-                        AndroidJNI.CallObjectMethod(userInfoMap.GetRawObject(), putMethod, AndroidJNIHelper.CreateJNIArgArray(args));
-                    }
-                }
-
-                _androidPilgrimClient.Call("setUserInfo", userInfoMap, persisted);
-            }
+            var userInfoJson = JsonUtility.ToJson(userInfo);
+            _androidPilgrimClient.Call("setUserInfo", userInfoJson, persisted);
         }
 
         public void RequestLocationPermissions()

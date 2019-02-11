@@ -18,6 +18,9 @@ namespace Foursquare.iOS
                                                  PilgrimClient.PilgrimGetCurrentLocationCallback getCurrentLocationCallback);
 
         [DllImport("__Internal")]
+        internal static extern string GetUserInfo(IntPtr clientPtr);
+
+        [DllImport("__Internal")]
         internal static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson, bool persisted);
 
         [DllImport("__Internal")]

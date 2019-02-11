@@ -28,43 +28,71 @@ final class Utils {
     private static final String KEY_STARTED = "started";
 
     private Utils() {
+
     }
 
-    static PilgrimUserInfo fromMap(Map<String, ?> map) {
-        if (map.isEmpty()) {
+    static String jsonFromUserInfo(@NonNull PilgrimUserInfo userInfo) {
+        JSONArray keys = new JSONArray();
+        JSONArray values = new JSONArray();
+
+        for (Map.Entry<String, String> entry : userInfo.entrySet()) {
+            keys.put(entry.getKey());
+            values.put(entry.getValue());
+        }
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("keys", keys);
+            json.put("values", values);
+            return json.toString();
+        } catch (JSONException e) {
             return null;
         }
+    }
 
-        PilgrimUserInfo userInfo = new PilgrimUserInfo();
+    static PilgrimUserInfo userInfoFromJSON(@NonNull String jsonString) {
+        try {
+            JSONObject json = new JSONObject(jsonString);
+            JSONArray keys = json.getJSONArray("keys");
+            JSONArray values = json.getJSONArray("values");
 
-        for (Map.Entry<String, ?> entry : map.entrySet()) {
-            String key = entry.getKey();
-            String value = (String) entry.getValue();
-
-            switch (key) {
-                case "userId":
-                    userInfo.setUserId(value);
-                    break;
-                case "birthday":
-                    userInfo.setBirthday(new Date(Long.parseLong(value)));
-                    break;
-                case "gender":
-                    switch (value) {
-                        case "male":
-                            userInfo.setGender(PilgrimUserInfo.Gender.MALE);
-                            break;
-                        case "female":
-                            userInfo.setGender(PilgrimUserInfo.Gender.FEMALE);
-                            break;
-                    }
-                    break;
-                default:
-                    userInfo.put(key, value);
-                    break;
+            if (keys.length() != values.length()) {
+                return null;
             }
-        }
 
-        return userInfo;
+            PilgrimUserInfo userInfo = new PilgrimUserInfo();
+
+            for (int i = 0; i < keys.length(); i++) {
+                String key = keys.getString(i);
+                String value = values.getString(i);
+
+                switch (key) {
+                    case "userId":
+                        userInfo.setUserId(value);
+                        break;
+                    case "birthday":
+                        userInfo.setBirthday(new Date(Long.parseLong(value)));
+                        break;
+                    case "gender":
+                        switch (value) {
+                            case "male":
+                                userInfo.setGender(PilgrimUserInfo.Gender.MALE);
+                                break;
+                            case "female":
+                                userInfo.setGender(PilgrimUserInfo.Gender.FEMALE);
+                                break;
+                        }
+                        break;
+                    default:
+                        userInfo.put(key, value);
+                        break;
+                }
+            }
+
+            return userInfo;
+        } catch (JSONException e) {
+            return null;
+        }
     }
 
     static void setStarted(@NonNull Context context, boolean started) {

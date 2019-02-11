@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class UserInfoUI : MonoBehaviour
 {
 
-    private const string UserInfoKey = "userInfo";
-
     [SerializeField]
     private Toggle _userIdToggle;
 
@@ -81,7 +79,6 @@ public class UserInfoUI : MonoBehaviour
         }
 
         PilgrimUnitySDK.SetUserInfo(userInfo);
-        SaveUserInfoToPlayerPrefs(userInfo);
         Destroy(gameObject);
     }
 
@@ -194,7 +191,7 @@ public class UserInfoUI : MonoBehaviour
 
     private void SetupUIFromUserInfo()
     {
-        var userInfo = LoadUserInfoFromPlayerPrefs();
+        var userInfo = PilgrimUnitySDK.GetUserInfo();
         if (userInfo == null)
         {
             return;
@@ -243,72 +240,6 @@ public class UserInfoUI : MonoBehaviour
             }
         }
 
-    }
-
-    private UserInfo GetUserInfo()
-    {
-        var persistedUserInfo = LoadUserInfoFromPlayerPrefs();
-        if (persistedUserInfo != null)
-        {
-            return persistedUserInfo;
-        }
-
-        return null;
-    }
-
-    private UserInfo LoadUserInfoFromPlayerPrefs()
-    {
-        var keysString = PlayerPrefs.GetString(UserInfoKey);
-        if (keysString == null || keysString == "")
-        {
-            return null;
-        }
-
-        var userInfo = new UserInfo();
-        if (keysString != null && keysString.Length > 0)
-        {
-            var keys = keysString.Split(',');
-            foreach (var key in keys)
-            {
-                var value = PlayerPrefs.GetString(key);
-                if (key == "userId")
-                {
-                    userInfo.SetUserId(value);
-                }
-                else if (key == "gender")
-                {
-                    userInfo.SetGender(value == "male" ? UserInfo.Gender.Male : UserInfo.Gender.Female);
-                }
-                else if (key == "birthday")
-                {
-                    var seconds = long.Parse(value);
-                    var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
-                    var birthday = epochStart.AddSeconds(seconds);
-                    userInfo.SetBirthday(new DateTime(birthday.Year, birthday.Month, birthday.Day));
-                }
-                else
-                {
-                    userInfo.Set(key, value);
-                }
-            }
-        }
-        return userInfo;
-    }
-
-    private void SaveUserInfoToPlayerPrefs(UserInfo userInfo)
-    {
-        string keysString = "";
-        foreach (var pair in userInfo.BackingStore)
-        {
-            if (keysString.Length > 0)
-            {
-                keysString += ",";
-            }
-            keysString += pair.Key;
-            PlayerPrefs.SetString(pair.Key, pair.Value);
-        }
-        PlayerPrefs.SetString(UserInfoKey, keysString);
-        PlayerPrefs.Save();
     }
 
 }

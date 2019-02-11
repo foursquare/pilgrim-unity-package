@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign) PilgrimGetCurrentLocationCallback getCurrentLocationCallback;
 
+- (const char *)getUserInfo;
+
 - (void)setUserInfo:(const char *)userInfoJson persisted:(BOOL)persisted;
 
 - (void)requestLocationPermissions;

@@ -29,22 +29,16 @@ namespace Foursquare.iOS
             Externs.SetCallbacks(_clientPtr, OnLocationPermissionsCallback, OnGetCurrentLocationCallback);
         }
 
+        public UserInfo GetUserInfo()
+        {
+            var userInfoJson = Externs.GetUserInfo(_clientPtr);
+            return JsonUtility.FromJson<UserInfo>(userInfoJson);
+        }
+
         public void SetUserInfo(UserInfo userInfo, bool persisted)
         {
-            var json = "{";
-            foreach (var pair in userInfo.BackingStore)
-            {
-                if (json.Length > 1)
-                {
-                    json += ",";
-                }
-                if (pair.Value != null)
-                {
-                    json += "\"" + pair.Key + "\":\"" + pair.Value + "\"";
-                }
-            }
-            json += "}";
-            Externs.SetUserInfo(_clientPtr, json, persisted);
+            var userInfoJson = JsonUtility.ToJson(userInfo);
+            Externs.SetUserInfo(_clientPtr, userInfoJson, persisted);
         }
 
         public void RequestLocationPermissions()
