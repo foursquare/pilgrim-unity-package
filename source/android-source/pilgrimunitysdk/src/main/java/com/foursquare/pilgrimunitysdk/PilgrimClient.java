@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -15,10 +14,6 @@ import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
-
-import org.json.JSONException;
-
-import java.util.HashMap;
 
 @SuppressWarnings("unused")
 public final class PilgrimClient {
@@ -47,8 +42,19 @@ public final class PilgrimClient {
         }, new IntentFilter("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED"));
     }
 
-    public void setUserInfo(@NonNull HashMap<String, String> userInfoMap, boolean persisted) {
-        PilgrimUserInfo userInfo = Utils.fromMap(userInfoMap);
+    public String getUserInfo() {
+        PilgrimUserInfo userInfo = PilgrimSdk.get().getUserInfo();
+        if (userInfo != null) {
+            return Utils.jsonFromUserInfo(userInfo);
+        }
+        return null;
+    }
+
+    public void setUserInfo(String userInfoJson, boolean persisted) {
+        PilgrimUserInfo userInfo = null;
+        if (userInfoJson != null) {
+            userInfo = Utils.userInfoFromJSON(userInfoJson);
+        }
         PilgrimSdk.get().setUserInfo(userInfo, persisted);
     }
 
@@ -118,7 +124,7 @@ public final class PilgrimClient {
                     listener.onGetCurrentLocationResult(false, "", "Unknown Error");
                 }
             } catch (Exception e) {
-                listener.onGetCurrentLocationResult(false,"", getErrorMessage(e));
+                listener.onGetCurrentLocationResult(false, "", getErrorMessage(e));
             }
         } else {
             listener.onGetCurrentLocationResult(false, "", getErrorMessage(result.getErr()));
@@ -126,7 +132,7 @@ public final class PilgrimClient {
     }
 
     private static String getErrorMessage(Exception e) {
-        return  e.getMessage() != null ? e.getMessage() : "Unknown Error";
+        return e.getMessage() != null ? e.getMessage() : "Unknown Error";
     }
 
 }

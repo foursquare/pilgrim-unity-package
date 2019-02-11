@@ -274,38 +274,58 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (const char *)getUserInfo {
+    FSQPUserInfo *userInfo = [FSQPPilgrimManager sharedManager].userInfo;
+    if (!userInfo) {
+        return nil;
+    }
+
+    NSMutableArray *keys = [NSMutableArray array];
+    NSMutableArray *values = [NSMutableArray array];
+
+    for (NSString *key in userInfo.source) {
+        [keys addObject:key];
+        [values addObject:userInfo.source[key]];
+    }
+
+    NSDictionary *userInfoDict = @{@"keys":keys, @"values":values};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:userInfoDict options:0 error:nil];
+    if (!data) {
+        return nil;
+    }
+    const char *userInfoJson = malloc(data.length);
+    [data getBytes:(void *)userInfoJson length:data.length];
+    return userInfoJson;
+}
+
 - (void)setUserInfo:(const char *)userInfoJson persisted:(BOOL)persisted {
     NSData *data = [NSData dataWithBytes:userInfoJson length:strlen(userInfoJson)];
     NSDictionary *userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSArray *keys = userInfoDict[@"keys"];
+    NSArray *values = userInfoDict[@"values"];
 
-    if ([userInfoDict count] == 0) {
+    if (!keys || !values || keys.count != values.count) {
         [[FSQPPilgrimManager sharedManager] setUserInfo:nil persisted:persisted];
         return;
     }
 
     FSQPUserInfo *userInfo = [[FSQPUserInfo alloc] init];
 
-    NSString *userId = userInfoDict[@"userId"];
-    [userInfo setUserId:userId];
+    for (int i = 0; i < keys.count; ++i) {
+        NSString *key = keys[i];
+        NSString *value = values[i];
 
-    NSString *birthday = userInfoDict[@"birthday"];
-    if (birthday) {
-        NSTimeInterval seconds = [birthday doubleValue];
-        NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:seconds];
-        [userInfo setBirthday:birthday];
-    } else {
-        [userInfo setBirthday:nil];
-    }
-
-    NSString *gender = userInfoDict[@"gender"];
-    [userInfo setGender:gender];
-
-    NSMutableDictionary *customUserInfoDict = [userInfoDict mutableCopy];
-    [customUserInfoDict removeObjectsForKeys:@[@"userId", @"birthday", @"gender"]];
-
-    for (NSString *key in customUserInfoDict) {
-        NSString *value = userInfoDict[key];
-        [userInfo setUserInfo:value forKey:key];
+        if ([key isEqualToString:@"userId"]) {
+            [userInfo setUserId:value];
+        } else if ([key isEqualToString:@"birthday"]) {
+            NSTimeInterval seconds = [value doubleValue];
+            NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:seconds];
+            [userInfo setBirthday:birthday];
+        } else if ([key isEqualToString:@"gender"]) {
+            [userInfo setGender:value];
+        } else {
+            [userInfo setUserInfo:value forKey:key];
+        }
     }
 
     [[FSQPPilgrimManager sharedManager] setUserInfo:userInfo persisted:persisted];

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.foursquare.pilgrim.PilgrimSdk;
-import com.foursquare.pilgrim.PilgrimUserInfo;
 
 @SuppressWarnings("unused")
 public final class PilgrimUnitySDK {

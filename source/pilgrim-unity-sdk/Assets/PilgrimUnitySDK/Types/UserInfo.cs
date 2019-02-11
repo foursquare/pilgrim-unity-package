@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Foursquare
 {
 
-    public class UserInfo
+    [Serializable]
+    public class UserInfo : ISerializationCallbackReceiver
     {
 
         public enum Gender
@@ -26,6 +28,12 @@ namespace Foursquare
         private IDictionary<string, string> _backingStore = new Dictionary<string, string>();
 
         public IDictionary<string, string> BackingStore { get { return new Dictionary<string, string>(_backingStore); } }
+
+        [SerializeField]
+        private List<string> keys = new List<string>();
+
+        [SerializeField]
+        private List<string> values = new List<string>();
 
         public void SetUserId(string userId)
         {
@@ -66,6 +74,28 @@ namespace Foursquare
                 return;
             }
             _backingStore[key] = value;
+        }
+
+        public void OnAfterDeserialize()
+        {
+            _backingStore = new Dictionary<string, string>();
+
+            for (int i = 0; i < keys.Count; i++)
+            {
+                _backingStore.Add(keys[i], values[i]);
+            }
+        }
+
+        public void OnBeforeSerialize()
+        {
+            keys.Clear();
+            values.Clear();
+
+            foreach (var kvp in _backingStore)
+            {
+                keys.Add(kvp.Key);
+                values.Add(kvp.Value);
+            }
         }
 
     }
