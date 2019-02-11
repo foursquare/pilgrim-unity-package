@@ -21,8 +21,12 @@ namespace Foursquare
         [SerializeField]
         private LocationType locationType;
 
+        public LocationType LocationType { get { return locationType; } }
+
         [SerializeField]
         private Confidence confidence;
+
+        public Confidence Confidence { get { return confidence; } }
 
         [SerializeField]
         private Venue venue;
