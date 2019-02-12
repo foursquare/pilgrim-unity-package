@@ -68,6 +68,11 @@ public class GameManager : MonoBehaviour
         userInfoUI.transform.SetParent(canvas.transform, false);
     }
 
+    public void OnPressShowDebugScreen()
+    {
+        PilgrimUnitySDK.ShowDebugScreen();
+    }
+
     private void OnLocationPermissionResult(bool granted)
     {
         if (nextAction == NextAction.START)

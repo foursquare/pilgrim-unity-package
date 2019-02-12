@@ -56,6 +56,11 @@ void GetCurrentLocation(PilgrimClientRef clientPtr) {
     [client getCurrentLocation];
 }
 
+void ShowDebugScreen(PilgrimClientRef clientPtr) {
+    PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
+    [client showDebugScreen];
+}
+
 void Destroy(PilgrimClientRef clientPtr) {
     PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
     CFRelease((__bridge CFTypeRef)(client));

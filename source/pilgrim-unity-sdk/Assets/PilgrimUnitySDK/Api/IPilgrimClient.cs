@@ -23,6 +23,8 @@ namespace Foursquare
 
         void GetCurrentLocation();
 
+        void ShowDebugScreen();
+
     }
 
 }

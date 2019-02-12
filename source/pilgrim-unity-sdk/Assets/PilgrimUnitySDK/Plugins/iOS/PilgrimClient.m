@@ -379,6 +379,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [([error localizedDescription] ?: @"Unkown Error") cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (void)showDebugScreen {
+    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [[FSQPPilgrimManager sharedManager] presentDebugViewController:viewController];
+}
+
 #pragma mark - CLLocationManagerDelegate methods
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {

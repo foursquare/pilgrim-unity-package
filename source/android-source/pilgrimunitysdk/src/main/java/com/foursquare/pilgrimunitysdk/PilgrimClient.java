@@ -14,6 +14,7 @@ import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
+import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
 
 @SuppressWarnings("unused")
 public final class PilgrimClient {
@@ -111,6 +112,10 @@ public final class PilgrimClient {
                 }
             }
         }).start();
+    }
+
+    public void showDebugScreen() {
+        context.startActivity(new Intent(context, PilgrimSdkDebugActivity.class));
     }
 
     private void handleResult(Result<CurrentLocation, Exception> result) {

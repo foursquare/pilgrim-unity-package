@@ -61,6 +61,11 @@ namespace Foursquare.Android
             _androidPilgrimClient.Call("getCurrentLocation");
         }
 
+        public void ShowDebugScreen()
+        {
+            _androidPilgrimClient.Call("showDebugScreen");
+        }
+
         public void Dispose()
         {
             _androidPilgrimClient.Dispose();

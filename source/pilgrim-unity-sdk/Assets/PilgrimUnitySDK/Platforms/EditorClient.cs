@@ -75,6 +75,11 @@ namespace Foursquare
             OnGetCurrentLocationResult(currentLocation, null);
         }
 
+        public void ShowDebugScreen()
+        {
+
+        }
+
         private UserInfo LoadUserInfoFromPlayerPrefs()
         {
             var keysString = PlayerPrefs.GetString(UserInfoKey);

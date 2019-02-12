@@ -13,7 +13,9 @@ public final class PilgrimUnitySDK {
     }
 
     public static void init(@NonNull Context context, @NonNull String consumerKey, @NonNull String consumerSecret) {
-        PilgrimSdk.with(new PilgrimSdk.Builder(context).consumer(consumerKey, consumerSecret));
+        PilgrimSdk.with(new PilgrimSdk.Builder(context)
+                .consumer(consumerKey, consumerSecret)
+                .enableDebugLogs());
         restartIfPreviouslyStarted(context);
     }
 
