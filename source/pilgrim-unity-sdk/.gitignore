@@ -47,5 +47,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-!Assets/PilgrimUnitySDK/*.meta
-Plugins/
+!Assets/PilgrimUnitySDK/**/*.meta
+
+Assets/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework.meta
+Assets/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework
+Assets/PilgrimUnitySDK/Plugins/Android/
