@@ -4,8 +4,7 @@ using UnityEngine.UI;
 public class AlertUI : MonoBehaviour
 {
 
-    [SerializeField]
-    private Text _alertText;
+    public Text _alertText;
 
     public string Message
     {

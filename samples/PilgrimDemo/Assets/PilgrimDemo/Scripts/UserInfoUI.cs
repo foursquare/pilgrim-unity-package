@@ -8,35 +8,25 @@ using UnityEngine.UI;
 public class UserInfoUI : MonoBehaviour
 {
 
-    [SerializeField]
-    private Toggle _userIdToggle;
+    public Toggle _userIdToggle;
 
-    [SerializeField]
-    private InputField _userIdInputField;
+    public InputField _userIdInputField;
 
-    [SerializeField]
-    private Toggle _genderToggle;
+    public Toggle _genderToggle;
 
-    [SerializeField]
-    private Dropdown _genderDropdown;
+    public Dropdown _genderDropdown;
 
-    [SerializeField]
-    private Toggle _birthdayToggle;
+    public Toggle _birthdayToggle;
 
-    [SerializeField]
-    private InputField _yearInputField;
+    public InputField _yearInputField;
 
-    [SerializeField]
-    private Dropdown _monthDropDown;
+    public Dropdown _monthDropDown;
 
-    [SerializeField]
-    private Dropdown _dayDropDown;
+    public Dropdown _dayDropDown;
 
-    [SerializeField]
-    private UserInfoCell _userInfoCellPrefab;
+    public UserInfoCell _userInfoCellPrefab;
 
-    [SerializeField]
-    private ScrollRect _scrollRect;
+    public ScrollRect _scrollRect;
 
     private int year = 0;
     private int month = 0;

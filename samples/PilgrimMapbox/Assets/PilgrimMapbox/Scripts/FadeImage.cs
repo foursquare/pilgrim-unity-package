@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class FadeImage : MonoBehaviour
 {
 
-    [SerializeField]
-    private UnityEvent _onFadeOutComplete;
+    public UnityEvent _onFadeOutComplete;
 
     private Animator _animator;
 

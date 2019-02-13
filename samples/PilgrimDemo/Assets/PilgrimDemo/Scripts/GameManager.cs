@@ -5,17 +5,13 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private CurrentLocationUI _currentLocationUIPrefab;
+    public CurrentLocationUI _currentLocationUIPrefab;
 
-    [SerializeField]
-    private UserInfoUI _userInfoUIPrefab;
+    public UserInfoUI _userInfoUIPrefab;
 
-    [SerializeField]
-    private GameObject _loadingUIPrefab;
+    public GameObject _loadingUIPrefab;
 
-    [SerializeField]
-    private AlertUI _alertUIPrefab;
+    public AlertUI _alertUIPrefab;
 
     private GameObject loadingUI;
 

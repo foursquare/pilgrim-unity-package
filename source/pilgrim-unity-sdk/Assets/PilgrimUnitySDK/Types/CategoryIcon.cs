@@ -8,6 +8,8 @@ namespace Foursquare
     public class CategoryIcon
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private string prefix;
 
@@ -17,6 +19,8 @@ namespace Foursquare
         private string suffix;
 
         public string Suffix { get { return suffix; } }
+
+#pragma warning restore 0649
 
     }
 

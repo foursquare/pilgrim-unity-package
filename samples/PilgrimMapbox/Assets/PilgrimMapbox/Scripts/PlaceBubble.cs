@@ -50,17 +50,13 @@ public class PlaceBubble : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private TMP_Text _loadingText;
+    public TMP_Text _loadingText;
 
-    [SerializeField]
-    private TMP_Text _venueNameText;
+    public TMP_Text _venueNameText;
 
-    [SerializeField]
-    private TMP_Text _address1Text;
+    public TMP_Text _address1Text;
 
-    [SerializeField]
-    private TMP_Text _address2Text;
+    public TMP_Text _address2Text;
 
     private Renderer _categoryIconRenderer;
 
