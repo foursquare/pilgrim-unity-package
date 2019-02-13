@@ -9,6 +9,8 @@ namespace Foursquare
     public class VenueParent
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private string id;
 
@@ -23,6 +25,8 @@ namespace Foursquare
         private Category[] categories;
 
         public IList<Category> Categories { get { return new List<Category>(categories); } }
+
+#pragma warning restore 0649
 
     }
 

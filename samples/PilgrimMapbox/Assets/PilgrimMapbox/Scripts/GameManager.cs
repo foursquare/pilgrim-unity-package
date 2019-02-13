@@ -9,17 +9,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private AbstractMap _map;
+    public AbstractMap _map;
 
-    [SerializeField]
-    private LocationElements _locationElements;
+    public LocationElements _locationElements;
 
-    [SerializeField]
-    private Button _centerButton;
+    public Button _centerButton;
 
-    [SerializeField]
-    private Button _backButton;
+    public Button _backButton;
 
     private float _elevation;
 
@@ -55,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         if (exception != null)
         {
-            _locationElements.PlaceBubble.Exception = exception;
+            _locationElements._placeBubble.Exception = exception;
             return;
         }
 
@@ -63,7 +59,7 @@ public class GameManager : MonoBehaviour
         var latLng = new Vector2d(currentPlace.Location.Latitude, currentPlace.Location.Longitude);
         if (currentPlace != null)
         {
-            _locationElements.PlaceBubble.Venue = currentPlace.Venue;
+            _locationElements._placeBubble.Venue = currentPlace.Venue;
 
             _map.OnInitialized += () =>
             {
@@ -128,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         GameObject.Find("FadeImage").GetComponent<FadeImage>().FadeIn();
-        _locationElements.PlaceBubble.Venue = null;
+        _locationElements._placeBubble.Venue = null;
         Camera.main.GetComponent<CameraDrag>().DragEnabled = false;
         StartCoroutine(FakeLatency(() => { PilgrimUnitySDK.GetCurrentLocation(); }));
     }

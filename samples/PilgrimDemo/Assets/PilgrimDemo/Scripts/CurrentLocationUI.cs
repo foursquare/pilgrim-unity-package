@@ -5,14 +5,11 @@ using UnityEngine.UI;
 public class CurrentLocationUI : MonoBehaviour
 {
 
-    [SerializeField]
-    private Text _currentPlaceInfoText;
+    public Text _currentPlaceInfoText;
 
-    [SerializeField]
-    private ScrollRect _scrollRect;
+    public ScrollRect _scrollRect;
 
-    [SerializeField]
-    private GameObject _geofenceEventCellPrefab;
+    public GameObject _geofenceEventCellPrefab;
 
     public CurrentLocation CurrentLocation
     {

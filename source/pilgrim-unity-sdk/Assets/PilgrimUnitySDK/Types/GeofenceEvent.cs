@@ -8,6 +8,8 @@ namespace Foursquare
     public class GeofenceEvent
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private Venue venue;
 
@@ -22,6 +24,8 @@ namespace Foursquare
         private double timestamp;
 
         public DateTime Timestamp { get { return timestamp.DateTimeFromUnixTime(); } }
+
+#pragma warning restore 0649
 
     }
 

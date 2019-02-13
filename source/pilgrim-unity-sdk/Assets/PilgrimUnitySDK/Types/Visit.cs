@@ -8,6 +8,8 @@ namespace Foursquare
     public class Visit
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private Location location;
 
@@ -32,6 +34,8 @@ namespace Foursquare
         private Venue venue;
 
         public Venue Venue { get { return venue; } }
+
+#pragma warning restore 0649
 
     }
 

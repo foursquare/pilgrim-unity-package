@@ -8,6 +8,8 @@ namespace Foursquare
     public class Chain
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private string id;
 
@@ -17,6 +19,8 @@ namespace Foursquare
         private string name;
 
         public string Name { get { return name; } }
+
+#pragma warning restore 0649
 
     }
 

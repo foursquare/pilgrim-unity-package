@@ -151,6 +151,11 @@ task deleteTempDirectory(type: Delete) {
 }
 
 exportUnityPackage.dependsOn(createTempDirectory, copyPilgrimAndroid, copyAndroidWrapperLibrary, copyPilgrimiOS)
-exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
+
+if (project.getProperties().get("noReturnLicense")) {
+    exportUnityPackage.finalizedBy(deleteTempDirectory)
+} else {
+    exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
+}
 
 defaultTasks "exportUnityPackage"
