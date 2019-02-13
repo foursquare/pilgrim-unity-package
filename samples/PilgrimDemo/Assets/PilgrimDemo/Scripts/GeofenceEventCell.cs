@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class GeofenceEventCell : MonoBehaviour
 {
 
-    [SerializeField]
-    private Text _geofenceEventInfoText;
+    public Text _geofenceEventInfoText;
 
     public GeofenceEvent GeofenceEvent
     {

@@ -4,16 +4,11 @@ using UnityEngine;
 public class LocationElements : MonoBehaviour
 {
 
-    [SerializeField]
-    private PlaceBubble _placeBubble;
+    public PlaceBubble _placeBubble;
 
-    public PlaceBubble PlaceBubble { get { return _placeBubble; } }
+    public Transform _arrow;
 
-    [SerializeField]
-    private Transform _arrow;
-
-    [SerializeField]
-    private float _animDuration = 0.75f;
+    public float _animDuration = 0.75f;
 
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
