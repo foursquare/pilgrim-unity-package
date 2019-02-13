@@ -51,4 +51,5 @@ crashlytics-build.properties
 
 Assets/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework.meta
 Assets/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework
+Assets/PilgrimUnitySDK/Plugins/Android.meta
 Assets/PilgrimUnitySDK/Plugins/Android/
