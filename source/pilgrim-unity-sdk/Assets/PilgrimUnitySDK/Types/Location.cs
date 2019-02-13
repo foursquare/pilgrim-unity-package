@@ -8,6 +8,8 @@ namespace Foursquare
     public class Location
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private double latitude;
 
@@ -17,6 +19,8 @@ namespace Foursquare
         private double longitude;
 
         public double Longitude { get { return longitude; } }
+
+#pragma warning restore 0649
 
     }
 

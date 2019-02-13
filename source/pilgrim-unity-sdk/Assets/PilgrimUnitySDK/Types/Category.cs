@@ -8,6 +8,8 @@ namespace Foursquare
     public class Category
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private string id;
 
@@ -37,6 +39,8 @@ namespace Foursquare
         private bool isPrimary;
 
         public bool IsPrimary { get { return isPrimary; } }
+
+#pragma warning restore 0649
 
     }
 

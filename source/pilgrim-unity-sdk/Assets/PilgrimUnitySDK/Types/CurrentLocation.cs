@@ -9,6 +9,8 @@ namespace Foursquare
     public class CurrentLocation
     {
 
+#pragma warning disable 0649
+
         [SerializeField]
         private Visit currentPlace;
 
@@ -18,6 +20,8 @@ namespace Foursquare
         private GeofenceEvent[] matchedGeofences;
 
         public IList<GeofenceEvent> MatchedGeofences { get { return new List<GeofenceEvent>(matchedGeofences); } }
+
+#pragma warning restore 0649
 
     }
 
