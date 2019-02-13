@@ -59,6 +59,7 @@ public final class App extends Application {{
       <meta-data android:name=""unityplayer.UnityActivity"" android:value=""true"" />
       <meta-data android:name=""unityplayer.SkipPermissionsDialog"" android:value=""true"" />
     </activity>
+    <activity android:name=""com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity"" android:theme=""@style/Theme.AppCompat.Light.DarkActionBar""/>
   </application>
 </manifest>";
 
