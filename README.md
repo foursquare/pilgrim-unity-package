@@ -276,6 +276,32 @@ public class GameManager : MonoBehaviour
 }
 ```
 
+## Debug Screen
+
+The debug screen is shown using the `PilgrimUnitySDK.ShowDebugScreen()` method. This screen contains logs sent from Pilgrim SDK and other debugging tools/information. Example usage below:
+
+
+```
+using Foursquare;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+
+    void Start()
+    {
+        PilgrimUnitySDK.ShowDebugScreen();
+    }
+
+}
+```
+
+To use on Android the base application theme must be or descend from `Theme.AppCompat`, otherwise you need to declare the activity in your `AndroidManifest.xml` like below. The generated `AndroidManifest.xml` in [Application Setup](#application-setup) automatically adds this. 
+
+```
+<activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+```
+
 ## Samples
 
 * [Pilgrim Demo](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimDemo) - Basic application using PilgrimUnitySDK
