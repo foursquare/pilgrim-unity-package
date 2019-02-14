@@ -19,6 +19,7 @@ Pilgrim Unity SDK is a package which enables easy integration with the [Pilgrim 
     * [Mocking Editor Locations](#mocking-editor-locations)
     * [Passive Location Detection](#passive-location-detection)
     * [Sending Custom User Data](#sending-custom-user-data)
+    * [Debug Screen](#debug-screen)
 * [Samples](#samples)
 * [FAQ](#faq)
 
