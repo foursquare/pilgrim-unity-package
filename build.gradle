@@ -1,6 +1,5 @@
 plugins {
     id "de.undercouch.download" version "3.4.3"
-    id "java-library"
 }
 
 project.ext {
@@ -36,29 +35,40 @@ project.ext {
     exportPath = file("pilgrim-unity-sdk.unitypackage").absolutePath
 }
 
-configurations {
-    pilgrim {
-        repositories {
-            mavenCentral()
-            maven {
-                url "https://maven.google.com"
-            }
-            maven {
-                url 'https://foursquare.jfrog.io/foursquare/libs-release/'
-            }
-        }
+repositories {
+    mavenCentral()
+    google()
+    maven {
+        url 'https://foursquare.jfrog.io/foursquare/libs-release/'
     }
 }
 
+configurations {
+    pilgrim
+}
+
 dependencies {
-    pilgrim "android.arch.lifecycle:common:1.1.1"
     pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
     pilgrim "com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}"
 }
 
-task downloadPilgrimAndroid(type: Copy) {
-    from(configurations.pilgrim)
-    into("${tempDir}/android-deps")
+task downloadPilgrimAndroidAndDependencies() {
+    doLast {
+        def artifacts = configurations.pilgrim.resolvedConfiguration.getResolvedArtifacts()
+        artifacts.forEach { artifact ->
+            copy {
+                from artifact.file.absolutePath
+                into "${tempDir}/android-deps"
+                rename { filename ->
+                    def group = artifact.moduleVersion.id.group
+                    def name = artifact.moduleVersion.id.name
+                    def version = artifact.moduleVersion.id.version
+                    def extension = artifact.extension
+                    return group + "-" + name + "-" + version + "." + extension
+                }
+            }
+        }
+    }
 }
 
 task copyPilgrimAndroid(type: Copy) {
@@ -66,7 +76,7 @@ task copyPilgrimAndroid(type: Copy) {
     into("${pluginBuildDir}/Assets/PilgrimUnitySDK/Plugins/Android")
 }
 
-copyPilgrimAndroid.dependsOn(downloadPilgrimAndroid)
+copyPilgrimAndroid.dependsOn(downloadPilgrimAndroidAndDependencies)
 
 task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
