@@ -25,6 +25,8 @@ namespace Foursquare
 
         void ShowDebugScreen();
 
+        void FireTestVisit(Location location);
+
     }
 
 }

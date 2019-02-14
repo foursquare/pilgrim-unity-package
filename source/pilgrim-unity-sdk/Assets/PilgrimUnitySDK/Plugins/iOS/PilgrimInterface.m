@@ -2,11 +2,11 @@
 //  PilgrimInterface.m
 //  PilgrimUnitySDK
 //
-//  Copyright © 2018 Foursquare. All rights reserved.
+//  Copyright © 2019 Foursquare. All rights reserved.
 //
 
-#import "PilgrimTypes.h"
 #import "PilgrimClient.h"
+#import "PilgrimTypes.h"
 
 PilgrimClientRef CreateClient(PilgrimClientHandleRef clientHandlePtr) {
     PilgrimClient *client = [[PilgrimClient alloc] initWithClientHandle:clientHandlePtr];
@@ -59,6 +59,11 @@ void GetCurrentLocation(PilgrimClientRef clientPtr) {
 void ShowDebugScreen(PilgrimClientRef clientPtr) {
     PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
     [client showDebugScreen];
+}
+
+void FireTestVisit(PilgrimClientRef clientPtr, double latitude, double longitude) {
+    PilgrimClient *client = (__bridge PilgrimClient *)(clientPtr);
+    [client fireTestVisitWithLatitude:latitude longitude:longitude];
 }
 
 void Destroy(PilgrimClientRef clientPtr) {

@@ -2,10 +2,10 @@
 //  PilgrimClient.h
 //  PilgrimUnitySDK
 //
-//  Copyright © 2018 Foursquare. All rights reserved.
+//  Copyright © 2019 Foursquare. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "PilgrimTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getCurrentLocation;
 
 - (void)showDebugScreen;
+
+- (void)fireTestVisitWithLatitude:(double)latitude longitude:(double)longitude;
 
 @end
 

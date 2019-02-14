@@ -80,6 +80,11 @@ namespace Foursquare
 
         }
 
+        public void FireTestVisit(Location location)
+        {
+
+        }
+
         private UserInfo LoadUserInfoFromPlayerPrefs()
         {
             var keysString = PlayerPrefs.GetString(UserInfoKey);

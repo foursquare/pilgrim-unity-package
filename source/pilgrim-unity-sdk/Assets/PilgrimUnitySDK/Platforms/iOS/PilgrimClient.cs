@@ -71,6 +71,11 @@ namespace Foursquare.iOS
             Externs.ShowDebugScreen(_clientPtr);
         }
 
+        public void FireTestVisit(Location location)
+        {
+            Externs.FireTestVisit(_clientPtr, location.Latitude, location.Longitude);
+        }
+
         public void Dispose()
         {
             _clientHandle.Free();
@@ -136,6 +141,9 @@ namespace Foursquare.iOS
 
             [DllImport("__Internal")]
             public static extern void ShowDebugScreen(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void FireTestVisit(IntPtr clientPtr, double latitude, double longitude);
 
         }
 

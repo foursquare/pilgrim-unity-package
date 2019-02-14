@@ -69,6 +69,11 @@ public class GameManager : MonoBehaviour
         PilgrimUnitySDK.ShowDebugScreen();
     }
 
+    public void OnPressFireTestVisit()
+    {
+        PilgrimUnitySDK.FireTestVisit(new Location(41.889264, -87.628911));
+    }
+
     private void OnLocationPermissionResult(bool granted)
     {
         if (nextAction == NextAction.START)

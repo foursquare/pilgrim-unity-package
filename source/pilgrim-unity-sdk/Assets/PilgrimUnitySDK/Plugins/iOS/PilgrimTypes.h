@@ -1,8 +1,8 @@
 //
-//  PilgrimTypes.m
+//  PilgrimTypes.h
 //  PilgrimUnitySDK
 //
-//  Copyright © 2018 Foursquare. All rights reserved.
+//  Copyright © 2019 Foursquare. All rights reserved.
 //
 
 typedef const void *PilgrimClientRef;

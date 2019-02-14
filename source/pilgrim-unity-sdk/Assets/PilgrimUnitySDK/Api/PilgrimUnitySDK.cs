@@ -72,6 +72,11 @@ namespace Foursquare
             _client.ShowDebugScreen();
         }
 
+        public static void FireTestVisit(Location location)
+        {
+            _client.FireTestVisit(location);
+        }
+
     }
 
 }
