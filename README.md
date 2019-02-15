@@ -2,11 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/foursquare/pilgrim-unity-sdk.svg?style=svg&circle-token=b6e777cc57a0d65b6ee58e576ca64858c5eb3339)](https://circleci.com/gh/foursquare/pilgrim-unity-sdk)
 
-Pilgrim Unity SDK is a package which enables easy integration with the [Pilgrim SDK](https://enterprise.foursquare.com/products/pilgrim) in a Unity project. This package supports a subset of the iOS and Android SDKs which currently includes the following functionality:
-
-* Passive location detection with notifications received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)
-* Getting the user's [Current Location](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#get-current-location)
-* Sending [Custom User Data](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data)
+Pilgrim Unity SDK is a package which enables easy integration with [Pilgrim SDK](https://enterprise.foursquare.com/products/pilgrim) in a Unity project. This package supports a subset of the iOS and Android SDKs. This includes passive location detection (with notifications received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)), getting the user's [Current Location](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#get-current-location), sending [Custom User Data](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data) and more.
 
 ## Table of Contents
 * [Requirements](#requirements)
