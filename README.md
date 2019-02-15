@@ -19,6 +19,8 @@ Pilgrim Unity SDK is a package which enables easy integration with the [Pilgrim 
     * [Mocking Editor Locations](#mocking-editor-locations)
     * [Passive Location Detection](#passive-location-detection)
     * [Sending Custom User Data](#sending-custom-user-data)
+    * [Debug Screen](#debug-screen)
+    * [Test Visits](#test-visits)
 * [Samples](#samples)
 * [FAQ](#faq)
 
@@ -122,6 +124,7 @@ Also ensure your `AndroidManifest.xml` sets the `android.app.Application` subcla
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
     </activity>
+    <activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
   </application>
 </manifest>
 ```
@@ -271,6 +274,51 @@ public class GameManager : MonoBehaviour
     {
         var userInfo = PilgrimUnitySDK.GetUserInfo();
         // Do Stuff
+    }
+
+}
+```
+
+### Debug Screen
+
+The debug screen is shown using the `PilgrimUnitySDK.ShowDebugScreen()` method. This screen contains logs sent from Pilgrim SDK and other debugging tools/information. Example usage below:
+
+
+```
+using Foursquare;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+
+    void Start()
+    {
+        PilgrimUnitySDK.ShowDebugScreen();
+    }
+
+}
+```
+
+To use on Android the base application theme must be or descend from `Theme.AppCompat`, otherwise you need to declare the activity in your `AndroidManifest.xml` like below. The generated `AndroidManifest.xml` in [Application Setup](#application-setup) automatically adds this. 
+
+```
+<activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+```
+
+### Test Visits
+
+Test arrival visits can be fired with the method `PilgrimUnitySDK.FireTestVisit()`. You must pass a location to be used for the test visit. The arrival notification will be received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)
+
+```
+using Foursquare;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+
+    void Start()
+    {
+        PilgrimUnitySDK.FireTestVisit(new Location(41.889264, -87.628911));
     }
 
 }

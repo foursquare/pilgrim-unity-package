@@ -13,107 +13,81 @@ MonoBehaviour:
   m_Name: 4sqChicago
   m_EditorClassIdentifier: 
   _currentLocation:
-    currentPlace:
-      location:
-        latitude: 41.889264
-        longitude: -87.628911
-      arrivalTime: 1547743400.999652
-      locationType: 2
-      confidence: 3
-      venue:
-        id: 52af211911d2aa9d4a1f0e0a
-        name: Foursquare Chicago
-        locationInformation:
-          address: 20 W Kinzie St
-          crossStreet: at N State St
-          city: Chicago
-          state: IL
-          postalCode: 60606
-          country: US
-          location:
-            latitude: 41.889264
-            longitude: -87.628911
-        partnerVenueId: 
-        probability: 0.3397897054011007
-        chains:
-        - id: 556e5779bd6a82902e28bcea
-          name: Foursquare
-        categories:
-        - id: 4bf58dd8d48988d125941735
-          name: Tech Startup
-          pluralName: Tech Startups
-          shortName: Tech Startup
-          icon:
-            prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
-            suffix: .png
-          isPrimary: 1
-        hierarchy: []
-    matchedGeofences:
-    - venue:
-        id: 4a9037fef964a5209b1620e3
-        name: Einstein Bros Bagels
-        locationInformation:
-          address: 400 N Dearborn St
-          crossStreet: 
-          city: Chicago
-          state: IL
-          postalCode: 60654
-          country: US
-          location:
-            latitude: 41.8893897
-            longitude: -87.6297896
-        partnerVenueId: 
-        probability: 0
-        chains: []
-        categories:
-        - id: 4bf58dd8d48988d179941735
-          name: Bagel Shop
-          pluralName: Bagel Shops
-          shortName: Bagels
-          icon:
-            prefix: https://ss3.4sqi.net/img/categories_v2/food/bagels_
-            suffix: .png
-          isPrimary: 1
-        - id: 4bf58dd8d48988d1e0931735
-          name: Coffee Shop
-          pluralName: Coffee Shops
-          shortName: Coffee Shop
-          icon:
-            prefix: https://ss3.4sqi.net/img/categories_v2/food/bagels_
-            suffix: .png
-          isPrimary: 0
-        hierarchy: []
-      location:
-        latitude: 41.889312744140625
-        longitude: -87.62864226755086
-      timestamp: 1547743400.999652
-    - venue:
-        id: 52af211911d2aa9d4a1f0e0a
-        name: Foursquare Chicago
-        locationInformation:
-          address: 20 W Kinzie St
-          crossStreet: at N State St
-          city: Chicago
-          state: IL
-          postalCode: 60606
-          country: US
-          location:
-            latitude: 41.889264
-            longitude: -87.628911
-        partnerVenueId: 
-        probability: 0
-        chains: []
-        categories:
-        - id: 4bf58dd8d48988d125941735
-          name: Tech Startup
-          pluralName: Tech Startups
-          shortName: Tech Startup
-          icon:
-            prefix: https://ss3.4sqi.net/img/categories_v2/food/bagels_
-            suffix: .png
-          isPrimary: 1
-        hierarchy: []
-      location:
-        latitude: 41.889312744140625
-        longitude: -87.62864226755086
-      timestamp: 1547743400.999652
+    _currentPlace:
+      _location:
+        _latitude: 41.889264
+        _longitude: -87.628911
+      _locationType: 2
+      _confidence: 3
+      _arrivalTime: 1547743400.99965
+      _venue:
+        _id: 52af211911d2aa9d4a1f0e0a
+        _name: Foursquare Chicago
+        _locationInformation:
+          _address: 20 W Kinzie St
+          _crossStreet: at N State St
+          _city: Chicago
+          _state: IL
+          _postalCode: 60606
+          _country: United States
+          _location:
+            _latitude: 41.889264
+            _longitude: -87.628911
+        _partnerVenueId: 
+        _probability: 1
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d125941735
+          _name: Tech Startup
+          _pluralName: Tech Startups
+          _shortName: Tech Startup
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
+            _suffix: .png
+          _isPrimary: 1
+        _hierarchy: []
+    _matchedGeofences:
+    - _venueId: 4a9037fef964a5209b1620e3
+      _categoryIds:
+      - 4bf58dd8d48988d179941735
+      - 4bf58dd8d48988d1e0931735
+      _chainIds: []
+      _partnerVenueId: 
+      _venue:
+        _id: 4a9037fef964a5209b1620e3
+        _name: Einstein Bros Bagels
+        _locationInformation:
+          _address: 400 N Dearborn St
+          _crossStreet: 
+          _city: Chicago
+          _state: IL
+          _postalCode: 60654
+          _country: US
+          _location:
+            _latitude: 41.8893897
+            _longitude: -87.6297896
+        _partnerVenueId: 
+        _probability: 0
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d179941735
+          _name: Bagel Shop
+          _pluralName: Bagel Shops
+          _shortName: Bagels
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/food/bagels_
+            _suffix: .png
+          _isPrimary: 1
+        - _id: 4bf58dd8d48988d1e0931735
+          _name: Coffee Shop
+          _pluralName: Coffee Shops
+          _shortName: Coffee Shop
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_bg_
+            _suffix: .png
+          _isPrimary: 0
+        _hierarchy: []
+      _location:
+        _latitude: 0
+        _longitude: 0
+      _timestamp: 0

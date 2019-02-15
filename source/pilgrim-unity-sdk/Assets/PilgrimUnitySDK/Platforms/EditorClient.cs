@@ -17,7 +17,8 @@ namespace Foursquare
 
         public EditorClient()
         {
-            _userInfo = LoadUserInfoFromPlayerPrefs();
+            var userInfoJson = PlayerPrefs.GetString(UserInfoKey);
+            _userInfo = JsonUtility.FromJson<UserInfo>(userInfoJson);
         }
 
         public UserInfo GetUserInfo()
@@ -30,7 +31,9 @@ namespace Foursquare
             _userInfo = userInfo;
             if (persisted)
             {
-                SaveUserInfoToPlayerPrefs(userInfo);
+                var userInfoJson = JsonUtility.ToJson(userInfo);
+                PlayerPrefs.SetString(UserInfoKey, userInfoJson);
+                PlayerPrefs.Save();
             }
             else
             {
@@ -75,61 +78,15 @@ namespace Foursquare
             OnGetCurrentLocationResult(currentLocation, null);
         }
 
-        private UserInfo LoadUserInfoFromPlayerPrefs()
+        public void ShowDebugScreen()
         {
-            var keysString = PlayerPrefs.GetString(UserInfoKey);
-            if (keysString == null || keysString == "")
-            {
-                return null;
-            }
 
-            var userInfo = new UserInfo();
-            if (keysString != null && keysString.Length > 0)
-            {
-                var keys = keysString.Split(',');
-                foreach (var key in keys)
-                {
-                    var value = PlayerPrefs.GetString(key);
-                    if (key == "userId")
-                    {
-                        userInfo.SetUserId(value);
-                    }
-                    else if (key == "gender")
-                    {
-                        userInfo.SetGender(value == "male" ? UserInfo.Gender.Male : UserInfo.Gender.Female);
-                    }
-                    else if (key == "birthday")
-                    {
-                        var seconds = long.Parse(value);
-                        var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
-                        var birthday = epochStart.AddSeconds(seconds);
-                        userInfo.SetBirthday(new DateTime(birthday.Year, birthday.Month, birthday.Day));
-                    }
-                    else
-                    {
-                        userInfo.Set(key, value);
-                    }
-                }
-            }
-            return userInfo;
         }
 
-        private void SaveUserInfoToPlayerPrefs(UserInfo userInfo)
+        public void FireTestVisit(Location location)
         {
-            string keysString = "";
-            foreach (var pair in userInfo.BackingStore)
-            {
-                if (keysString.Length > 0)
-                {
-                    keysString += ",";
-                }
-                keysString += pair.Key;
-                PlayerPrefs.SetString(pair.Key, pair.Value);
-            }
-            PlayerPrefs.SetString(UserInfoKey, keysString);
-            PlayerPrefs.Save();
-        }
 
+        }
 
     }
 

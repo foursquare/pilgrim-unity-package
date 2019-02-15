@@ -1,6 +1,5 @@
 plugins {
     id "de.undercouch.download" version "3.4.3"
-    id "java-library"
 }
 
 project.ext {
@@ -51,7 +50,9 @@ configurations {
 }
 
 dependencies {
+    pilgrim "android.arch.lifecycle:common:1.1.1"
     pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
+    pilgrim "com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}"
 }
 
 task downloadPilgrimAndroid(type: Copy) {

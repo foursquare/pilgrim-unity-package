@@ -12,44 +12,44 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private string id;
+        private string _id;
 
-        public string ID { get { return id; } }
-
-        [SerializeField]
-        private string name;
-
-        public string Name { get { return name; } }
+        public string ID { get { return _id; } }
 
         [SerializeField]
-        private VenueLocation locationInformation;
+        private string _name;
 
-        public VenueLocation LocationInformation { get { return locationInformation; } }
-
-        [SerializeField]
-        private string partnerVenueId;
-
-        public string PartnerVenueId { get { return partnerVenueId; } }
+        public string Name { get { return _name; } }
 
         [SerializeField]
-        private double probability;
+        private VenueLocation _locationInformation;
 
-        public double Probability { get { return probability; } }
-
-        [SerializeField]
-        private Chain[] chains;
-
-        public IList<Chain> Chains { get { return new List<Chain>(chains); } }
+        public VenueLocation LocationInformation { get { return _locationInformation; } }
 
         [SerializeField]
-        private Category[] categories;
+        private string _partnerVenueId;
 
-        public IList<Category> Categories { get { return new List<Category>(categories); } }
+        public string PartnerVenueId { get { return _partnerVenueId; } }
 
         [SerializeField]
-        private VenueParent[] hierarchy;
+        private double _probability;
 
-        public IList<VenueParent> Hierarchy { get { return new List<VenueParent>(hierarchy); } }
+        public double Probability { get { return _probability; } }
+
+        [SerializeField]
+        private Chain[] _chains;
+
+        public IList<Chain> Chains { get { return new List<Chain>(_chains); } }
+
+        [SerializeField]
+        private Category[] _categories;
+
+        public IList<Category> Categories { get { return new List<Category>(_categories); } }
+
+        [SerializeField]
+        private VenueParent[] _hierarchy;
+
+        public IList<VenueParent> Hierarchy { get { return new List<VenueParent>(_hierarchy); } }
 
 #pragma warning restore 0649
 

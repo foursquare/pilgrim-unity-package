@@ -67,6 +67,16 @@ namespace Foursquare
             _client.GetCurrentLocation();
         }
 
+        public static void ShowDebugScreen()
+        {
+            _client.ShowDebugScreen();
+        }
+
+        public static void FireTestVisit(Location location)
+        {
+            _client.FireTestVisit(location);
+        }
+
     }
 
 }

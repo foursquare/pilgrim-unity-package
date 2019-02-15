@@ -11,9 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.foursquare.pilgrim.CurrentLocation;
+import com.foursquare.pilgrim.PilgrimNotificationTester;
 import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
+import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
 
 @SuppressWarnings("unused")
 public final class PilgrimClient {
@@ -111,6 +113,14 @@ public final class PilgrimClient {
                 }
             }
         }).start();
+    }
+
+    public void showDebugScreen() {
+        context.startActivity(new Intent(context, PilgrimSdkDebugActivity.class));
+    }
+
+    public void fireTestVisit(double latitude, double longitude) {
+        PilgrimNotificationTester.sendTestVisitArrivalAtLocation(context, latitude, longitude, false);
     }
 
     private void handleResult(Result<CurrentLocation, Exception> result) {

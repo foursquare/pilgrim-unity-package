@@ -11,14 +11,14 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private string id;
+        private string _id;
 
-        public string ID { get { return id; } }
+        public string ID { get { return _id; } }
 
         [SerializeField]
-        private string name;
+        private string _name;
 
-        public string Name { get { return name; } }
+        public string Name { get { return _name; } }
 
 #pragma warning restore 0649
 

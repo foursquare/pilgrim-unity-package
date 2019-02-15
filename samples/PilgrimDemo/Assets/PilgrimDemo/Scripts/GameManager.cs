@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public AlertUI _alertUIPrefab;
 
+    public TestVisitUI _testVisitUIPrefab;
+
     private GameObject loadingUI;
 
     private enum NextAction
@@ -62,6 +64,18 @@ public class GameManager : MonoBehaviour
         var canvas = GameObject.FindObjectOfType<Canvas>();
         var userInfoUI = Instantiate<UserInfoUI>(_userInfoUIPrefab, Vector3.zero, Quaternion.identity);
         userInfoUI.transform.SetParent(canvas.transform, false);
+    }
+
+    public void OnPressShowDebugScreen()
+    {
+        PilgrimUnitySDK.ShowDebugScreen();
+    }
+
+    public void OnPressFireTestVisit()
+    {
+        var canvas = GameObject.FindObjectOfType<Canvas>();
+        var testVisitUI = Instantiate<TestVisitUI>(_testVisitUIPrefab, Vector3.zero, Quaternion.identity);
+        testVisitUI.transform.SetParent(canvas.transform, false);
     }
 
     private void OnLocationPermissionResult(bool granted)

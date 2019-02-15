@@ -2,255 +2,15 @@
 //  PilgrimClient.m
 //  PilgrimUnitySDK
 //
-//  Copyright © 2018 Foursquare. All rights reserved.
+//  Copyright © 2019 Foursquare. All rights reserved.
 //
 
 #import "PilgrimClient.h"
-#import <CoreLocation/CoreLocation.h>
+
 #import <Pilgrim/Pilgrim.h>
+#import "FSQPCurrentLocation+JSON.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@interface CLLocation (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPCurrentLocation (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPVisit (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPGeofenceEvent (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPChain (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPCategory (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPCategoryIcon (Json)
-- (NSDictionary *)json;
-@end
-
-@interface FSQPVenue (Json)
-- (NSDictionary *)json;
-+ (NSArray<NSDictionary *> *)categoriesArrayJson:(NSArray<FSQPCategory *> *)categories;
-@end
-
-@implementation CLLocation (Json)
-
-- (NSDictionary *)json {
-    return @{@"latitude": @(self.coordinate.latitude),
-             @"longitude": @(self.coordinate.longitude)};
-}
-
-@end
-
-@implementation FSQPCurrentLocation (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"currentPlace"] = [self.currentPlace json];
-
-    NSMutableArray *geofences = [NSMutableArray array];
-    for (FSQPGeofenceEvent *event in self.matchedGeofences) {
-        [geofences addObject:[event json]];
-    }
-    jsonDict[@"matchedGeofences"] = geofences;
-
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPVisit (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-
-    jsonDict[@"location"] = [self.arrivalLocation json];
-    jsonDict[@"locationType"] = @(self.locationType);
-    jsonDict[@"confidence"] = @(self.confidence);
-    jsonDict[@"arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
-
-    if (self.venue) {
-        jsonDict[@"venue"] = [self.venue json];
-    }
-
-    if (self.otherPossibleVenues) {
-        NSMutableArray *otherPossibleVenuesArray = [NSMutableArray array];
-        for (FSQPVenue *venue in self.otherPossibleVenues) {
-            [otherPossibleVenuesArray addObject:[venue json]];
-        }
-        jsonDict[@"otherPossibleVenues"] = otherPossibleVenuesArray;
-    }
-
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPGeofenceEvent (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"venueId"] = self.venueID;
-
-    if (self.categoryIDs) {
-        NSMutableArray *categoryIDsArray = [NSMutableArray array];
-        for (NSString *categoryID in self.categoryIDs) {
-            [categoryIDsArray addObject:categoryID];
-        }
-        jsonDict[@"categoryIds"] = categoryIDsArray;
-    }
-
-    if (self.chainIDs) {
-        NSMutableArray *chainIDsArray = [NSMutableArray array];
-        for (NSString *chainID in self.chainIDs) {
-            [chainIDsArray addObject:chainID];
-        }
-        jsonDict[@"chainIds"] = chainIDsArray;
-    }
-
-    if (self.partnerVenueID) {
-        jsonDict[@"partnerVenueId"] = self.partnerVenueID;
-    }
-
-    jsonDict[@"venue"] = [self.venue json];
-    jsonDict[@"location"] = [self.location json];
-    jsonDict[@"timestamp"] = @(self.timestamp.timeIntervalSince1970);
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPChain (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPCategory (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
-
-    if (self.pluralName) {
-        jsonDict[@"pluralName"] = self.pluralName;
-    }
-
-    if (self.shortName) {
-        jsonDict[@"shortName"] = self.shortName;
-    }
-
-    if (self.icon) {
-        jsonDict[@"icon"] = [self.icon json];
-    }
-
-    jsonDict[@"isPrimary"] = @(self.isPrimary);
-
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPCategoryIcon (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"prefix"] = self.prefix;
-    jsonDict[@"suffix"] = self.suffix;
-    return jsonDict;
-}
-
-@end
-
-@implementation FSQPVenue (Json)
-
-- (NSDictionary *)json {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
-
-    if (self.locationInformation) {
-        NSMutableDictionary *locationInformationDict = [NSMutableDictionary dictionary];
-
-        if (self.locationInformation.address) {
-            locationInformationDict[@"address"] = self.locationInformation.address;
-        }
-        if (self.locationInformation.crossStreet) {
-            locationInformationDict[@"crossStreet"] = self.locationInformation.crossStreet;
-        }
-        if (self.locationInformation.city) {
-            locationInformationDict[@"city"] = self.locationInformation.city;
-        }
-        if (self.locationInformation.state) {
-            locationInformationDict[@"state"] = self.locationInformation.state;
-        }
-        if (self.locationInformation.postalCode) {
-            locationInformationDict[@"postalCode"] = self.locationInformation.postalCode;
-        }
-        if (self.locationInformation.country) {
-            locationInformationDict[@"country"] = self.locationInformation.country;
-        }
-        locationInformationDict[@"location"] = @{@"latitude": @(self.locationInformation.coordinate.latitude),
-                                                 @"longitude": @(self.locationInformation.coordinate.longitude)};
-
-        jsonDict[@"locationInformation"] = locationInformationDict;
-    }
-
-    if (self.partnerVenueId) {
-        jsonDict[@"partnerVenueId"] = self.partnerVenueId;
-    }
-
-    if (self.probability) {
-        jsonDict[@"probability"] = self.probability;
-    }
-
-    NSMutableArray *chainsArray = [NSMutableArray array];
-    for (FSQPChain *chain in self.chains) {
-        [chainsArray addObject:[chain json]];
-    }
-    jsonDict[@"chains"] = chainsArray;
-
-    jsonDict[@"categories"] = [FSQPVenue categoriesArrayJson:self.categories];
-
-    NSMutableArray *hierarchyArray = [NSMutableArray array];
-    for (FSQPVenue *venueParent in self.hierarchy) {
-        NSMutableDictionary *venueParentDict = [NSMutableDictionary dictionary];
-        venueParentDict[@"id"] = venueParent.foursquareID;
-        venueParentDict[@"name"] = venueParent.name;
-        venueParentDict[@"categories"] = [FSQPVenue categoriesArrayJson:venueParent.categories];
-    }
-    jsonDict[@"hierarchy"] = hierarchyArray;
-
-    return jsonDict;
-}
-
-+ (NSArray<NSDictionary *> *)categoriesArrayJson:(NSArray<FSQPCategory *> *)categories {
-    NSMutableArray *categoriesArray = [NSMutableArray array];
-    for (FSQPCategory *category in categories) {
-        [categoriesArray addObject:[category json]];
-    }
-    return categoriesArray;
-}
-
-@end
 
 @interface PilgrimClient () <CLLocationManagerDelegate>
 
@@ -288,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
         [values addObject:userInfo.source[key]];
     }
 
-    NSDictionary *userInfoDict = @{@"keys":keys, @"values":values};
+    NSDictionary *userInfoDict = @{@"_keys":keys, @"_values":values};
     NSData *data = [NSJSONSerialization dataWithJSONObject:userInfoDict options:0 error:nil];
     if (!data) {
         return nil;
@@ -301,8 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setUserInfo:(const char *)userInfoJson persisted:(BOOL)persisted {
     NSData *data = [NSData dataWithBytes:userInfoJson length:strlen(userInfoJson)];
     NSDictionary *userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSArray *keys = userInfoDict[@"keys"];
-    NSArray *values = userInfoDict[@"values"];
+    NSArray *keys = userInfoDict[@"_keys"];
+    NSArray *values = userInfoDict[@"_values"];
 
     if (!keys || !values || keys.count != values.count) {
         [[FSQPPilgrimManager sharedManager] setUserInfo:nil persisted:persisted];
@@ -377,6 +137,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (const char *)getErrorMessage:(NSError *)error {
     return [([error localizedDescription] ?: @"Unkown Error") cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (void)showDebugScreen {
+    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [[FSQPPilgrimManager sharedManager] presentDebugViewController:viewController];
+}
+
+- (void)fireTestVisitWithLatitude:(double)latitude longitude:(double)longitude {
+    [[FSQPPilgrimManager sharedManager].visitTester fireTestVisit:[[CLLocation alloc] initWithLatitude:latitude longitude:longitude]];
 }
 
 #pragma mark - CLLocationManagerDelegate methods

@@ -12,14 +12,14 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private Visit currentPlace;
+        private Visit _currentPlace;
 
-        public Visit CurrentPlace { get { return currentPlace; } }
+        public Visit CurrentPlace { get { return _currentPlace; } }
 
         [SerializeField]
-        private GeofenceEvent[] matchedGeofences;
+        private GeofenceEvent[] _matchedGeofences;
 
-        public IList<GeofenceEvent> MatchedGeofences { get { return new List<GeofenceEvent>(matchedGeofences); } }
+        public IList<GeofenceEvent> MatchedGeofences { get { return new List<GeofenceEvent>(_matchedGeofences); } }
 
 #pragma warning restore 0649
 

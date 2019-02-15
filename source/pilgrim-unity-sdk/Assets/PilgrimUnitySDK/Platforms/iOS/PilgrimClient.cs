@@ -14,9 +14,9 @@ namespace Foursquare.iOS
 
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
-        internal delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
+        private delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
 
-        internal delegate void PilgrimGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson, string errorMessage);
+        private delegate void PilgrimGetCurrentLocationCallback(IntPtr clientHandlePtr, bool success, string currentLocationJson, string errorMessage);
 
         private GCHandle _clientHandle;
 
@@ -66,6 +66,16 @@ namespace Foursquare.iOS
             Externs.GetCurrentLocation(_clientPtr);
         }
 
+        public void ShowDebugScreen()
+        {
+            Externs.ShowDebugScreen(_clientPtr);
+        }
+
+        public void FireTestVisit(Location location)
+        {
+            Externs.FireTestVisit(_clientPtr, location.Latitude, location.Longitude);
+        }
+
         public void Dispose()
         {
             _clientHandle.Free();
@@ -92,6 +102,49 @@ namespace Foursquare.iOS
             {
                 client.OnGetCurrentLocationResult(null, new Exception(errorMessage));
             }
+        }
+
+        private static class Externs
+        {
+
+            [DllImport("__Internal")]
+            public static extern IntPtr CreateClient(IntPtr clientHandlePtr);
+
+            [DllImport("__Internal")]
+            public static extern void SetCallbacks(IntPtr clientPtr,
+                                                     PilgrimClient.PilgrimLocationPermissionsCallback locationPermissionsCallback,
+                                                     PilgrimClient.PilgrimGetCurrentLocationCallback getCurrentLocationCallback);
+
+            [DllImport("__Internal")]
+            public static extern string GetUserInfo(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void SetUserInfo(IntPtr clientPtr, string userInfoJson, bool persisted);
+
+            [DllImport("__Internal")]
+            public static extern void RequestLocationPermissions(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void Start(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void Stop(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void ClearAllData(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void Destroy(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void GetCurrentLocation(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void ShowDebugScreen(IntPtr clientPtr);
+
+            [DllImport("__Internal")]
+            public static extern void FireTestVisit(IntPtr clientPtr, double latitude, double longitude);
+
         }
 
     }

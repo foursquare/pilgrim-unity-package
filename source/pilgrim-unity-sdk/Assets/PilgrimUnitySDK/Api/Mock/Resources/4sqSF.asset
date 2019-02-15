@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,39 +13,37 @@ MonoBehaviour:
   m_Name: 4sqSF
   m_EditorClassIdentifier: 
   _currentLocation:
-    currentPlace:
-      location:
-        latitude: 37.7905997608588
-        longitude: -122.404591548554
-      arrivalTime: 1547743400.999652
-      locationType: 2
-      confidence: 3
-      venue:
-        id: 4ed92126f5b92139871ce962
-        name: Foursquare SF
-        locationInformation:
-          address: 425 Bush St Ste 500
-          crossStreet: btwn Grant & Kearny
-          city: San Francisco
-          state: CA
-          postalCode: 94108
-          country: US
-          location:
-            latitude: 37.7905997608588
-            longitude: -122.40459154855427
-        partnerVenueId: 
-        probability: 0.3397897054011007
-        chains:
-        - id: 556e5779bd6a82902e28bcea
-          name: Foursquare
-        categories:
-        - id: 4bf58dd8d48988d125941735
-          name: Tech Startup
-          pluralName: Tech Startups
-          shortName: Tech Startup
-          icon:
-            prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
-            suffix: .png
-          isPrimary: 1
-        hierarchy: []
-    matchedGeofences: []
+    _currentPlace:
+      _location:
+        _latitude: 37.7905997608588
+        _longitude: -122.40459154855427
+      _locationType: 2
+      _confidence: 3
+      _arrivalTime: 1547743400.999652
+      _venue:
+        _id: 4ed92126f5b92139871ce962
+        _name: Foursquare SF
+        _locationInformation:
+          _address: 425 Bush St Ste 500
+          _crossStreet: btwn Grant & Kearny
+          _city: San Francisco
+          _state: CA
+          _postalCode: 94108
+          _country: United States
+          _location:
+            _latitude: 37.7905997608588
+            _longitude: -122.40459154855427
+        _partnerVenueId: 
+        _probability: 1
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d125941735
+          _name: Tech Startup
+          _pluralName: Tech Startups
+          _shortName: Tech Startup
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
+            _suffix: .png
+          _isPrimary: 1
+        _hierarchy: []
+    _matchedGeofences: []
