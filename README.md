@@ -124,6 +124,7 @@ Also ensure your `AndroidManifest.xml` sets the `android.app.Application` subcla
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
     </activity>
+    <activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
   </application>
 </manifest>
 ```
