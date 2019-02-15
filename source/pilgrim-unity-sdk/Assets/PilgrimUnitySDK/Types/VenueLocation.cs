@@ -11,39 +11,39 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private string address;
+        private string _address;
 
-        public string Address { get { return address; } }
-
-        [SerializeField]
-        private string crossStreet;
-
-        public string CrossStreet { get { return crossStreet; } }
+        public string Address { get { return _address; } }
 
         [SerializeField]
-        private string city;
+        private string _crossStreet;
 
-        public string City { get { return city; } }
-
-        [SerializeField]
-        private string state;
-
-        public string State { get { return state; } }
+        public string CrossStreet { get { return _crossStreet; } }
 
         [SerializeField]
-        private string postalCode;
+        private string _city;
 
-        public string PostalCode { get { return postalCode; } }
-
-        [SerializeField]
-        private string country;
-
-        public string Country { get { return country; } }
+        public string City { get { return _city; } }
 
         [SerializeField]
-        private Location location;
+        private string _state;
 
-        public Location Location { get { return location; } }
+        public string State { get { return _state; } }
+
+        [SerializeField]
+        private string _postalCode;
+
+        public string PostalCode { get { return _postalCode; } }
+
+        [SerializeField]
+        private string _country;
+
+        public string Country { get { return _country; } }
+
+        [SerializeField]
+        private Location _location;
+
+        public Location Location { get { return _location; } }
 
 #pragma warning restore 0649
 

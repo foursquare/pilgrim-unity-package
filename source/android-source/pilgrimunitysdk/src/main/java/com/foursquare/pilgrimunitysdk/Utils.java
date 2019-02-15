@@ -42,8 +42,8 @@ final class Utils {
 
         try {
             JSONObject json = new JSONObject();
-            json.put("keys", keys);
-            json.put("values", values);
+            json.put("_keys", keys);
+            json.put("_values", values);
             return json.toString();
         } catch (JSONException e) {
             return null;
@@ -53,8 +53,8 @@ final class Utils {
     static PilgrimUserInfo userInfoFromJSON(@NonNull String jsonString) {
         try {
             JSONObject json = new JSONObject(jsonString);
-            JSONArray keys = json.getJSONArray("keys");
-            JSONArray values = json.getJSONArray("values");
+            JSONArray keys = json.getJSONArray("_keys");
+            JSONArray values = json.getJSONArray("_values");
 
             if (keys.length() != values.length()) {
                 return null;
@@ -107,20 +107,20 @@ final class Utils {
 
     static JSONObject currentLocationJson(@NonNull CurrentLocation currentLocation) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("currentPlace", visitJson(currentLocation.getCurrentPlace()));
+        json.put("_currentPlace", visitJson(currentLocation.getCurrentPlace()));
 
         JSONArray geofenceEvents = new JSONArray();
         for (GeofenceEvent event : currentLocation.getMatchedGeofences()) {
             geofenceEvents.put(geofenceEventJson(event));
         }
-        json.put("matchedGeofences", geofenceEvents);
+        json.put("_matchedGeofences", geofenceEvents);
 
         return json;
     }
 
     private static JSONObject visitJson(@NonNull Visit visit) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("location", foursquareLocationJson(visit.getLocation()));
+        json.put("_location", foursquareLocationJson(visit.getLocation()));
 
         int locationType;
         switch (visit.getType()) {
@@ -137,7 +137,7 @@ final class Utils {
                 locationType = 0;
                 break;
         }
-        json.put("locationType", locationType);
+        json.put("_locationType", locationType);
 
         int confidence;
         switch (visit.getConfidence()) {
@@ -154,12 +154,12 @@ final class Utils {
                 confidence = 0;
                 break;
         }
-        json.put("confidence", confidence);
+        json.put("_confidence", confidence);
 
-        json.put("arrivalTime", visit.getArrival() / 1000);
+        json.put("_arrivalTime", visit.getArrival() / 1000);
 
         if (visit.getVenue() != null) {
-            json.put("venue", venueJson(visit.getVenue()));
+            json.put("_venue", venueJson(visit.getVenue()));
         }
 
         if (visit.getOtherPossibleVenues() != null) {
@@ -167,7 +167,7 @@ final class Utils {
             for (Venue venue : visit.getOtherPossibleVenues()) {
                 otherPossibleVenuesArray.put(venueJson(venue));
             }
-            json.put("otherPossibleVenues", otherPossibleVenuesArray);
+            json.put("_otherPossibleVenues", otherPossibleVenuesArray);
         }
 
         return json;
@@ -175,14 +175,14 @@ final class Utils {
 
     private static JSONObject geofenceEventJson(@NonNull GeofenceEvent geofenceEvent) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("venueId", geofenceEvent.getVenueId());
+        json.put("_venueId", geofenceEvent.getVenueId());
 
         if (geofenceEvent.getCategoryIds() != null) {
             JSONArray categoryIdsJson = new JSONArray();
             for (String categoryId : geofenceEvent.getCategoryIds()) {
                 categoryIdsJson.put(categoryId);
             }
-            json.put("categoryIds", categoryIdsJson);
+            json.put("_categoryIds", categoryIdsJson);
         }
 
         if (geofenceEvent.getChainIds() != null) {
@@ -190,23 +190,23 @@ final class Utils {
             for (String chainId : geofenceEvent.getChainIds()) {
                 chainIdsJson.put(chainId);
             }
-            json.put("chainIds", chainIdsJson);
+            json.put("_chainIds", chainIdsJson);
         }
 
         if (geofenceEvent.getPartnerVenueId() != null) {
-            json.put("partnerVenueId", geofenceEvent.getPartnerVenueId());
+            json.put("_partnerVenueId", geofenceEvent.getPartnerVenueId());
         }
 
-        json.put("venue", venueJson(geofenceEvent.getVenue()));
-        json.put("location", locationJson(geofenceEvent.getLat(), geofenceEvent.getLng()));
-        json.put("timestamp", geofenceEvent.getTimestamp() / 1000);
+        json.put("_venue", venueJson(geofenceEvent.getVenue()));
+        json.put("_location", locationJson(geofenceEvent.getLat(), geofenceEvent.getLng()));
+        json.put("_timestamp", geofenceEvent.getTimestamp() / 1000);
         return json;
     }
 
     private static JSONObject chainJson(@NonNull Venue.VenueChain chain) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("id", chain.getId());
-        json.put("name", chain.getName());
+        json.put("_id", chain.getId());
+        json.put("_name", chain.getName());
         return json;
     }
 
@@ -230,30 +230,30 @@ final class Utils {
 
     private static JSONObject categoryJson(@NonNull Category category) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("id", category.getId());
-        json.put("name", category.getName());
+        json.put("_id", category.getId());
+        json.put("_name", category.getName());
 
         if (category.getPluralName() != null) {
-            json.put("pluralName", category.getPluralName());
+            json.put("_pluralName", category.getPluralName());
         }
 
         if (category.getShortName() != null) {
-            json.put("shortName", category.getShortName());
+            json.put("_shortName", category.getShortName());
         }
 
         if (category.getImage() != null) {
-            json.put("icon", categoryImageJson(category.getImage()));
+            json.put("_icon", categoryIconJson(category.getImage()));
         }
 
-        json.put("isPrimary", category.isPrimary());
+        json.put("_isPrimary", category.isPrimary());
 
         return json;
     }
 
-    private static JSONObject categoryImageJson(@NonNull Photo photo) throws JSONException {
+    private static JSONObject categoryIconJson(@NonNull Photo photo) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("prefix", photo.getPrefix());
-        json.put("suffix", photo.getSuffix());
+        json.put("_prefix", photo.getPrefix());
+        json.put("_suffix", photo.getSuffix());
         return json;
     }
 
@@ -262,9 +262,9 @@ final class Utils {
         if (hierarchy != null) {
             for (Venue.VenueParent parent : hierarchy) {
                 JSONObject parentJson = new JSONObject();
-                parentJson.put("id", parent.getId());
-                parentJson.put("name", parent.getName());
-                parentJson.put("categories", categoryArrayJson(parent.getCategories()));
+                parentJson.put("_id", parent.getId());
+                parentJson.put("_name", parent.getName());
+                parentJson.put("_categories", categoryArrayJson(parent.getCategories()));
                 json.put(parentJson);
             }
         }
@@ -273,26 +273,26 @@ final class Utils {
 
     private static JSONObject venueJson(@NonNull Venue venue) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("id", venue.getId());
-        json.put("name", venue.getName());
+        json.put("_id", venue.getId());
+        json.put("_name", venue.getName());
 
         if (venue.getLocation() != null) {
-            json.put("locationInformation", venueLocationJson(venue.getLocation()));
+            json.put("_locationInformation", venueLocationJson(venue.getLocation()));
         }
 
         if (venue.getPartnerVenueId() != null) {
-            json.put("partnerVenueId", venue.getPartnerVenueId());
+            json.put("_partnerVenueId", venue.getPartnerVenueId());
         }
 
-        json.put("probability", venue.getProbability());
+        json.put("_probability", venue.getProbability());
 
 
-        json.put("chains", chainsArrayJson(venue.getVenueChains()));
+        json.put("_chains", chainsArrayJson(venue.getVenueChains()));
 
-        json.put("categories", categoryArrayJson(venue.getCategories()));
+        json.put("_categories", categoryArrayJson(venue.getCategories()));
 
 
-        json.put("hierarchy", hierarchyJson(venue.getHierarchy()));
+        json.put("_hierarchy", hierarchyJson(venue.getHierarchy()));
 
         return json;
     }
@@ -301,24 +301,24 @@ final class Utils {
         JSONObject json = new JSONObject();
 
         if (venueLocation.getAddress() != null) {
-            json.put("address", venueLocation.getAddress());
+            json.put("_address", venueLocation.getAddress());
         }
         if (venueLocation.getCrossStreet() != null) {
-            json.put("crossStreet", venueLocation.getCrossStreet());
+            json.put("_crossStreet", venueLocation.getCrossStreet());
         }
         if (venueLocation.getCity() != null) {
-            json.put("city", venueLocation.getCity());
+            json.put("_city", venueLocation.getCity());
         }
         if (venueLocation.getState() != null) {
-            json.put("state", venueLocation.getState());
+            json.put("_state", venueLocation.getState());
         }
         if (venueLocation.getPostalCode() != null) {
-            json.put("postalCode", venueLocation.getPostalCode());
+            json.put("_postalCode", venueLocation.getPostalCode());
         }
         if (venueLocation.getCountry() != null) {
-            json.put("country", venueLocation.getCountry());
+            json.put("_country", venueLocation.getCountry());
         }
-        json.put("coordinate", locationJson(venueLocation.getLat(), venueLocation.getLng()));
+        json.put("_location", locationJson(venueLocation.getLat(), venueLocation.getLng()));
 
         return json;
     }
@@ -329,8 +329,8 @@ final class Utils {
 
     private static JSONObject locationJson(double lat, double lng) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("latitude", lat);
-        json.put("longitude", lng);
+        json.put("_latitude", lat);
+        json.put("_longitude", lng);
         return json;
     }
 

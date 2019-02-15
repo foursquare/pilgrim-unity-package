@@ -1134,6 +1134,8 @@ MonoBehaviour:
     type: 3}
   _alertUIPrefab: {fileID: 114435903636331140, guid: 6c3f7beec014c49eaafce9caf4370801,
     type: 3}
+  _testVisitUIPrefab: {fileID: 1968759678224089204, guid: d9fa6347b3b64424f9224b2ed2bccd4e,
+    type: 3}
 --- !u!4 &1218558442
 Transform:
   m_ObjectHideFlags: 0

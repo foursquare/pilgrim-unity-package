@@ -12,19 +12,19 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private string id;
+        private string _id;
 
-        public string ID { get { return id; } }
-
-        [SerializeField]
-        private string name;
-
-        public string Name { get { return name; } }
+        public string ID { get { return _id; } }
 
         [SerializeField]
-        private Category[] categories;
+        private string _name;
 
-        public IList<Category> Categories { get { return new List<Category>(categories); } }
+        public string Name { get { return _name; } }
+
+        [SerializeField]
+        private Category[] _categories;
+
+        public IList<Category> Categories { get { return new List<Category>(_categories); } }
 
 #pragma warning restore 0649
 

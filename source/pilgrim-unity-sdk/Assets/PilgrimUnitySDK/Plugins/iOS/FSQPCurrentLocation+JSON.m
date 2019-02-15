@@ -14,13 +14,13 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"currentPlace"] = [self.currentPlace json];
+    jsonDict[@"_currentPlace"] = [self.currentPlace json];
 
     NSMutableArray *geofences = [NSMutableArray array];
     for (FSQPGeofenceEvent *event in self.matchedGeofences) {
         [geofences addObject:[event json]];
     }
-    jsonDict[@"matchedGeofences"] = geofences;
+    jsonDict[@"_matchedGeofences"] = geofences;
 
     return jsonDict;
 }

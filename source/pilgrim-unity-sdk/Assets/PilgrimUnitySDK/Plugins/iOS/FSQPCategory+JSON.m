@@ -13,22 +13,22 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
+    jsonDict[@"_id"] = self.foursquareID;
+    jsonDict[@"_name"] = self.name;
 
     if (self.pluralName) {
-        jsonDict[@"pluralName"] = self.pluralName;
+        jsonDict[@"_pluralName"] = self.pluralName;
     }
 
     if (self.shortName) {
-        jsonDict[@"shortName"] = self.shortName;
+        jsonDict[@"_shortName"] = self.shortName;
     }
 
     if (self.icon) {
-        jsonDict[@"icon"] = [self.icon json];
+        jsonDict[@"_icon"] = [self.icon json];
     }
 
-    jsonDict[@"isPrimary"] = @(self.isPrimary);
+    jsonDict[@"_isPrimary"] = @(self.isPrimary);
 
     return jsonDict;
 }

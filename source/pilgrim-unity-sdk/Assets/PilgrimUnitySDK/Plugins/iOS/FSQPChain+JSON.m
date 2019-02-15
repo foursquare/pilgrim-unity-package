@@ -11,8 +11,8 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
+    jsonDict[@"_id"] = self.foursquareID;
+    jsonDict[@"_name"] = self.name;
     return jsonDict;
 }
 

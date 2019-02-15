@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Foursquare
@@ -11,29 +12,33 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private Location location;
+        private Location _location;
 
-        public Location Location { get { return location; } }
-
-        [SerializeField]
-        private double arrivalTime;
-
-        public DateTime ArrivalTime { get { return arrivalTime.DateTimeFromUnixTime(); } }
+        public Location Location { get { return _location; } }
 
         [SerializeField]
-        private LocationType locationType;
+        private LocationType _locationType;
 
-        public LocationType LocationType { get { return locationType; } }
-
-        [SerializeField]
-        private Confidence confidence;
-
-        public Confidence Confidence { get { return confidence; } }
+        public LocationType LocationType { get { return _locationType; } }
 
         [SerializeField]
-        private Venue venue;
+        private Confidence _confidence;
 
-        public Venue Venue { get { return venue; } }
+        public Confidence Confidence { get { return _confidence; } }
+
+        [SerializeField]
+        private double _arrivalTime;
+
+        public DateTime ArrivalTime { get { return _arrivalTime.DateTimeFromUnixTime(); } }
+
+        [SerializeField]
+        private Venue _venue;
+
+        public Venue Venue { get { return _venue; } }
+
+        private Venue[] _otherPossibleVenues;
+
+        public IList<Venue> OtherPossibleVenues { get { return new List<Venue>(_otherPossibleVenues); } }
 
 #pragma warning restore 0649
 

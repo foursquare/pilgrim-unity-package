@@ -15,13 +15,13 @@
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
 
-    jsonDict[@"location"] = [self.arrivalLocation json];
-    jsonDict[@"locationType"] = @(self.locationType);
-    jsonDict[@"confidence"] = @(self.confidence);
-    jsonDict[@"arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
+    jsonDict[@"_location"] = [self.arrivalLocation json];
+    jsonDict[@"_locationType"] = @(self.locationType);
+    jsonDict[@"_confidence"] = @(self.confidence);
+    jsonDict[@"_arrivalTime"] = @(self.arrivalDate.timeIntervalSince1970);
 
     if (self.venue) {
-        jsonDict[@"venue"] = [self.venue json];
+        jsonDict[@"_venue"] = [self.venue json];
     }
 
     if (self.otherPossibleVenues) {
@@ -29,7 +29,7 @@
         for (FSQPVenue *venue in self.otherPossibleVenues) {
             [otherPossibleVenuesArray addObject:[venue json]];
         }
-        jsonDict[@"otherPossibleVenues"] = otherPossibleVenuesArray;
+        jsonDict[@"_otherPossibleVenues"] = otherPossibleVenuesArray;
     }
 
     return jsonDict;

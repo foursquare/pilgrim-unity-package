@@ -11,34 +11,34 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-        private string id;
+        private string _id;
 
-        public string ID { get { return id; } }
-
-        [SerializeField]
-        private string name;
-
-        public string Name { get { return name; } }
+        public string ID { get { return _id; } }
 
         [SerializeField]
-        private string pluralName;
+        private string _name;
 
-        public string PluralName { get { return pluralName; } }
-
-        [SerializeField]
-        private string shortName;
-
-        public string ShortName { get { return shortName; } }
+        public string Name { get { return _name; } }
 
         [SerializeField]
-        private CategoryIcon icon;
+        private string _pluralName;
 
-        public CategoryIcon Icon { get { return icon; } }
+        public string PluralName { get { return _pluralName; } }
 
         [SerializeField]
-        private bool isPrimary;
+        private string _shortName;
 
-        public bool IsPrimary { get { return isPrimary; } }
+        public string ShortName { get { return _shortName; } }
+
+        [SerializeField]
+        private CategoryIcon _icon;
+
+        public CategoryIcon Icon { get { return _icon; } }
+
+        [SerializeField]
+        private bool _isPrimary;
+
+        public bool IsPrimary { get { return _isPrimary; } }
 
 #pragma warning restore 0649
 

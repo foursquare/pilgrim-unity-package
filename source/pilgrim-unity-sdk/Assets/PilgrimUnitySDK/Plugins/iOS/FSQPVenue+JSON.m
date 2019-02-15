@@ -15,60 +15,60 @@
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
 
-    jsonDict[@"id"] = self.foursquareID;
-    jsonDict[@"name"] = self.name;
+    jsonDict[@"_id"] = self.foursquareID;
+    jsonDict[@"_name"] = self.name;
 
     if (self.locationInformation) {
         NSMutableDictionary *locationInformationDict = [NSMutableDictionary dictionary];
 
         if (self.locationInformation.address) {
-            locationInformationDict[@"address"] = self.locationInformation.address;
+            locationInformationDict[@"_address"] = self.locationInformation.address;
         }
         if (self.locationInformation.crossStreet) {
-            locationInformationDict[@"crossStreet"] = self.locationInformation.crossStreet;
+            locationInformationDict[@"_crossStreet"] = self.locationInformation.crossStreet;
         }
         if (self.locationInformation.city) {
-            locationInformationDict[@"city"] = self.locationInformation.city;
+            locationInformationDict[@"_city"] = self.locationInformation.city;
         }
         if (self.locationInformation.state) {
-            locationInformationDict[@"state"] = self.locationInformation.state;
+            locationInformationDict[@"_state"] = self.locationInformation.state;
         }
         if (self.locationInformation.postalCode) {
-            locationInformationDict[@"postalCode"] = self.locationInformation.postalCode;
+            locationInformationDict[@"_postalCode"] = self.locationInformation.postalCode;
         }
         if (self.locationInformation.country) {
-            locationInformationDict[@"country"] = self.locationInformation.country;
+            locationInformationDict[@"_country"] = self.locationInformation.country;
         }
-        locationInformationDict[@"location"] = @{@"latitude": @(self.locationInformation.coordinate.latitude),
-                                                 @"longitude": @(self.locationInformation.coordinate.longitude)};
+        locationInformationDict[@"_location"] = @{@"_latitude": @(self.locationInformation.coordinate.latitude),
+                                                 @"_longitude": @(self.locationInformation.coordinate.longitude)};
 
-        jsonDict[@"locationInformation"] = locationInformationDict;
+        jsonDict[@"_locationInformation"] = locationInformationDict;
     }
 
     if (self.partnerVenueId) {
-        jsonDict[@"partnerVenueId"] = self.partnerVenueId;
+        jsonDict[@"_partnerVenueId"] = self.partnerVenueId;
     }
 
     if (self.probability) {
-        jsonDict[@"probability"] = self.probability;
+        jsonDict[@"_probability"] = self.probability;
     }
 
     NSMutableArray *chainsArray = [NSMutableArray array];
     for (FSQPChain *chain in self.chains) {
         [chainsArray addObject:[chain json]];
     }
-    jsonDict[@"chains"] = chainsArray;
+    jsonDict[@"_chains"] = chainsArray;
 
-    jsonDict[@"categories"] = [FSQPVenue categoriesArrayJson:self.categories];
+    jsonDict[@"_categories"] = [FSQPVenue categoriesArrayJson:self.categories];
 
     NSMutableArray *hierarchyArray = [NSMutableArray array];
     for (FSQPVenue *venueParent in self.hierarchy) {
         NSMutableDictionary *venueParentDict = [NSMutableDictionary dictionary];
-        venueParentDict[@"id"] = venueParent.foursquareID;
-        venueParentDict[@"name"] = venueParent.name;
-        venueParentDict[@"categories"] = [FSQPVenue categoriesArrayJson:venueParent.categories];
+        venueParentDict[@"_id"] = venueParent.foursquareID;
+        venueParentDict[@"_name"] = venueParent.name;
+        venueParentDict[@"_categories"] = [FSQPVenue categoriesArrayJson:venueParent.categories];
     }
-    jsonDict[@"hierarchy"] = hierarchyArray;
+    jsonDict[@"_hierarchy"] = hierarchyArray;
 
     return jsonDict;
 }

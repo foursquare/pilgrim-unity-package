@@ -14,14 +14,14 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"venueId"] = self.venueID;
+    jsonDict[@"_venueId"] = self.venueID;
 
     if (self.categoryIDs) {
         NSMutableArray *categoryIDsArray = [NSMutableArray array];
         for (NSString *categoryID in self.categoryIDs) {
             [categoryIDsArray addObject:categoryID];
         }
-        jsonDict[@"categoryIds"] = categoryIDsArray;
+        jsonDict[@"_categoryIds"] = categoryIDsArray;
     }
 
     if (self.chainIDs) {
@@ -29,16 +29,16 @@
         for (NSString *chainID in self.chainIDs) {
             [chainIDsArray addObject:chainID];
         }
-        jsonDict[@"chainIds"] = chainIDsArray;
+        jsonDict[@"_chainIds"] = chainIDsArray;
     }
 
     if (self.partnerVenueID) {
-        jsonDict[@"partnerVenueId"] = self.partnerVenueID;
+        jsonDict[@"_partnerVenueId"] = self.partnerVenueID;
     }
 
-    jsonDict[@"venue"] = [self.venue json];
-    jsonDict[@"location"] = [self.location json];
-    jsonDict[@"timestamp"] = @(self.timestamp.timeIntervalSince1970);
+    jsonDict[@"_venue"] = [self.venue json];
+    jsonDict[@"_location"] = [self.location json];
+    jsonDict[@"_timestamp"] = @(self.timestamp.timeIntervalSince1970);
     return jsonDict;
 }
 

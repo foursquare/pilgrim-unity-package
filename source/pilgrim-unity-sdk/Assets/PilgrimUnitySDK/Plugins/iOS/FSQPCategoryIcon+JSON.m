@@ -11,8 +11,8 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"prefix"] = self.prefix;
-    jsonDict[@"suffix"] = self.suffix;
+    jsonDict[@"_prefix"] = self.prefix;
+    jsonDict[@"_suffix"] = self.suffix;
     return jsonDict;
 }
 

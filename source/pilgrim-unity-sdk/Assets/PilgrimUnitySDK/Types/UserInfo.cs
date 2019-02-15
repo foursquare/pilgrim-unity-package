@@ -30,10 +30,10 @@ namespace Foursquare
         public IDictionary<string, string> BackingStore { get { return new Dictionary<string, string>(_backingStore); } }
 
         [SerializeField]
-        private List<string> keys = new List<string>();
+        private List<string> _keys = new List<string>();
 
         [SerializeField]
-        private List<string> values = new List<string>();
+        private List<string> _values = new List<string>();
 
         public void SetUserId(string userId)
         {
@@ -80,21 +80,21 @@ namespace Foursquare
         {
             _backingStore = new Dictionary<string, string>();
 
-            for (int i = 0; i < keys.Count; i++)
+            for (int i = 0; i < _keys.Count; i++)
             {
-                _backingStore.Add(keys[i], values[i]);
+                _backingStore.Add(_keys[i], _values[i]);
             }
         }
 
         public void OnBeforeSerialize()
         {
-            keys.Clear();
-            values.Clear();
+            _keys.Clear();
+            _values.Clear();
 
             foreach (var kvp in _backingStore)
             {
-                keys.Add(kvp.Key);
-                values.Add(kvp.Value);
+                _keys.Add(kvp.Key);
+                _values.Add(kvp.Value);
             }
         }
 

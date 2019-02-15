@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
         [values addObject:userInfo.source[key]];
     }
 
-    NSDictionary *userInfoDict = @{@"keys":keys, @"values":values};
+    NSDictionary *userInfoDict = @{@"_keys":keys, @"_values":values};
     NSData *data = [NSJSONSerialization dataWithJSONObject:userInfoDict options:0 error:nil];
     if (!data) {
         return nil;
@@ -61,8 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setUserInfo:(const char *)userInfoJson persisted:(BOOL)persisted {
     NSData *data = [NSData dataWithBytes:userInfoJson length:strlen(userInfoJson)];
     NSDictionary *userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSArray *keys = userInfoDict[@"keys"];
-    NSArray *values = userInfoDict[@"values"];
+    NSArray *keys = userInfoDict[@"_keys"];
+    NSArray *values = userInfoDict[@"_values"];
 
     if (!keys || !values || keys.count != values.count) {
         [[FSQPPilgrimManager sharedManager] setUserInfo:nil persisted:persisted];
