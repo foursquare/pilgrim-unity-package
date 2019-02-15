@@ -124,7 +124,7 @@ Also ensure your `AndroidManifest.xml` sets the `android.app.Application` subcla
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
     </activity>
-    <activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+    <activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
   </application>
 </manifest>
 ```
@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
 To use on Android the base application theme must be or descend from `Theme.AppCompat`, otherwise you need to declare the activity in your `AndroidManifest.xml` like below. The generated `AndroidManifest.xml` in [Application Setup](#application-setup) automatically adds this. 
 
 ```
-<activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+<activity android:name="com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 ```
 
 ### Test Visits
