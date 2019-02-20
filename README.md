@@ -12,7 +12,7 @@ Pilgrim Unity SDK is a package which enables easy integration with [Pilgrim SDK]
     * [PilgrimUnitySDK C# Class](#pilgrimunitysdk-c-class)
     * [Location Permissions](#location-permissions)
     * [Getting User's Current Location](#getting-users-current-location)
-    * [Mocking Editor Locations](#mocking-editor-locations)
+      * [Mocking Editor Locations](#mocking-editor-locations)
     * [Passive Location Detection](#passive-location-detection)
     * [Sending Custom User Data](#sending-custom-user-data)
     * [Debug Screen](#debug-screen)
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
 }
 ```
 
-### Mocking Editor Locations
+#### Mocking Editor Locations
 
 When running your Unity project in the editor it is possible to mock the location returned by the `PilgrimUnitySDK.GetCurrentLocation()` method.  To do this first you need to create a `CurrentLocationMock` asset by selecting the menu item `Assets > Create > Pilgrim > Mock Current Location`.  When selected you can configure in the inspector the `CurrentLocation` fields.  Then you need to attach a `GetCurrentLocationEditorMock` component to a `GameObject` in your scene, and set the `Mock Location` property to the .asset you created.  When run in the editor the `PilgrimUnitySDK.OnGetCurrentLocationResult` action will return the `CurrentLocation` you set in the `GetCurrentLocationEditorMock` component.
 
