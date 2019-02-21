@@ -117,7 +117,7 @@ namespace Foursquare
                 }
                 else
                 {
-                    Debug.LogError("Error adding strip frameworks run script build phase, add manually.");
+                    Debug.LogError("Error adding strip frameworks run script build phase, add manually, please see https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#set-up.");
                 }
 
                 pattern = "/\\* Begin PBXShellScriptBuildPhase section \\*/";
@@ -141,7 +141,7 @@ namespace Foursquare
                 }
                 else
                 {
-                    Debug.LogError("Error adding strip frameworks run script build phase, add manually.");
+                    Debug.LogError("Error adding strip frameworks run script build phase, add manually, please see https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#set-up.");
                 }
 
                 File.WriteAllText(PBXProject.GetPBXProjectPath(pathToBuiltProject), pbxProjContents);
