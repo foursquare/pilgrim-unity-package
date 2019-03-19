@@ -35,6 +35,8 @@ public class AndroidDuplicatePluginDisabler : IPreprocessBuildWithReport
 
     private IList<AndroidPlugin> _disabledPlugins = new List<AndroidPlugin>();
 
+    private IList<string> _ignoreList = new List<string> { "common" };
+
     public void OnPreprocessBuild(BuildReport report)
     {
         var pluginImporters = PluginImporter.GetImporters(BuildTarget.Android);
@@ -78,7 +80,7 @@ public class AndroidDuplicatePluginDisabler : IPreprocessBuildWithReport
 
                 var version = new AndroidPlugin(pluginName, pluginMajorVersion, pluginMinorVersion, pluginPatchVersion, pluginImporter);
 
-                if (_enabledPluginsMap.ContainsKey(pluginName))
+                if (_enabledPluginsMap.ContainsKey(pluginName) && !_ignoreList.Contains(pluginName))
                 {
                     var enabledVersion = _enabledPluginsMap[pluginName];
                     if (version._major >= enabledVersion._major)
@@ -142,7 +144,6 @@ public class AndroidDuplicatePluginDisabler : IPreprocessBuildWithReport
         foreach (var kvp in _enabledPluginsMap)
         {
             var plugin = kvp.Value;
-            Debug.Log(string.Format("Enabled {0} {1}.{2}.{3}", plugin._name, plugin._major, plugin._minor, plugin._patch));
             plugin._importer.SetCompatibleWithPlatform(BuildTarget.Android, true);
         }
 
