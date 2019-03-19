@@ -1,7 +1,5 @@
 package com.foursquare.pilgrimunitysdk;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 final class Utils {
-
-    private static final String PREFS_GENERAL = "general";
-    private static final String KEY_STARTED = "started";
 
     private Utils() {
 
@@ -93,16 +88,6 @@ final class Utils {
         } catch (JSONException e) {
             return null;
         }
-    }
-
-    static void setStarted(@NonNull Context context, boolean started) {
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFS_GENERAL, Context.MODE_PRIVATE);
-        sharedPref.edit().putBoolean(KEY_STARTED, started).apply();
-    }
-
-    static boolean isStarted(@NonNull Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFS_GENERAL, Context.MODE_PRIVATE);
-        return sharedPref.getBoolean(KEY_STARTED, false);
     }
 
     static JSONObject currentLocationJson(@NonNull CurrentLocation currentLocation) throws JSONException {

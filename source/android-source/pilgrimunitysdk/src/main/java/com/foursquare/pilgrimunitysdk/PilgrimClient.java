@@ -72,12 +72,10 @@ public final class PilgrimClient {
 
     public void start() {
         PilgrimSdk.start(context);
-        Utils.setStarted(context, true);
     }
 
     public void stop() {
         PilgrimSdk.stop(context);
-        Utils.setStarted(context, false);
     }
 
     public void clearAllData() {
