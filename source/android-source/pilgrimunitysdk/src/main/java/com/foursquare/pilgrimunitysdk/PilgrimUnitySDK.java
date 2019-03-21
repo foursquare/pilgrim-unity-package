@@ -18,13 +18,6 @@ public final class PilgrimUnitySDK {
                 .consumer(consumerKey, consumerSecret)
                 .logLevel(LogLevel.DEBUG)
                 .enableDebugLogs());
-        restartIfPreviouslyStarted(context);
-    }
-
-    private static void restartIfPreviouslyStarted(@NonNull Context context) {
-        if (Utils.isStarted(context)) {
-            PilgrimSdk.start(context);
-        }
     }
 
 }

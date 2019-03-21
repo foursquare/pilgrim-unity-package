@@ -105,12 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [[FSQPPilgrimManager sharedManager] start];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Started"];
 }
 
 - (void)stop {
     [[FSQPPilgrimManager sharedManager] stop];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"Started"];
 }
 
 - (void)clearAllData {
