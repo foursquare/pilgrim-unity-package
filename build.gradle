@@ -70,7 +70,6 @@ copyPilgrimAndroid.dependsOn(downloadPilgrimAndroid)
 task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
     tasks = ["clean", "assembleRelease"]
-    startParameter.projectProperties = [unityRoot: "${unityRoot}"]
 }
 
 task copyAndroidWrapperLibrary(type: Copy) {
