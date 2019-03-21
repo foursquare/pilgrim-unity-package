@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Foursquare
@@ -11,6 +12,8 @@ namespace Foursquare
 
         private UserInfo _userInfo;
 
+        private MonoBehaviour _editorClientBehavior;
+
         public event Action<bool> OnLocationPermissionResult = delegate { };
 
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
@@ -19,6 +22,9 @@ namespace Foursquare
         {
             var userInfoJson = PlayerPrefs.GetString(UserInfoKey);
             _userInfo = JsonUtility.FromJson<UserInfo>(userInfoJson);
+
+            var clientGameObject = new GameObject("_EditorClient");
+            _editorClientBehavior = clientGameObject.AddComponent<EditorClientBehavior>();
         }
 
         public UserInfo GetUserInfo()
@@ -43,6 +49,12 @@ namespace Foursquare
 
         public void RequestLocationPermissions()
         {
+            _editorClientBehavior.StartCoroutine(SendLocationPermissionResult());
+        }
+
+        private IEnumerator SendLocationPermissionResult()
+        {
+            yield return null;
             OnLocationPermissionResult(true);
         }
 
@@ -63,16 +75,21 @@ namespace Foursquare
 
         public void GetCurrentLocation()
         {
+            _editorClientBehavior.StartCoroutine(SendGetCurrentLocationResult());
+        }
+
+        private IEnumerator SendGetCurrentLocationResult()
+        {
             var editorMock = GameObject.FindObjectOfType<GetCurrentLocationEditorMock>();
             if (editorMock == null)
             {
                 editorMock = new GameObject("_PilgrimMockLocation").AddComponent<GetCurrentLocationEditorMock>();
                 editorMock.mockLocation = Resources.Load<CurrentLocationMock>("4sqHQ");
             }
-            else if (editorMock.mockLocation == null)
+            if (editorMock.mockLocation == null)
             {
                 OnGetCurrentLocationResult(null, new Exception(string.Format("PilgrimUnitySDK Error: Null mock location on GetCurrentLocationEditorMock script attached to {0}", editorMock.gameObject.name)));
-                return;
+                yield return null;
             }
             var currentLocation = editorMock.mockLocation.CurrentLocation;
             OnGetCurrentLocationResult(currentLocation, null);
@@ -87,6 +104,11 @@ namespace Foursquare
         {
 
         }
+
+    }
+
+    public class EditorClientBehavior : MonoBehaviour
+    {
 
     }
 
