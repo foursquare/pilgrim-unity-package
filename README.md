@@ -1,8 +1,8 @@
-# Pilgrim Unity SDK
+# Pilgrim Unity Package
 
-[![CircleCI](https://circleci.com/gh/foursquare/pilgrim-unity-sdk.svg?style=svg&circle-token=b6e777cc57a0d65b6ee58e576ca64858c5eb3339)](https://circleci.com/gh/foursquare/pilgrim-unity-sdk)
+[![CircleCI](https://circleci.com/gh/foursquare/pilgrim-unity-package.svg?style=svg&circle-token=b6e777cc57a0d65b6ee58e576ca64858c5eb3339)](https://circleci.com/gh/foursquare/pilgrim-unity-package)
 
-Pilgrim Unity SDK is a package which enables easy integration with [Pilgrim SDK](https://enterprise.foursquare.com/products/pilgrim) in a Unity project. This package supports a subset of the iOS and Android SDKs. This includes passive location detection (with notifications received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)), getting the user's [Current Location](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#get-current-location), sending [Custom User Data](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data) and more.
+Pilgrim Unity Package is a package which enables easy integration with [Pilgrim SDK](https://enterprise.foursquare.com/products/pilgrim) in a Unity project. This package supports a subset of the iOS and Android SDKs. This includes passive location detection (with notifications received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)), getting the user's [Current Location](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#get-current-location), sending [Custom User Data](https://developer.foursquare.com/docs/pilgrim-sdk/advanced-setup-guide#custom-user-data) and more.
 
 ## Table of Contents
 * [Requirements](#requirements)
@@ -28,7 +28,7 @@ The iOS SDK requires iOS 8+ and the Android SDK requires API level 15+ (ICE_CREA
 
 ## Installing
 
-Download the latest release from the [Releases](https://github.com/foursquare/pilgrim-unity-sdk/releases) page, it will list which versions of Pilgrim it supports for iOS and Android.  In Unity select the menu item `Assets > Import Package > Custom Package` and open the downloaded package.
+Download the latest release from the [Releases](https://github.com/foursquare/pilgrim-unity-package/releases) page, it will list which versions of Pilgrim it supports for iOS and Android.  In Unity select the menu item `Assets > Import Package > Custom Package` and open the downloaded package.
 
 ## Usage
 
@@ -43,7 +43,7 @@ The first step is configuring your project to work properly with Pilgrim SDK:
 * For iOS you must enable the background location capability by setting `Behavior in Background` to `Custom` in `Player Settings` and checking `Location updates`. Also ensure you have added a description in `Location Usage Description` in `Player Settings`.
 * For the Android SDK to authenticate with our server you will also need to set your Android Key Hash on your Foursquare application settings page, more information [here](https://developer.foursquare.com/docs/pilgrim-sdk/quickstart#android). Then you need to configure Unity to use your keystore in the `Publishing Settings` section of `Player Settings`.
 
-The next step is ensuring Pilgrim Unity SDK is started on application launch:
+The next step is ensuring Pilgrim Unity Package is started on application launch:
 
 #### iOS Setup
 
@@ -322,9 +322,9 @@ public class GameManager : MonoBehaviour
 
 ## Samples
 
-* [Pilgrim Demo](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimDemo) - Basic application using PilgrimUnitySDK
+* [Pilgrim Demo](https://github.com/foursquare/pilgrim-unity-package/tree/master/samples/PilgrimDemo) - Basic application using PilgrimUnitySDK
 
-* [Pilgrim Mapbox](https://github.com/foursquare/pilgrim-unity-sdk/tree/master/samples/PilgrimMapbox) - Application using PilgrimUnitySDK and Mapbox to render a 3D map of user's current location
+* [Pilgrim Mapbox](https://github.com/foursquare/pilgrim-unity-package/tree/master/samples/PilgrimMapbox) - Application using PilgrimUnitySDK and Mapbox to render a 3D map of user's current location
 
 ## FAQ
 
