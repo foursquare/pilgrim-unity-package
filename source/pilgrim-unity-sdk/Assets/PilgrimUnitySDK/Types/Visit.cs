@@ -36,6 +36,7 @@ namespace Foursquare
 
         public Venue Venue { get { return _venue; } }
 
+        [SerializeField]
         private Venue[] _otherPossibleVenues;
 
         public IList<Venue> OtherPossibleVenues { get { return new List<Venue>(_otherPossibleVenues); } }

@@ -11,7 +11,6 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
-
         private double _latitude;
 
         public double Latitude { get { return _latitude; } }
