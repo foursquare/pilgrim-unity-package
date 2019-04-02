@@ -24,8 +24,15 @@ public class CurrentLocationUI : MonoBehaviour
             {
                 Venue venue = value.CurrentPlace.Venue;
                 text += venue.Name + "\n";
-                text += venue.LocationInformation.Address + "\n";
-                text += venue.LocationInformation.City + ", " + venue.LocationInformation.State + " " + venue.LocationInformation.PostalCode + "\n\n";
+                if (venue.LocationInformation != null)
+                {
+                    text += venue.LocationInformation.Address + "\n";
+                    text += venue.LocationInformation.City + ", " + venue.LocationInformation.State + " " + venue.LocationInformation.PostalCode + "\n\n";
+                }
+                else
+                {
+                    text += "No Location Information\n\n";
+                }
                 text += "lat: " + string.Format("{0:0.000000}", value.CurrentPlace.Location.Latitude) + ", lng: " + string.Format("{0:0.000000}", value.CurrentPlace.Location.Longitude) + "\n";
                 text += value.CurrentPlace.ArrivalTime;
             }
