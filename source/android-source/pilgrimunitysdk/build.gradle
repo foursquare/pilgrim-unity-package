@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.foursquare:pilgrimsdk:2.1.2'
-    compileOnly 'com.foursquare:pilgrimsdk-debugging:2.1.2'
+    compileOnly 'com.foursquare:pilgrimsdk:2.2.0'
+    compileOnly 'com.foursquare:pilgrimsdk-debugging:2.2.0'
 }

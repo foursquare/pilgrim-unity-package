@@ -46,14 +46,10 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 1
         _hierarchy: []
+      _otherPossibleVenues: []
     _matchedGeofences:
-    - _venueId: 4e38157daeb7c8fe3177aa84
-      _categoryIds:
-      - 4bf58dd8d48988d16d941735
-      - 4bf58dd8d48988d1e0931735
-      - 4bf58dd8d48988d16a941735
-      _chainIds: []
-      _partnerVenueId: 
+    - _id: b7c8fe3177aa844e38157dae
+      _venueId: 4e38157daeb7c8fe3177aa84
       _venue:
         _id: 4e38157daeb7c8fe3177aa84
         _name: Fianacier
@@ -96,15 +92,13 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 0
         _hierarchy: []
+      _partnerVenueId: 
       _location:
         _latitude: 40.742218017578125
         _longitude: -73.993863
       _timestamp: 1548185141.215256
-    - _venueId: 4a58d0acf964a520f6b71fe3
-      _categoryIds:
-      - 4bf58dd8d48988d1e0931735
-      _chainIds: []
-      _partnerVenueId: 
+    - _id: 964a520f6b71fe34a58d0acf
+      _venueId: 4a58d0acf964a520f6b71fe3
       _venue:
         _id: 4a58d0acf964a520f6b71fe3
         _name: Starbucks
@@ -131,15 +125,13 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 1
         _hierarchy: []
+      _partnerVenueId: 
       _location:
         _latitude: 40.742218017578125
         _longitude: -73.993863
       _timestamp: 1548185141.215256
-    - _venueId: 4f625ddce4b00c2a011b879e
-      _categoryIds:
-      - 4bf58dd8d48988d1e0931735
-      _chainIds: []
-      _partnerVenueId: 
+    - _id: e4b00c2a011b879e4f625ddc
+      _venueId: 4f625ddce4b00c2a011b879e
       _venue:
         _id: 4f625ddce4b00c2a011b879e
         _name: Joe Pro Shop
@@ -166,6 +158,7 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 1
         _hierarchy: []
+      _partnerVenueId: 
       _location:
         _latitude: 40.742218017578125
         _longitude: -73.993863

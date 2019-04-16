@@ -14,29 +14,18 @@
 
 - (NSDictionary *)json {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
-    jsonDict[@"_venueId"] = self.venueID;
+    jsonDict[@"_id"] = self.geofenceID;
 
-    if (self.categoryIDs) {
-        NSMutableArray *categoryIDsArray = [NSMutableArray array];
-        for (NSString *categoryID in self.categoryIDs) {
-            [categoryIDsArray addObject:categoryID];
-        }
-        jsonDict[@"_categoryIds"] = categoryIDsArray;
-    }
-
-    if (self.chainIDs) {
-        NSMutableArray *chainIDsArray = [NSMutableArray array];
-        for (NSString *chainID in self.chainIDs) {
-            [chainIDsArray addObject:chainID];
-        }
-        jsonDict[@"_chainIds"] = chainIDsArray;
+    if (self.venue != nil) {
+        FSQPVenue *venue = self.venue;
+        jsonDict[@"_venueId"] = venue.foursquareID;
+        jsonDict[@"_venue"] = [self.venue json];
     }
 
     if (self.partnerVenueID) {
         jsonDict[@"_partnerVenueId"] = self.partnerVenueID;
     }
 
-    jsonDict[@"_venue"] = [self.venue json];
     jsonDict[@"_location"] = [self.location json];
     jsonDict[@"_timestamp"] = @(self.timestamp.timeIntervalSince1970);
     return jsonDict;

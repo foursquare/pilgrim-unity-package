@@ -12,29 +12,24 @@ namespace Foursquare
 #pragma warning disable 0649
 
         [SerializeField]
+        private string _id;
+
+        public string ID { get { return _id; } }
+
+        [SerializeField]
         private string _venueId;
 
         public string VenueId { get { return _venueId; } }
 
         [SerializeField]
-        private string[] _categoryIds;
+        private Venue _venue;
 
-        public IList<string> CategoryIds { get { return new List<string>(_categoryIds); } }
-
-        [SerializeField]
-        private string[] _chainIds;
-
-        public IList<string> ChainIds { get { return new List<string>(_chainIds); } }
+        public Venue Venue { get { return _venue; } }
 
         [SerializeField]
         private string _partnerVenueId;
 
         public string PartnerVenueId { get { return _partnerVenueId; } }
-
-        [SerializeField]
-        private Venue _venue;
-
-        public Venue Venue { get { return _venue; } }
 
         [SerializeField]
         private Location _location;

@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 
 import com.foursquare.api.FoursquareLocation;
 import com.foursquare.api.types.Category;
-import com.foursquare.api.types.GeofenceEvent;
 import com.foursquare.api.types.Photo;
 import com.foursquare.api.types.Venue;
+import com.foursquare.api.types.geofence.GeofenceEvent;
 import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Visit;
@@ -147,42 +147,29 @@ final class Utils {
             json.put("_venue", venueJson(visit.getVenue()));
         }
 
-        if (visit.getOtherPossibleVenues() != null) {
-            JSONArray otherPossibleVenuesArray = new JSONArray();
-            for (Venue venue : visit.getOtherPossibleVenues()) {
-                otherPossibleVenuesArray.put(venueJson(venue));
-            }
-            json.put("_otherPossibleVenues", otherPossibleVenuesArray);
+        JSONArray otherPossibleVenuesArray = new JSONArray();
+        for (Venue venue : visit.getOtherPossibleVenues()) {
+            otherPossibleVenuesArray.put(venueJson(venue));
         }
+        json.put("_otherPossibleVenues", otherPossibleVenuesArray);
 
         return json;
     }
 
     private static JSONObject geofenceEventJson(@NonNull GeofenceEvent geofenceEvent) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("_venueId", geofenceEvent.getVenueId());
+        json.put("_id", geofenceEvent.getId());
 
-        if (geofenceEvent.getCategoryIds() != null) {
-            JSONArray categoryIdsJson = new JSONArray();
-            for (String categoryId : geofenceEvent.getCategoryIds()) {
-                categoryIdsJson.put(categoryId);
-            }
-            json.put("_categoryIds", categoryIdsJson);
-        }
-
-        if (geofenceEvent.getChainIds() != null) {
-            JSONArray chainIdsJson = new JSONArray();
-            for (String chainId : geofenceEvent.getChainIds()) {
-                chainIdsJson.put(chainId);
-            }
-            json.put("_chainIds", chainIdsJson);
+        if (geofenceEvent.getVenue() != null) {
+            Venue venue = geofenceEvent.getVenue();
+            json.put("_venueId", venue.getId());
+            json.put("_venue", venueJson(venue));
         }
 
         if (geofenceEvent.getPartnerVenueId() != null) {
             json.put("_partnerVenueId", geofenceEvent.getPartnerVenueId());
         }
 
-        json.put("_venue", venueJson(geofenceEvent.getVenue()));
         json.put("_location", locationJson(geofenceEvent.getLat(), geofenceEvent.getLng()));
         json.put("_timestamp", geofenceEvent.getTimestamp() / 1000);
         return json;
@@ -275,7 +262,6 @@ final class Utils {
         json.put("_chains", chainsArrayJson(venue.getVenueChains()));
 
         json.put("_categories", categoryArrayJson(venue.getCategories()));
-
 
         json.put("_hierarchy", hierarchyJson(venue.getHierarchy()));
 

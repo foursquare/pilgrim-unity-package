@@ -27,8 +27,8 @@ project.ext {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
 
-    pilgrimiOSVersion = "2.1.2"
-    pilgrimAndroidVersion = "2.1.2"
+    pilgrimiOSVersion = "2.2.0"
+    pilgrimAndroidVersion = "2.2.0"
     tempDir = file("temp").absolutePath
     pluginSource = file("source/pilgrim-unity-sdk").absolutePath
     pluginBuildDir = file("temp/pilgrim-unity-sdk").absolutePath
@@ -46,26 +46,50 @@ configurations {
                 url 'https://foursquare.jfrog.io/foursquare/libs-release/'
             }
         }
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.name == 'runtime') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: details.requested.version
+                
+            }
+            if (details.requested.group == 'com.google.android.gms') {
+                if (details.requested.name == 'play-services-basement' || 
+                    details.requested.name == 'play-services-base') {
+                    details.useTarget group: details.requested.group, name: details.requested.name, version: '16.0.1'
+                }
+            }
+            if (details.requested.group == 'com.android.support') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '27.1.1'
+            }
+            if (details.requested.group == 'android.arch.lifecycle') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '1.1.1'
+            }
+            if (details.requested.name == 'gson') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '2.8.2'
+            }
+            if (details.requested.name == 'okhttp') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '3.9.0'
+            }
+        }
+        resolutionStrategy.failOnVersionConflict()
+        dependencies {
+            pilgrim "android.arch.lifecycle:common:1.1.1"
+            pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
+            pilgrim "com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}"
+        }
+        resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            copy {
+                from artifact.file
+                into "${tempDir}/android-deps"
+                rename { "${artifact.id.componentIdentifier.group}-${artifact.name}-${artifact.id.componentIdentifier.version}.${artifact.extension}" }
+            }
+        }
     }
-}
-
-dependencies {
-    pilgrim "android.arch.lifecycle:common:1.1.1"
-    pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
-    pilgrim "com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}"
-}
-
-task downloadPilgrimAndroid(type: Copy) {
-    from(configurations.pilgrim)
-    into("${tempDir}/android-deps")
 }
 
 task copyPilgrimAndroid(type: Copy) {
     from("${tempDir}/android-deps")
     into("${pluginBuildDir}/Assets/PilgrimUnitySDK/Plugins/Android")
 }
-
-copyPilgrimAndroid.dependsOn(downloadPilgrimAndroid)
 
 task buildAndCleanAndroidWrapperLibrary(type: GradleBuild) {
     buildFile = "source/android-source/build.gradle"
