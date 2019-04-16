@@ -24,13 +24,13 @@
         jsonDict[@"_venue"] = [self.venue json];
     }
 
+    NSMutableArray *otherPossibleVenuesArray = [NSMutableArray array];
     if (self.otherPossibleVenues) {
-        NSMutableArray *otherPossibleVenuesArray = [NSMutableArray array];
         for (FSQPVenue *venue in self.otherPossibleVenues) {
             [otherPossibleVenuesArray addObject:[venue json]];
         }
-        jsonDict[@"_otherPossibleVenues"] = otherPossibleVenuesArray;
     }
+    jsonDict[@"_otherPossibleVenues"] = otherPossibleVenuesArray;
 
     return jsonDict;
 }
