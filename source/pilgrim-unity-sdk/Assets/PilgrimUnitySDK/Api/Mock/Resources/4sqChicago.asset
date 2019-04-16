@@ -46,13 +46,10 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 1
         _hierarchy: []
+      _otherPossibleVenues: []
     _matchedGeofences:
-    - _venueId: 4a9037fef964a5209b1620e3
-      _categoryIds:
-      - 4bf58dd8d48988d179941735
-      - 4bf58dd8d48988d1e0931735
-      _chainIds: []
-      _partnerVenueId: 
+    - _id: fef964a5209b1620e34a9037
+      _venueId: 4a9037fef964a5209b1620e3
       _venue:
         _id: 4a9037fef964a5209b1620e3
         _name: Einstein Bros Bagels
@@ -87,7 +84,8 @@ MonoBehaviour:
             _suffix: .png
           _isPrimary: 0
         _hierarchy: []
+      _partnerVenueId: 
       _location:
-        _latitude: 0
-        _longitude: 0
-      _timestamp: 0
+        _latitude: 41.8893897
+        _longitude: -87.6297896
+      _timestamp: 1555452981
