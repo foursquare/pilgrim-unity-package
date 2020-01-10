@@ -133,6 +133,7 @@ task exportUnityPackage() {
             executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
             args "-gvh_disable",
                  "-batchmode",
+                 "-nographics",
                  "-serial",
                  "${unitySerial}",
                  "-username",
