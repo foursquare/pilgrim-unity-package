@@ -37,13 +37,13 @@ jobs:
               # just using $CIRCLE_WORKING_DIRECTORY in curl doesn't work for some reason
               eval project_dir=$project_dir
               curl -s -X POST --data-binary "@${project_dir}/pilgrim-unity-sdk.unitypackage" -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/octet-stream" -H "Accept: application/vnd.github.v3+json" "https://uploads.github.com/repos/foursquare/pilgrim-unity-package/releases/$release_id/assets?name=pilgrim-unity-sdk-$CIRCLE_TAG.unitypackage"        
-workflows:
-  version: 2
-  main:
-    jobs:
-      - build:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
+# workflows:
+#   version: 2
+#   main:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               ignore: /.*/
+#             tags:
+#               only: /^v\d+\.\d+\.\d+$/
