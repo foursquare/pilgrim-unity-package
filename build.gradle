@@ -9,6 +9,12 @@ project.ext {
         throw new GradleException("Set UNITY_ROOT env variable")
     }
 
+    if (System.getenv("UNITY_SERIAL") != null) {
+        unitySerial = System.getenv("UNITY_SERIAL")
+    } else {
+        throw new GradleException("Set UNITY_SERIAL env variable")
+    }
+
     if (System.getenv("UNITY_USERNAME") != null) {
         unityUsername = System.getenv("UNITY_USERNAME")
     } else {
@@ -127,7 +133,8 @@ task exportUnityPackage() {
             executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
             args "-gvh_disable",
                  "-batchmode",
-                 "-nographics",
+                 "-serial",
+                 "${unitySerial}",
                  "-username",
                  "${unityUsername}",
                  "-password",
