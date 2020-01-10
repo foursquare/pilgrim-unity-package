@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     macos:
-      xcode: "10.1.0"
+      xcode: "11.0.0"
     steps:
       - checkout
       - run:
@@ -17,7 +17,7 @@ jobs:
       - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
           name: Install Unity
           command: |
-            wget https://netstorage.unity3d.com/unity/76b3e37670a4/MacEditorInstaller/Unity.pkg
+            wget https://netstorage.unity3d.com/unity/923acd2d43aa/MacEditorInstaller/Unity.pkg
             sudo installer -pkg Unity.pkg -target /
       - run: 
           name: Build Pilgrim Unity SDK Package
