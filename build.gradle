@@ -27,8 +27,8 @@ project.ext {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
 
-    pilgrimiOSVersion = "2.2.0"
-    pilgrimAndroidVersion = "2.2.0"
+    pilgrimiOSVersion = "2.2.1"
+    pilgrimAndroidVersion = "2.2.2"
     tempDir = file("temp").absolutePath
     pluginSource = file("source/pilgrim-unity-sdk").absolutePath
     pluginBuildDir = file("temp/pilgrim-unity-sdk").absolutePath
@@ -176,6 +176,8 @@ task deleteTempDirectory(type: Delete) {
 
 exportUnityPackage.dependsOn(createTempDirectory, copyPilgrimAndroid, copyAndroidWrapperLibrary, copyPilgrimiOS)
 
+// Use noReturnLicense if running locally or will invalidate local Unity license:
+// ./gradlew -PnoReturnLicense=1
 if (project.getProperties().get("noReturnLicense")) {
     exportUnityPackage.finalizedBy(deleteTempDirectory)
 } else {
