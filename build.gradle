@@ -27,8 +27,8 @@ project.ext {
         throw new GradleException("Set UNITY_PASSWORD env variable")
     }
 
-    pilgrimiOSVersion = "2.2.1"
-    pilgrimAndroidVersion = "2.2.2"
+    pilgrimiOSVersion = "2.4.0"
+    pilgrimAndroidVersion = "2.4.0"
     tempDir = file("temp").absolutePath
     pluginSource = file("source/pilgrim-unity-sdk").absolutePath
     pluginBuildDir = file("temp/pilgrim-unity-sdk").absolutePath
@@ -47,14 +47,10 @@ configurations {
             }
         }
         resolutionStrategy.eachDependency { details ->
-            if (details.requested.name == 'runtime') {
-                details.useTarget group: details.requested.group, name: details.requested.name, version: details.requested.version
-                
-            }
             if (details.requested.group == 'com.google.android.gms') {
                 if (details.requested.name == 'play-services-basement' || 
                     details.requested.name == 'play-services-base') {
-                    details.useTarget group: details.requested.group, name: details.requested.name, version: '16.0.1'
+                    details.useTarget group: details.requested.group, name: details.requested.name, version: '17.0.0'
                 }
             }
             if (details.requested.group == 'com.android.support') {
@@ -68,6 +64,25 @@ configurations {
             }
             if (details.requested.name == 'okhttp') {
                 details.useTarget group: details.requested.group, name: details.requested.name, version: '3.9.0'
+            }
+            if (details.requested.name == 'kotlin-stdlib' ||
+                details.requested.name == 'kotlin-stdlib-common' ||
+                details.requested.name == 'kotlin-android-extensions-runtime') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '1.3.61'
+            }
+            if (details.requested.name == 'fragment' ||
+                details.requested.name == 'annotation' ||
+                details.requested.name == 'collection' ||
+                details.requested.name == 'core') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '1.1.0'
+            }
+            if (details.requested.name == 'lifecycle-livedata' ||
+                details.requested.name == 'lifecycle-runtime' ||
+                details.requested.name == 'lifecycle-viewmodel' ||
+                details.requested.name == 'core-runtime' ||
+                details.requested.name == 'core-common' ||
+                details.requested.name == 'lifecycle-common') {
+                details.useTarget group: details.requested.group, name: details.requested.name, version: '2.1.0'
             }
         }
         resolutionStrategy.failOnVersionConflict()
