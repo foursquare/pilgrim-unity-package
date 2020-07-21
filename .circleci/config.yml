@@ -3,7 +3,6 @@ references:
   defaults: &defaults
     macos:
       xcode: 11.4.1
-  unity-pkg: https://netstorage.unity3d.com/unity/1f1dac67805b/MacEditorInstaller/Unity.pkg
 jobs:
   build:
     <<: *defaults
