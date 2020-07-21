@@ -39,7 +39,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - pilgrim-unity-sdk.unitypackage
+            - .
   deploy:
     <<: *defaults
     steps:
