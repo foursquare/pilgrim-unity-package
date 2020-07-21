@@ -11,6 +11,8 @@ namespace Foursquare.Android
 
         public event Action<bool> OnLocationPermissionResult = delegate { };
 
+        public event Action OnLocationPermissionShowRationale = delegate { };
+
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
         private AndroidJavaObject _androidPilgrimClient;
@@ -79,6 +81,11 @@ namespace Foursquare.Android
         public void onLocationPermissionResult(bool granted)
         {
             OnLocationPermissionResult(granted);
+        }
+
+        public void onLocationPermissionShowRationale()
+        {
+            OnLocationPermissionShowRationale();
         }
 
         public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage)

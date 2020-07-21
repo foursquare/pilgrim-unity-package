@@ -1,38 +1,63 @@
 package com.foursquare.pilgrimunitysdk;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 
-public class PermissionActivity extends Activity {
+import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
-    private int PERMISSION_REQUEST = 1000;
+public class PermissionActivity extends ComponentActivity {
+
+    public static final String LOCATION_PERMISSION_GRANTED = "com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED";
+    public static final String LOCATION_PERMISSION_SHOW_RATIONALE = "com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_SHOW_RATIONALE";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST);
+
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            broadcastAndFinish(true);
+            return;
+        }
+
+        ActivityResultLauncher<String> launcher = registerForActivityResult(new RequestPermission(),
+                new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean isGranted) {
+                        broadcastAndFinish(isGranted);
+                    }
+                });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissionsM(launcher);
+        } else {
+            launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        finish();
-
-        if (requestCode == PERMISSION_REQUEST) {
-            Intent intent = new Intent("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED");
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                intent.putExtra("granted", true);
-            } else {
-                intent.putExtra("granted", false);
-            }
-            sendBroadcast(intent);
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestPermissionsM(ActivityResultLauncher<String> launcher) {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            sendBroadcast(new Intent(LOCATION_PERMISSION_SHOW_RATIONALE));
+        } else {
+            launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
+    }
+
+    private void broadcastAndFinish(boolean isGranted) {
+        Intent intent = new Intent(LOCATION_PERMISSION_GRANTED);
+        intent.putExtra("granted", isGranted);
+        sendBroadcast(intent);
+        finish();
     }
 
 }

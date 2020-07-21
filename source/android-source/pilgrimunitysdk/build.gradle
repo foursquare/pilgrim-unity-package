@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.foursquare:pilgrimsdk:2.2.2'
-    compileOnly 'com.foursquare:pilgrimsdk-debugging:2.2.2'
+    compileOnly 'com.foursquare:pilgrimsdk:2.4.0'
+    compileOnly 'com.foursquare:pilgrimsdk-debugging:2.4.0'
+    compileOnly 'androidx.activity:activity:1.2.0-alpha06'
 }

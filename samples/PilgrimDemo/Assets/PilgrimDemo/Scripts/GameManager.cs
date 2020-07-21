@@ -28,12 +28,14 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         PilgrimUnitySDK.OnLocationPermissionResult += OnLocationPermissionResult;
+        PilgrimUnitySDK.OnLocationPermissionShowRationale += OnLocationPermissionShowRationale;
         PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocationResult;
     }
 
     void OnDisable()
     {
         PilgrimUnitySDK.OnLocationPermissionResult -= OnLocationPermissionResult;
+        PilgrimUnitySDK.OnLocationPermissionShowRationale -= OnLocationPermissionShowRationale;
         PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocationResult;
     }
 
@@ -95,6 +97,18 @@ public class GameManager : MonoBehaviour
 
             PilgrimUnitySDK.GetCurrentLocation();
         }
+    }
+
+    private void OnLocationPermissionShowRationale()
+    {
+        var canvas = GameObject.FindObjectOfType<Canvas>();
+        var alertUI = Instantiate<AlertUI>(_alertUIPrefab, Vector3.zero, Quaternion.identity);
+        alertUI.transform.SetParent(canvas.transform, false);
+        alertUI.Message = "This demo requires your location!";
+        alertUI.OnClose += () =>
+        {
+            PilgrimUnitySDK.RequestLocationPermissions();
+        };
     }
 
     private void OnGetCurrentLocationResult(CurrentLocation currentLocation, Exception exception)

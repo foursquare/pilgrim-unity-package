@@ -16,6 +16,8 @@ namespace Foursquare
 
         public event Action<bool> OnLocationPermissionResult = delegate { };
 
+        public event Action OnLocationPermissionShowRationale = delegate { };
+
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
         public EditorClient()

@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class AlertUI : MonoBehaviour
 {
+
+    public event Action OnClose;
 
     public Text _alertText;
 
@@ -14,6 +17,7 @@ public class AlertUI : MonoBehaviour
     public void OnPressClose()
     {
         Destroy(gameObject);
+        OnClose();
     }
 
 }
