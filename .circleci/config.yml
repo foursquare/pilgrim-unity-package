@@ -1,8 +1,12 @@
 version: 2.1
-jobs:
-  build_and_deploy:
+references:
+  defaults: &defaults
     macos:
-      xcode: "11.0.0"
+      xcode: 11.4.1
+  unity-pkg: https://netstorage.unity3d.com/unity/1f1dac67805b/MacEditorInstaller/Unity.pkg
+jobs:
+  build:
+    <<: *defaults
     steps:
       - checkout
       - run:
@@ -14,10 +18,12 @@ jobs:
       - run:
           name: Install wget
           command: brew install wget
+      - restore_cache:
+          key: "{{ references.unity-pkg }}"
       - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
           name: Install Unity (2019.4.4f1)
           command: |
-            wget https://netstorage.unity3d.com/unity/1f1dac67805b/MacEditorInstaller/Unity.pkg
+            "wget {{ references.unity-pkg }}"
             sudo installer -pkg Unity.pkg -target /
       - run:
           name: Build Pilgrim Unity SDK Package
@@ -25,6 +31,15 @@ jobs:
             UNITY_ROOT: /Applications/Unity
             ANDROID_HOME: /usr/local/share/android-sdk
           command: ./gradlew
+      - persist_to_workspace:
+          root: .
+          paths:
+            - pilgrim-unity-sdk.unitypackage
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Publish Release on GitHub
           command: |
@@ -41,7 +56,10 @@ workflows:
   version: 2
   main:
     jobs:
-      - build_and_deploy:
+      - build
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               ignore: /.*/
