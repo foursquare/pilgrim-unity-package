@@ -19,12 +19,19 @@ jobs:
           name: Install wget
           command: brew install wget
       - restore_cache:
+          name: Restore Unity Installer
           key: "{{ references.unity-pkg }}"
+      - run:
+          name: Install Unity Installer (if needed)
+          command: "[ -f {{ references.unity-pkg }} ] || wget {{ references.unity-pkg }}"
       - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
           name: Install Unity (2019.4.4f1)
-          command: |
-            "wget {{ references.unity-pkg }}"
-            sudo installer -pkg Unity.pkg -target /
+          command: sudo installer -pkg Unity.pkg -target
+      - save_cache:
+          name: Cache Unity Installer
+          key: "{{ references.unity-pkg }}"
+          paths:
+            - .
       - run:
           name: Build Pilgrim Unity SDK Package
           environment:
