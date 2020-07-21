@@ -32,6 +32,10 @@ jobs:
             UNITY_ROOT: /Applications/Unity
             ANDROID_HOME: /usr/local/share/android-sdk
           command: ./gradlew
+      - store_artifacts:
+          path: unity-loadLicense.log
+      - store_artifacts:
+          path: unity-exportPackage.log
       - persist_to_workspace:
           root: .
           paths:

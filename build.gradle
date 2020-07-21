@@ -64,6 +64,7 @@ configurations {
         exclude group: 'com.android.support', module: 'transition'
         exclude group: 'com.android.support', module: 'versionedparcelable'
         exclude group: 'com.android.support', module: 'viewpager'
+        
         dependencies {
             pilgrim "androidx.activity:activity:1.2.0-alpha06"
             pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
