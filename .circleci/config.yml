@@ -19,19 +19,17 @@ jobs:
           name: Install wget
           command: brew install wget
       - restore_cache:
-          name: Restore Unity Installer
           key: $UNITY_PKG_URL
       - run:
-          name: Install Unity Installer (if needed)
+          name: Download Unity Installer (if needed)
           command: "[ -f $UNITY_PKG_URL ] || wget $UNITY_PKG_URL"
-      - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
-          name: Install Unity (2019.4.4f1)
-          command: sudo installer -pkg Unity.pkg -target /
       - save_cache:
-          name: Cache Unity Installer
           key: $UNITY_PKG_URL
           paths:
             - Unity.pkg
+      - run: # Not using 'brew cask install unity unity-android-support-for-editor', sometimes the unity and unity-android-support-for-editor versions don't match on cask
+          name: Install Unity (2019.4.4f1)
+          command: sudo installer -pkg Unity.pkg -target /
       - run:
           name: Build Pilgrim Unity SDK Package
           environment:
