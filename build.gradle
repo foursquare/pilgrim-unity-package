@@ -9,12 +9,6 @@ project.ext {
         throw new GradleException("Set UNITY_ROOT env variable")
     }
 
-    if (System.getenv("UNITY_SERIAL") != null) {
-        unitySerial = System.getenv("UNITY_SERIAL")
-    } else {
-        throw new GradleException("Set UNITY_SERIAL env variable")
-    }
-
     if (System.getenv("UNITY_USERNAME") != null) {
         unityUsername = System.getenv("UNITY_USERNAME")
     } else {
@@ -202,6 +196,19 @@ task copyPilgrimiOS(type: Copy) {
 
 copyPilgrimiOS.dependsOn(downloadPilgrimiOS, unzipPilgrimiOS)
 
+task loadLicenseFile() {
+    doLast {
+        exec {
+            executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
+            args "-batchmode",
+                 "-manualLicenseFile", 
+                 "/Library/Application Support/Unity/Unity_lic.ulf",
+                 "-logFile", "unity-loadLicense.log"
+            ignoreExitValue true
+        }
+    }
+}
+
 task exportUnityPackage() {
     doLast {
         exec {
@@ -209,8 +216,6 @@ task exportUnityPackage() {
             args "-gvh_disable",
                  "-batchmode",
                  "-nographics",
-                 "-serial",
-                 "${unitySerial}",
                  "-username",
                  "${unityUsername}",
                  "-password",
@@ -229,18 +234,6 @@ task exportUnityPackage() {
     }
 }
 
-task returnLicense() {
-    doLast {
-        exec {
-           executable "${unityRoot}/Unity.app/Contents/MacOS/Unity"
-           args "-logFile", "unity-returnlicense.log",
-                "-quit",
-                "-batchmode",
-                "-returnlicense"
-        }
-    }
-}
-
 task createTempDirectory(type: Copy) {
     from {"${pluginSource}"}
     into {"${pluginBuildDir}"}
@@ -250,14 +243,10 @@ task deleteTempDirectory(type: Delete) {
     delete {"${tempDir}"}
 }
 
-exportUnityPackage.dependsOn(createTempDirectory, copyPilgrimAndroid, copyAndroidWrapperLibrary, copyPilgrimiOS)
-
-// Use noReturnLicense if running locally or will invalidate local Unity license:
-// ./gradlew -PnoReturnLicense=1
-if (project.getProperties().get("noReturnLicense")) {
-    exportUnityPackage.finalizedBy(deleteTempDirectory)
-} else {
-    exportUnityPackage.finalizedBy(deleteTempDirectory, returnLicense)
-}
+exportUnityPackage.dependsOn(createTempDirectory, 
+                             copyPilgrimAndroid, copyAndroidWrapperLibrary, 
+                             copyPilgrimiOS, loadLicenseFile)
+                             
+exportUnityPackage.finalizedBy(deleteTempDirectory)
 
 defaultTasks "exportUnityPackage"

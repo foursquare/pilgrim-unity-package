@@ -24,6 +24,9 @@ jobs:
           name: Install Unity (2019.4.4f1)
           command: sudo installer -pkg Unity.pkg -target /
       - run:
+          name: Load Unity License File
+          command: echo $UNITY_LICENSE_FILE > /Library/Application\ Support/Unity/Unity_lic.ulf
+      - run:
           name: Build Pilgrim Unity SDK Package
           environment:
             UNITY_ROOT: /Applications/Unity
