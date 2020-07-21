@@ -1,8 +1,5 @@
 package com.foursquare.pilgrimunitysdk;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.foursquare.api.FoursquareLocation;
 import com.foursquare.api.types.Category;
 import com.foursquare.api.types.Photo;
@@ -19,6 +16,9 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 final class Utils {
 
@@ -248,9 +248,7 @@ final class Utils {
         json.put("_id", venue.getId());
         json.put("_name", venue.getName());
 
-        if (venue.getLocation() != null) {
-            json.put("_locationInformation", venueLocationJson(venue.getLocation()));
-        }
+        json.put("_locationInformation", venueLocationJson(venue.getLocation()));
 
         if (venue.getPartnerVenueId() != null) {
             json.put("_partnerVenueId", venue.getPartnerVenueId());

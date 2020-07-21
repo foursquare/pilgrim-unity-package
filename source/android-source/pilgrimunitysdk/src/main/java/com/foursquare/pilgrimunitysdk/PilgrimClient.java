@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimNotificationTester;
@@ -13,6 +12,9 @@ import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
 import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public final class PilgrimClient {
@@ -143,8 +145,8 @@ public final class PilgrimClient {
         }
     }
 
-    private static String getErrorMessage(Exception e) {
-        return e.getMessage() != null ? e.getMessage() : "Unknown Error";
+    private static String getErrorMessage(@Nullable Exception e) {
+        return (e != null && e.getMessage() != null) ? e.getMessage() : "Unknown Error";
     }
 
 }
