@@ -39,12 +39,12 @@ configurations {
             }
         }
         
-        exclude group: 'com.github.chuckerteam.chucker', module: 'library'
-        
         dependencies {
             pilgrim "androidx.activity:activity:1.2.0-alpha06"
             pilgrim "com.foursquare:pilgrimsdk:${pilgrimAndroidVersion}"
-            pilgrim "com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}"
+            pilgrim("com.foursquare:pilgrimsdk-debugging:${pilgrimAndroidVersion}") {
+                exclude group: 'com.github.chuckerteam.chucker', module: 'library'
+            }
         }
 
         resolvedConfiguration.resolvedArtifacts.each { artifact ->
