@@ -39,31 +39,7 @@ configurations {
             }
         }
         
-        exclude group: 'com.android.support', module: 'animated-vector-drawable'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'asynclayoutinflater'
-        exclude group: 'com.android.support', module: 'collections'
-        exclude group: 'com.android.support', module: 'coordinatorlayout'
-        exclude group: 'com.android.support', module: 'cursoradapter'
-        exclude group: 'com.android.support', module: 'customview'
-        exclude group: 'com.android.support', module: 'documentfile'
-        exclude group: 'com.android.support', module: 'drawerlayout'
-        exclude group: 'com.android.support', module: 'interpolator'
-        exclude group: 'com.android.support', module: 'loader'
-        exclude group: 'com.android.support', module: 'localbroadcastmanager'
-        exclude group: 'com.android.support', module: 'print'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'slidingpanelayout'
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-compat'
-        exclude group: 'com.android.support', module: 'support-core-ui'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-        exclude group: 'com.android.support', module: 'support-fragment'
-        exclude group: 'com.android.support', module: 'support-vector-drawable'
-        exclude group: 'com.android.support', module: 'swiperefreshlayout'
-        exclude group: 'com.android.support', module: 'transition'
-        exclude group: 'com.android.support', module: 'versionedparcelable'
-        exclude group: 'com.android.support', module: 'viewpager'
+        exclude group: 'com.github.chuckerteam.chucker', module: 'library'
         
         dependencies {
             pilgrim "androidx.activity:activity:1.2.0-alpha06"
