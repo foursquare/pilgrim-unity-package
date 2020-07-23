@@ -1,14 +1,10 @@
 package com.foursquare.pilgrimunitysdk;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 
 import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimNotificationTester;
@@ -16,6 +12,9 @@ import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
 import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public final class PilgrimClient {
@@ -41,7 +40,19 @@ public final class PilgrimClient {
                     }
                 });
             }
-        }, new IntentFilter("com.foursquare.pilgrimunitysdk.LOCATION_PERMISSION_GRANTED"));
+        }, new IntentFilter(PermissionActivity.LOCATION_PERMISSION_GRANTED));
+
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onLocationPermissionShowRationale();
+                    }
+                });
+            }
+        }, new IntentFilter(PermissionActivity.LOCATION_PERMISSION_SHOW_RATIONALE));
     }
 
     public String getUserInfo() {
@@ -61,13 +72,8 @@ public final class PilgrimClient {
     }
 
     public void requestLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(context, PermissionActivity.class);
-            context.startActivity(intent);
-        } else {
-            listener.onLocationPermissionResult(true);
-        }
+        Intent intent = new Intent(context, PermissionActivity.class);
+        context.startActivity(intent);
     }
 
     public void start() {
@@ -139,8 +145,8 @@ public final class PilgrimClient {
         }
     }
 
-    private static String getErrorMessage(Exception e) {
-        return e.getMessage() != null ? e.getMessage() : "Unknown Error";
+    private static String getErrorMessage(@Nullable Exception e) {
+        return (e != null && e.getMessage() != null) ? e.getMessage() : "Unknown Error";
     }
 
 }

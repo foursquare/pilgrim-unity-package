@@ -2,6 +2,7 @@ package com.foursquare.pilgrimunitysdk;
 
 public interface PilgrimClientListener {
 
+    void onLocationPermissionShowRationale();
     void onLocationPermissionResult(boolean granted);
 
     // Can't pass null, Unity assumes it's an AndroidJavaObject,

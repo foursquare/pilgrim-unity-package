@@ -43,8 +43,7 @@ namespace Foursquare
                 var pbxProj = new PBXProject();
                 pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
 
-                var targetName = PBXProject.GetUnityTargetName();
-                var targetGuid = pbxProj.TargetGuidByName(targetName);
+                var targetGuid = pbxProj.GetUnityMainTargetGuid();
                 pbxProj.SetBuildProperty(targetGuid, "LD_RUNPATH_SEARCH_PATHS", "$(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'");
 
                 pbxProj.WriteToFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
@@ -59,9 +58,7 @@ namespace Foursquare
                 var pbxProj = new PBXProject();
                 pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
 
-                var targetName = PBXProject.GetUnityTargetName();
-                var targetGuid = pbxProj.TargetGuidByName(targetName);
-
+                var targetGuid = pbxProj.GetUnityMainTargetGuid();
                 var phaseGuid = pbxProj.AddCopyFilesBuildPhase(targetGuid, "Copy Pilgrim Framework", "", "10");
                 var frameworkGuid = pbxProj.FindFileGuidByProjectPath("Frameworks/PilgrimUnitySDK/Plugins/iOS/Pilgrim.framework");
                 pbxProj.AddFileToBuildSection(targetGuid, phaseGuid, frameworkGuid);
@@ -95,8 +92,7 @@ namespace Foursquare
                 var pbxProj = new PBXProject();
                 pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
 
-                var targetName = PBXProject.GetUnityTargetName();
-                var targetGuid = pbxProj.TargetGuidByName(targetName);
+                var targetGuid = pbxProj.GetUnityMainTargetGuid();
 
                 pbxProj.AddShellScriptBuildPhase(targetGuid, "Pilgrim Strip Frameworks", "/bin/sh", "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pilgrim.framework/strip-frameworks.sh");
                 pbxProj.WriteToFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
@@ -157,8 +153,7 @@ namespace Foursquare
                 var pbxProj = new PBXProject();
                 pbxProj.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
 
-                var targetName = PBXProject.GetUnityTargetName();
-                var targetGuid = pbxProj.TargetGuidByName(targetName);
+                var targetGuid = pbxProj.GetUnityFrameworkTargetGuid();
 
                 if (!pbxProj.ContainsFramework(targetGuid, "CoreLocation.framework"))
                 {

@@ -1,10 +1,11 @@
 package com.foursquare.pilgrimunitysdk;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.foursquare.pilgrim.LogLevel;
 import com.foursquare.pilgrim.PilgrimSdk;
+
+import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 public final class PilgrimUnitySDK {

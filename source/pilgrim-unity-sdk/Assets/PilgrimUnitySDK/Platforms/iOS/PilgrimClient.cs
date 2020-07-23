@@ -12,6 +12,8 @@ namespace Foursquare.iOS
 
         public event Action<bool> OnLocationPermissionResult = delegate { };
 
+        public event Action OnLocationPermissionShowRationale = delegate {};
+
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
         private delegate void PilgrimLocationPermissionsCallback(IntPtr clientHandlePtr, bool granted);
