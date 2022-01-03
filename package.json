@@ -13,5 +13,9 @@
             "description": "Basic sample showing integration",
             "path": "Samples~/hello-pilgrim-unity"
         }
-    ]
+    ],
+    "author": {
+        "name": "Foursquare Labs, Inc.",
+        "url": "https://foursquare.com"
+    }
 }
