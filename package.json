@@ -1,0 +1,17 @@
+{
+    "name": "com.foursquare.pilgrim.unity",
+    "displayName": "Pilgrim SDK package for Unity",
+    "version": "2.0.0",
+    "unity": "2018.4",
+    "description": "Provides easy integration with Pilgrim SDK.",
+    "keywords": [
+        "pilgrim"
+    ],
+    "samples": [
+        {
+            "displayName": "Hello Pilgrim Unity",
+            "description": "Basic sample showing integration",
+            "path": "Samples~/hello-pilgrim-unity"
+        }
+    ]
+}
