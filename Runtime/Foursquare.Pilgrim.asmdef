@@ -2,11 +2,12 @@
     "name": "Foursquare.Pilgrim",
     "rootNamespace": "",
     "references": [],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Android",
+        "Editor",
         "iOS"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
