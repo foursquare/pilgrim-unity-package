@@ -10,6 +10,7 @@ namespace Foursquare
     public static class PilgrimConfigSettings
     {
 
+        public const string DidShowConfigOnLoad = "DidShowConfigOnLoad";
         public const string ConsumerKeyKey = "ConsumerKey";
         public const string ConsumerSecretKey = "ConsumerSecret";
         public const string CopyWhenInUseToAlwaysKey = "CopyWhenInUseToAlways";

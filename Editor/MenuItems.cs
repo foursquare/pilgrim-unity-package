@@ -4,12 +4,11 @@ using UnityEngine;
 namespace Foursquare
 {
 
-    [InitializeOnLoad]
     public class MenuItems
     {
 
         [MenuItem("Assets/Pilgrim Unity SDK/Configuration")]
-        private static void ShowWindow()
+        private static void ShowConfigurationWindow()
         {
             EditorWindow.GetWindow(typeof(PilgrimConfigWindow), true, "Pilgrim").Show();
         }
@@ -30,6 +29,18 @@ namespace Foursquare
         private static void GenerateAndroidManifest()
         {
             FileGenerator.GenerateAndroidManifest();
+        }
+
+        [InitializeOnLoadMethod]
+        static void OnProjectLoadedInEditor()
+        {
+            if (PilgrimConfigSettings.GetBool(PilgrimConfigSettings.DidShowConfigOnLoad, false))
+            {
+                return;
+            }
+            PilgrimConfigSettings.Set(PilgrimConfigSettings.DidShowConfigOnLoad, true);
+            PilgrimConfigSettings.Save();
+            ShowConfigurationWindow();
         }
 
     }
