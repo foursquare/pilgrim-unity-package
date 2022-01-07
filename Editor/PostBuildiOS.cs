@@ -66,7 +66,7 @@ namespace Foursquare
                 return;
             }
 
-            var sourcePath = pathToBuiltProject + "/Frameworks/com.foursquare.pilgrim.unity.ios/Runtime/Plugins/Pilgrim.xcframework";
+            var sourcePath = pathToBuiltProject + "/Frameworks/com.foursquare.pilgrim.unity.ios/Pilgrim.xcframework";
             var destPath = "Frameworks/Pilgrim.framework";
 
             var deviceFrameworkPath = "ios-arm64_armv7/Pilgrim.framework";
