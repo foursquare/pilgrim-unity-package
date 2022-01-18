@@ -1,5 +1,6 @@
 ﻿#if UNITY_IOS
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -14,9 +15,9 @@ namespace Foursquare
     {
 
         [PostProcessBuild(0)]
-        public static void AddAlwaysAndWhenInUseUsageDescription(BuildTarget buildTarget, string pathToBuiltProject)
+        public static void AddAlwaysAndWhenInUseUsageDescriptionIfNeeded(BuildTarget buildTarget, string pathToBuiltProject)
         {
-            if (buildTarget != BuildTarget.iOS || !PilgrimConfigSettings.GetBool(PilgrimConfigSettings.CopyWhenInUseToAlwaysKey, true))
+            if (buildTarget != BuildTarget.iOS)
             {
                 return;
             }
@@ -28,10 +29,11 @@ namespace Foursquare
 
             var root = plist.root;
 
-            var whenInUseUsageDescription = root["NSLocationWhenInUseUsageDescription"];
-            if (whenInUseUsageDescription != null)
+            var whenInUseUsageDescription = root["NSLocationWhenInUseUsageDescription"]?.AsString() ?? "";
+            var alwaysAndwhenInUseUsageDescription = root["NSLocationAlwaysAndWhenInUseUsageDescription"]?.AsString() ?? "";
+            if (!String.IsNullOrEmpty(whenInUseUsageDescription) && String.IsNullOrEmpty(alwaysAndwhenInUseUsageDescription))
             {
-                root["NSLocationAlwaysAndWhenInUseUsageDescription"] = whenInUseUsageDescription;
+                root["NSLocationAlwaysAndWhenInUseUsageDescription"] = root["NSLocationWhenInUseUsageDescription"];
             }
 
             plist.WriteToFile(plistPath);

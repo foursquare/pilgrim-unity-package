@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Android;
 
 namespace Foursquare.Android
 {
@@ -10,8 +11,6 @@ namespace Foursquare.Android
     {
 
         public event Action<bool> OnLocationPermissionResult = delegate { };
-
-        public event Action OnLocationPermissionShowRationale = delegate { };
 
         public event Action<CurrentLocation, Exception> OnGetCurrentLocationResult = delegate { };
 
@@ -40,7 +39,18 @@ namespace Foursquare.Android
 
         public void RequestLocationPermissions()
         {
-            _androidPilgrimClient.Call("requestLocationPermissions");
+            if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation)) {
+                var callbacks = new PermissionCallbacks();
+                    callbacks.PermissionGranted += PermissionCallbacks_PermissionGranted;
+                    Permission.RequestUserPermission(Permission.FineLocation, callbacks);
+                    return;
+            }
+            OnLocationPermissionResult(true);
+        }
+
+        private void PermissionCallbacks_PermissionGranted(string permission) 
+        {
+            OnLocationPermissionResult(true);
         }
 
         public void Start()
@@ -76,16 +86,6 @@ namespace Foursquare.Android
         public void Dispose()
         {
             _androidPilgrimClient.Dispose();
-        }
-
-        public void onLocationPermissionResult(bool granted)
-        {
-            OnLocationPermissionResult(granted);
-        }
-
-        public void onLocationPermissionShowRationale()
-        {
-            OnLocationPermissionShowRationale();
         }
 
         public void onGetCurrentLocationResult(bool success, string currentLocationJson, string errorMessage)

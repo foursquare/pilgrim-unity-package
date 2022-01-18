@@ -7,8 +7,6 @@ namespace Foursquare
 
         event Action<bool> OnLocationPermissionResult;
 
-        event Action OnLocationPermissionShowRationale;
-
         event Action<CurrentLocation, Exception> OnGetCurrentLocationResult;
 
         UserInfo GetUserInfo();

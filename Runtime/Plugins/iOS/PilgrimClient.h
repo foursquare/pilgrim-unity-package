@@ -5,7 +5,6 @@
 //  Copyright © 2019 Foursquare. All rights reserved.
 //
 
-#import <CoreLocation/CoreLocation.h>
 #import "PilgrimTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN

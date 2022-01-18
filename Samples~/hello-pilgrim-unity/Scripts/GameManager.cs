@@ -1,5 +1,6 @@
 ﻿using Foursquare;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -28,14 +29,12 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         PilgrimUnitySDK.OnLocationPermissionResult += OnLocationPermissionResult;
-        PilgrimUnitySDK.OnLocationPermissionShowRationale += OnLocationPermissionShowRationale;
         PilgrimUnitySDK.OnGetCurrentLocationResult += OnGetCurrentLocationResult;
     }
 
     void OnDisable()
     {
         PilgrimUnitySDK.OnLocationPermissionResult -= OnLocationPermissionResult;
-        PilgrimUnitySDK.OnLocationPermissionShowRationale -= OnLocationPermissionShowRationale;
         PilgrimUnitySDK.OnGetCurrentLocationResult -= OnGetCurrentLocationResult;
     }
 
@@ -82,12 +81,13 @@ public class GameManager : MonoBehaviour
 
     private void OnLocationPermissionResult(bool granted)
     {
+        if (!granted) {
+            return;
+        }
+
         if (nextAction == NextAction.START)
         {
-            if (granted)
-            {
-                PilgrimUnitySDK.Start();
-            }
+            PilgrimUnitySDK.Start();
         }
         else if (nextAction == NextAction.GET_CURRENT_LOCATION)
         {
@@ -97,18 +97,6 @@ public class GameManager : MonoBehaviour
 
             PilgrimUnitySDK.GetCurrentLocation();
         }
-    }
-
-    private void OnLocationPermissionShowRationale()
-    {
-        var canvas = GameObject.FindObjectOfType<Canvas>();
-        var alertUI = Instantiate<AlertUI>(_alertUIPrefab, Vector3.zero, Quaternion.identity);
-        alertUI.transform.SetParent(canvas.transform, false);
-        alertUI.Message = "This demo requires your location!";
-        alertUI.OnClose += () =>
-        {
-            PilgrimUnitySDK.RequestLocationPermissions();
-        };
     }
 
     private void OnGetCurrentLocationResult(CurrentLocation currentLocation, Exception exception)

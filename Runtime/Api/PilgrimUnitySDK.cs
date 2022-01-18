@@ -18,18 +18,6 @@ namespace Foursquare
             }
         }
 
-        public static event Action OnLocationPermissionShowRationale
-        {
-            add
-            {
-                _client.OnLocationPermissionShowRationale += value;
-            }
-            remove
-            {
-                _client.OnLocationPermissionShowRationale -= value;
-            }
-        }
-
         public static event Action<CurrentLocation, Exception> OnGetCurrentLocationResult
         {
             add

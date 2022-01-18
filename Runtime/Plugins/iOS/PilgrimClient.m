@@ -94,8 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)requestLocationPermissions {
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if (status == kCLAuthorizationStatusNotDetermined) {
-        self.locationRequested = YES;
-        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager requestWhenInUseAuthorization];
     } else if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.locationPermissionsCallback(self.clientHandlePtr, YES);
     } else {
@@ -149,15 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - CLLocationManagerDelegate methods
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (!self.wasLocationRequested) {
-        return;
-    }
-
-    if (status != kCLAuthorizationStatusNotDetermined) {
-        self.locationRequested = NO;
-
-        BOOL granted = status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse;
-        self.locationPermissionsCallback(self.clientHandlePtr, granted);
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [self.locationManager requestAlwaysAuthorization];
+        self.locationPermissionsCallback(self.clientHandlePtr, YES);
     }
 }
 
