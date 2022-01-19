@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17eee8b5a0c5746dca9395c86e1f561f, type: 3}
+  m_Name: 4sqChicago
+  m_EditorClassIdentifier: 
+  _currentLocation:
+    _currentPlace:
+      _location:
+        _latitude: 41.889264
+        _longitude: -87.628911
+      _locationType: 2
+      _confidence: 3
+      _arrivalTime: 1547743400.99965
+      _venue:
+        _id: 52af211911d2aa9d4a1f0e0a
+        _name: Foursquare Chicago
+        _locationInformation:
+          _address: 20 W Kinzie St
+          _crossStreet: at N State St
+          _city: Chicago
+          _state: IL
+          _postalCode: 60606
+          _country: United States
+          _location:
+            _latitude: 41.889264
+            _longitude: -87.628911
+        _partnerVenueId: 
+        _probability: 1
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d125941735
+          _name: Tech Startup
+          _pluralName: Tech Startups
+          _shortName: Tech Startup
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
+            _suffix: .png
+          _isPrimary: 1
+        _hierarchy: []
+      _otherPossibleVenues: []
+    _matchedGeofences:
+    - _id: fef964a5209b1620e34a9037
+      _venueId: 4a9037fef964a5209b1620e3
+      _venue:
+        _id: 4a9037fef964a5209b1620e3
+        _name: Einstein Bros Bagels
+        _locationInformation:
+          _address: 400 N Dearborn St
+          _crossStreet: 
+          _city: Chicago
+          _state: IL
+          _postalCode: 60654
+          _country: US
+          _location:
+            _latitude: 41.8893897
+            _longitude: -87.6297896
+        _partnerVenueId: 
+        _probability: 0
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d179941735
+          _name: Bagel Shop
+          _pluralName: Bagel Shops
+          _shortName: Bagels
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/food/bagels_
+            _suffix: .png
+          _isPrimary: 1
+        - _id: 4bf58dd8d48988d1e0931735
+          _name: Coffee Shop
+          _pluralName: Coffee Shops
+          _shortName: Coffee Shop
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_bg_
+            _suffix: .png
+          _isPrimary: 0
+        _hierarchy: []
+      _partnerVenueId: 
+      _location:
+        _latitude: 41.8893897
+        _longitude: -87.6297896
+      _timestamp: 1555452981

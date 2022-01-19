@@ -1,0 +1,11 @@
+framework module Pilgrim {
+  umbrella header "Pilgrim.h"
+
+  export *
+  module * { export * }
+}
+
+module Pilgrim.Swift {
+    header "Pilgrim-Swift.h"
+    requires objc
+}

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17eee8b5a0c5746dca9395c86e1f561f, type: 3}
+  m_Name: 4sqSF
+  m_EditorClassIdentifier: 
+  _currentLocation:
+    _currentPlace:
+      _location:
+        _latitude: 37.7905997608588
+        _longitude: -122.40459154855427
+      _locationType: 2
+      _confidence: 3
+      _arrivalTime: 1547743400.999652
+      _venue:
+        _id: 4ed92126f5b92139871ce962
+        _name: Foursquare SF
+        _locationInformation:
+          _address: 425 Bush St Ste 500
+          _crossStreet: btwn Grant & Kearny
+          _city: San Francisco
+          _state: CA
+          _postalCode: 94108
+          _country: United States
+          _location:
+            _latitude: 37.7905997608588
+            _longitude: -122.40459154855427
+        _partnerVenueId: 
+        _probability: 1
+        _chains: []
+        _categories:
+        - _id: 4bf58dd8d48988d125941735
+          _name: Tech Startup
+          _pluralName: Tech Startups
+          _shortName: Tech Startup
+          _icon:
+            _prefix: https://ss3.4sqi.net/img/categories_v2/shops/technology_
+            _suffix: .png
+          _isPrimary: 1
+        _hierarchy: []
+    _matchedGeofences: []

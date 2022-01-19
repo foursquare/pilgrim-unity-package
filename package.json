@@ -1,0 +1,27 @@
+{
+    "name": "com.foursquare.pilgrim.unity",
+    "displayName": "Pilgrim Unity SDK",
+    "version": "2.0.0",
+    "unity": "2021.2",
+    "description": "Provides easy integration with Pilgrim SDK.",
+    "keywords": [
+        "pilgrim",
+        "ios",
+        "android"
+    ],
+    "samples": [
+        {
+            "displayName": "Hello Pilgrim Unity",
+            "description": "Basic sample showing integration",
+            "path": "Samples~/hello-pilgrim-unity"
+        }
+    ],
+    "author": {
+        "name": "Foursquare Labs, Inc.",
+        "url": "https://foursquare.com"
+    },
+    "pilgrim": {
+        "ios": "3.0.2",
+        "android": "3.0.3-rc03"
+    }
+}
