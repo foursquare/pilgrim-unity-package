@@ -116,19 +116,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getCurrentLocation {
     [[FSQPPilgrimManager sharedManager] getCurrentLocationWithCompletion:^(FSQPCurrentLocation * _Nullable currentLocation, NSError * _Nullable error) {
-        if (error) {
-            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:error]);
-            return;
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:error]);
+                return;
+            }
 
-        NSError *jsonError = nil;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[currentLocation json] options:0 error:&jsonError];
-        if (!jsonError) {
-            NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            self.getCurrentLocationCallback(self.clientHandlePtr, YES, [json cStringUsingEncoding:NSUTF8StringEncoding], nil);
-        } else {
-            self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:jsonError]);
-        }
+            NSError *jsonError = nil;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[currentLocation json] options:0 error:&jsonError];
+            if (!jsonError) {
+                NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                self.getCurrentLocationCallback(self.clientHandlePtr, YES, [json cStringUsingEncoding:NSUTF8StringEncoding], nil);
+            } else {
+                self.getCurrentLocationCallback(self.clientHandlePtr, NO, nil, [self getErrorMessage:jsonError]);
+            }
+        });
     }];
 }
 

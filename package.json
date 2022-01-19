@@ -16,11 +16,12 @@
             "path": "Samples~/hello-pilgrim-unity"
         }
     ],
-    "dependencies": {
-        "com.foursquare.pilgrim.unity.ios": "3.0.2"
-    },
     "author": {
         "name": "Foursquare Labs, Inc.",
         "url": "https://foursquare.com"
+    },
+    "pilgrim": {
+        "ios": "3.0.2",
+        "android": "3.0.3-rc03"
     }
 }

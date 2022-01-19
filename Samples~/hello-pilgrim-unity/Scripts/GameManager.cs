@@ -1,6 +1,5 @@
 ﻿using Foursquare;
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -81,7 +80,9 @@ public class GameManager : MonoBehaviour
 
     private void OnLocationPermissionResult(bool granted)
     {
-        if (!granted) {
+        if (!granted)
+        {
+       
             return;
         }
 

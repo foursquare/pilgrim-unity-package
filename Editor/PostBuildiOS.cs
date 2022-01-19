@@ -68,7 +68,7 @@ namespace Foursquare
                 return;
             }
 
-            var sourcePath = pathToBuiltProject + "/Frameworks/com.foursquare.pilgrim.unity.ios/Pilgrim.xcframework";
+            var sourcePath = pathToBuiltProject + "/Frameworks/com.foursquare.pilgrim.unity/Pilgrim.xcframework";
             var destPath = "Frameworks/Pilgrim.framework";
 
             var deviceFrameworkPath = "ios-arm64_armv7/Pilgrim.framework";
@@ -84,7 +84,7 @@ namespace Foursquare
             }
 
             CopyAndReplaceDirectory(sourcePath, Path.Combine(pathToBuiltProject, destPath), new string[] { ".meta" });
-            Directory.Delete(Path.Combine(pathToBuiltProject, "Frameworks", "com.foursquare.pilgrim.unity.ios"), true);
+            Directory.Delete(Path.Combine(pathToBuiltProject, "Frameworks", "com.foursquare.pilgrim.unity"), true);
 
             var project = new PBXProject();
             project.ReadFromFile(PBXProject.GetPBXProjectPath(pathToBuiltProject));
